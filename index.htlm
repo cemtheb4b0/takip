@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cem | Yağ Yakım Protokolü</title>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --card-bg: rgba(255, 255, 255, 0.65);
+      --card-border: rgba(255, 255, 255, 0.8);
+      --border: rgba(0, 0, 0, 0.08);
+      --border-strong: rgba(0, 0, 0, 0.15);
+      --text-primary: #1d1d1f;
+      --text-secondary: #86868b;
+      --accent-green: #34c759;
+      --accent-green-dark: #248a3d;
+      --accent-green-soft: rgba(52, 199, 89, 0.15);
+      --accent-amber: #b45309;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 10px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      letter-spacing: -0.3px;
+    }
+
+    body {
+      background: linear-gradient(135deg, #eef2f7, #e0eaf5, #f5f5f7, #e8f0fe);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: var(--text-primary);
+      padding: 16px 14px 40px;
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.4;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes slideUpFade {
+      from { opacity: 0; transform: translateY(24px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Ortak Solid Glass (Cam) Efekti */
+    .hero-card, .today-card, .accordion-trigger, .sheet-link-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
+      border-radius: var(--radius-lg);
+    }
+    .accordion-trigger, .sheet-link-card { border-radius: var(--radius-md); }
+
+    #loading-indicator {
+      position: fixed; top: 10px; left: 50%; transform: translateX(-50%);
+      background: rgba(29, 29, 31, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 20px; border-radius: 20px;
+      font-size: 0.85rem; font-weight: 600; z-index: 10000; display: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15); text-align: center; width: max-content; max-width: 90%;
+    }
+
+    #splash-screen {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(245, 245, 247, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+      z-index: 9999; display: flex; flex-direction: column; justify-content: space-between;
+      align-items: center; padding: 56px 28px 40px; text-align: center;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+    }
+
+    .splash-top { animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .splash-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.8px; color: #1d1d1f; margin-bottom: 4px; }
+    .splash-sub { font-size: 1rem; font-weight: 600; color: var(--accent-green-dark); letter-spacing: 0.5px; }
+
+    .splash-quote-card {
+      background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: var(--radius-lg); padding: 32px 24px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,1);
+      max-width: 380px; width: 100%; animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+    }
+    .splash-quote-text { font-size: 1.1rem; font-style: italic; line-height: 1.6; color: #2c3033; margin-bottom: 16px; font-weight: 500; }
+    .splash-quote-author { font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+
+    .splash-bottom { width: 100%; max-width: 380px; animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+    .splash-proximity { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 14px; }
+    .splash-progress-track { background: rgba(0,0,0,0.08); height: 4px; border-radius: 2px; width: 100%; overflow: hidden; margin-bottom: 24px; }
+    .splash-progress-bar { background: var(--text-primary); height: 100%; width: 0%; animation: splashTimer 10s linear forwards; }
+    
+    .splash-btn-skip { 
+      background: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.8); backdrop-filter: blur(10px);
+      color: var(--text-secondary); padding: 12px 28px; border-radius: 24px; font-size: 0.9rem; 
+      font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .splash-btn-skip:active { transform: scale(0.96); background: rgba(255,255,255,0.9); }
+
+    @keyframes splashTimer { from { width: 0%; } to { width: 100%; } }
+
+    .app-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; padding: 0 4px; animation: slideUpFade 0.6s 0.1s both; }
+    .app-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.6px; color: var(--text-primary); }
+    .app-meta { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
+
+    .hero-card { padding: 22px 20px; margin-bottom: 14px; animation: slideUpFade 0.6s 0.2s both; }
+    .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .hero-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); }
+    .hero-fat-val { font-size: 2.3rem; font-weight: 900; letter-spacing: -1.2px; color: var(--text-primary); line-height: 1.1; margin-top: 4px; }
+    .hero-fat-sub { font-size: 0.9rem; font-weight: 600; color: var(--accent-green-dark); margin-top: 4px; }
+    .hero-weight-muted { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-top: 6px; }
+    
+    .hero-pct-badge { 
+      background: var(--accent-green-soft); color: var(--accent-green-dark); padding: 8px 14px; 
+      border-radius: 24px; font-size: 1.15rem; font-weight: 800; text-align: right; 
+      box-shadow: 0 4px 12px rgba(52, 199, 89, 0.1); border: 1px solid rgba(52, 199, 89, 0.2);
+    }
+
+    .progress-bar-bg { background: rgba(0,0,0,0.06); height: 10px; border-radius: 5px; overflow: hidden; margin: 16px 0 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+    .progress-bar-fill { 
+      background: linear-gradient(90deg, #34c759, #4add72); height: 100%; width: 0%; 
+      border-radius: 5px; transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); position: relative;
+      box-shadow: 0 0 10px rgba(52, 199, 89, 0.4);
+    }
+    .progress-bar-fill::after {
+      content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: progressShine 2s infinite linear; transform: translateX(-100%);
+    }
+    @keyframes progressShine { 100% { transform: translateX(100%); } }
+
+    .progress-info-row { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+
+    .today-card { padding: 22px 20px; margin-bottom: 16px; animation: slideUpFade 0.6s 0.3s both; }
+    .today-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+    .today-day-tag { font-size: 1rem; font-weight: 800; color: var(--text-primary); }
+    .today-date-sub { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; }
+    
+    .today-metrics-grid { 
+      background: rgba(255,255,255,0.5); border-radius: var(--radius-md); padding: 14px 16px; 
+      margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.6);
+    }
+    .today-metric-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
+    .today-metric-row:last-child { margin-bottom: 0; }
+    .today-metric-label { color: var(--text-secondary); font-weight: 600; }
+    .today-metric-bold { font-weight: 800; color: var(--text-primary); }
+    .today-metric-muted { font-weight: 600; color: var(--text-secondary); }
+
+    .btn-tick { 
+      width: 100%; padding: 18px; border-radius: var(--radius-md); font-size: 1.05rem; 
+      font-weight: 800; border: 1px solid rgba(255,255,255,1); cursor: pointer; display: flex; 
+      align-items: center; justify-content: center; gap: 10px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+      background: rgba(255,255,255,0.8); color: var(--text-primary); box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+      position: relative; overflow: hidden;
+    }
+    .btn-tick:active { transform: scale(0.97); }
+    .btn-tick.ticked { 
+      background: linear-gradient(135deg, #34c759, #28a745); color: #ffffff; border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 8px 24px rgba(52, 199, 89, 0.35), inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+    .btn-tick.ticked::after {
+      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      transform: skewX(-20deg); animation: buttonShine 3s infinite;
+    }
+    @keyframes buttonShine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+    .btn-tick:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .accordion-trigger { 
+      padding: 16px 18px; width: 100%; display: flex; justify-content: space-between; 
+      align-items: center; font-size: 0.95rem; font-weight: 700; color: var(--text-primary); 
+      cursor: pointer; margin-bottom: 12px; animation: slideUpFade 0.6s 0.4s both; transition: transform 0.2s;
+    }
+    .accordion-trigger:active { transform: scale(0.98); }
+    .accordion-icon { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); color: var(--text-secondary); font-size: 0.8rem; }
+    .accordion-icon.open { transform: rotate(180deg); }
+
+    .days-drawer { display: none; margin-top: 10px; animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .days-drawer.open { display: block; }
+    
+    .filter-tabs { display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 6px; }
+    .filter-tab { 
+      background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); border: 1px solid var(--card-border); 
+      color: var(--text-secondary); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; 
+      font-weight: 700; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      transition: all 0.3s;
+    }
+    .filter-tab.active { background: var(--text-primary); color: #ffffff; border-color: var(--text-primary); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+
+    .day-row-card { 
+      background: rgba(255,255,255,0.5); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border); border-radius: var(--radius-md); padding: 14px 16px; 
+      display: flex; align-items: center; gap: 14px; margin-bottom: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      transition: transform 0.2s;
+    }
+    .day-row-card:active { transform: scale(0.98); }
+    .day-row-card.current { border: 1.5px solid var(--accent-green); background: rgba(255,255,255,0.7); box-shadow: 0 4px 16px rgba(52, 199, 89, 0.1); }
+    
+    .row-check { 
+      width: 28px; height: 28px; border-radius: 8px; border: 1.5px solid var(--border-strong); 
+      display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; 
+      background: rgba(255,255,255,0.8); font-size: 1rem; font-weight: 900; color: transparent; 
+      user-select: none; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+    }
+    .row-check.checked { background: var(--accent-green); border-color: var(--accent-green); color: #ffffff; box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3); }
+    
+    .row-main { flex: 1; min-width: 0; cursor: pointer; }
+    .row-title { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
+    .row-sub { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; }
+    
+    .row-right { text-align: right; flex-shrink: 0; }
+    .row-fat-kg { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px;}
+    .row-fat-pct { font-size: 0.8rem; font-weight: 700; color: var(--accent-amber); }
+    .row-weight-muted { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; margin-top: 2px;}
+
+    .sheet-link-card { 
+      padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; 
+      text-decoration: none; color: var(--text-primary); font-size: 0.95rem; font-weight: 700; 
+      margin-top: 16px; animation: slideUpFade 0.6s 0.5s both; transition: transform 0.2s;
+    }
+    .sheet-link-card:active { transform: scale(0.98); }
+  </style>
+</head>
+<body>
+
+  <div id="loading-indicator">Tabloya Bağlanıyor...</div>
+
+  <div id="splash-screen">
+    <div class="splash-top">
+      <div class="splash-title">Hoş geldin Cem</div>
+      <div class="splash-sub">Süreçte Kal</div>
+    </div>
+
+    <div class="splash-quote-card">
+      <div class="splash-quote-text" id="splash-quote-text">...</div>
+      <div class="splash-quote-author" id="splash-author-text">...</div>
+    </div>
+
+    <div class="splash-bottom">
+      <div class="splash-proximity" id="splash-proximity-text">Hedefe Yakınlık: Hesaplanıyor...</div>
+      <div class="splash-progress-track">
+        <div class="splash-progress-bar"></div>
+      </div>
+      <button class="splash-btn-skip" onclick="dismissSplash()">Devam Et</button>
+    </div>
+  </div>
+
+  <div class="app-header">
+    <div class="app-title">Cem Protokol</div>
+    <div class="app-meta">1 Kas 2026 – 9 Nis 2027</div>
+  </div>
+
+  <div class="hero-card">
+    <div class="hero-top">
+      <div>
+        <div class="hero-label">Süreç İlerlemesi</div>
+        <div class="hero-fat-val" id="hero-completed-text">-- / 160 Gün</div>
+      </div>
+      <div class="hero-pct-badge" id="hero-pct-val">%0.0</div>
+    </div>
+
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="hero-progress-fill"></div>
+    </div>
+
+    <div class="progress-info-row">
+      <span id="hero-days-status">-- Gün Tamamlandı</span>
+      <span id="hero-days-left">-- Gün Kaldı</span>
+    </div>
+  </div>
+
+  <div class="today-card">
+    <div class="today-header">
+      <span class="today-day-tag" id="today-day-title">Gün --</span>
+      <span class="today-date-sub" id="today-date-sub">Tarih</span>
+    </div>
+
+    <div class="today-metrics-grid">
+      <div class="today-metric-row">
+        <span class="today-metric-label">Günlük Menü</span>
+        <span class="today-metric-bold" id="today-menu">Yükleniyor...</span>
+      </div>
+    </div>
+
+    <button id="today-tick-btn" class="btn-tick" onclick="toggleToday()" disabled>
+      Tablo Verisi Bekleniyor...
+    </button>
+  </div>
+
+  <button class="accordion-trigger" onclick="toggleAccordion()">
+    <span>Tüm Günleri Göster (160 Gün)</span>
+    <span class="accordion-icon" id="acc-icon">▼</span>
+  </button>
+
+  <div class="days-drawer" id="days-drawer">
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="setTab('all', this)">Tümü (160)</button>
+      <button class="filter-tab" onclick="setTab('week', this)">Bu Hafta</button>
+      <button class="filter-tab" onclick="setTab('pending', this)">Kalanlar</button>
+      <button class="filter-tab" onclick="setTab('done', this)">Uyulanlar</button>
+    </div>
+    <div id="days-container"></div>
+  </div>
+
+  <a href="https://docs.google.com/spreadsheets/d/1lFr5qDWDNXMNbuqtd3VCRXlg9KFTjGyDMocXx1Ruswg/edit" target="_blank" class="sheet-link-card">
+    <span>Google E-Tablo Takip Çizelgesini Aç</span>
+    <span>↗</span>
+  </a>
+
+  <script>
+    const SHEET_ID = '1lFr5qDWDNXMNbuqtd3VCRXlg9KFTjGyDMocXx1Ruswg';
+    const GVIZ_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
+    
+    // E-tabloya çift yönlü yazabilmek için hazırlanan Apps Script (Webhook) URL'si
+    const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw0T2KLaibdyxo2A_kIiIu0R1DKw_v4oQ7DBkj2K7P_XX22qBrkU5TCgWQlmrpSlMaVsw/exec';
+
+    const totalDays = 160;
+
+    const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+    const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+
+    // Yaşanmışlık kokan, sarsıcı, derin 160 özlü söz
+    const quotes = [
+      { q: "Ya bir yol bulacağız, ya da bir yol açacağız. Üçüncü bir seçenek yok.", a: "Hannibal Barca" },
+      { q: "Kendi alevlerinizde yanmaya hazır olmalısınız: Önce kül olmadan kendinizi nasıl yenileyebilirsiniz?", a: "Friedrich Nietzsche" },
+      { q: "İnsan uçurumun kenarına varmadan kanatlanmaz.", a: "Nikos Kazancakis" },
+      { q: "Bir şeyden korkuyorsan, onu mutlaka yapmalısın. Zira korku seni yönetirse, köle olursun.", a: "Ralph Waldo Emerson" },
+      { q: "Yara, ışığın senin içine sızdığı yerdir.", a: "Mevlânâ Celâleddîn-i Rûmî" },
+      { q: "Bir adamın büyüklüğü, başa çıkabildiği acının miktarıyla ölçülür.", a: "Fyodor Dostoyevski" },
+      { q: "Dışarıdaki savaş sadece bir yansımadır; asıl kanlı savaş zihnin karanlık odalarında verilir.", a: "Carl Gustav Jung" },
+      { q: "Gülümseyin, çünkü hayat sizi ne kadar zorlarsa zorlasın, ağlamak hiçbir şeyi değiştirmez.", a: "Miyamoto Musashi" },
+      { q: "Acı geçicidir. Bir dakika, bir saat, bir gün veya bir yıl sürebilir. Ama pes edersen, sonsuza dek sürer.", a: "Lance Armstrong" },
+      { q: "Tehlike anında cesaret, savaşta silahlardan daha keskindir.", a: "Julius Caesar" },
+      { q: "İçinizdeki düşmanı öldürmezseniz, dışarıdaki düşman sizi öldürür.", a: "Afrika Atasözü" },
+      { q: "Hayat, satranç gibidir; eğer hamleni yapmazsan, zaman seni mat eder.", a: "Garry Kasparov" },
+      { q: "Cehennemin içinden geçiyorsan, yürümeye devam et.", a: "Winston Churchill" },
+      { q: "Yaşamak acı çekmektir; hayatta kalmak, acıda bir anlam bulmaktır.", a: "Viktor Frankl" },
+      { q: "Zafer, en çok dayanabilenindir.", a: "Napolyon Bonapart" },
+      { q: "Gerçek özgürlük, insanın canının her istediğini yapması değil, ne yapması gerektiğini seçebilmesidir.", a: "Jean-Jacques Rousseau" },
+      { q: "Kanın mürekkebin olduğu yerde kelimeler silinmez.", a: "Arthur Schopenhauer" },
+      { q: "Kılıcını kınında tutan adam, onu ne zaman çekeceğini bilen adamdır.", a: "Sun Tzu" },
+      { q: "Kendine hakim olamayan bir komutan, ordusunu ölüme sürükler.", a: "Büyük İskender" },
+      { q: "Öfkenle hareket edersen, yenilgiyi kendi ellerinle imzalarsın.", a: "Cengiz Han" },
+      { q: "İnsanları nasıl kontrol edeceğini öğrenmek istiyorsan, önce kendi korkularını kontrol et.", a: "Niccolò Machiavelli" },
+      { q: "Eğer bir yolda engeller yoksa, o yol hiçbir yere çıkmaz.", a: "Søren Kierkegaard" },
+      { q: "Hayatta en acınası şey, bir insanın kendi beyninin hapishanesinde çürümesidir.", a: "George Orwell" },
+      { q: "Eğer savaşacaksan, düşmanının bile sana saygı duyacağı bir şekilde savaş.", a: "Selahaddin Eyyubi" },
+      { q: "Korkaklık, tehlike anında değil, gerçeği söylemek gerektiğinde susmaktır.", a: "Albert Camus" },
+      { q: "İçinde bir kasırga koparken dışarıya meltem gibi görünmek, asıl güç budur.", a: "Seneca" },
+      { q: "Yüzleşmediğin her şey, sonunda kaderin olarak karşına çıkar.", a: "Carl Gustav Jung" },
+      { q: "Savaşı kimin haklı olduğu değil, kimin hayatta kaldığı belirler.", a: "Bertrand Russell" },
+      { q: "Özgürlük, korkuyu tattıktan sonra yutabilme sanatıdır.", a: "Epiktetos" },
+      { q: "Hayatta hiçbir şey, ter ve gözyaşı ile yazılmış bir hikaye kadar gerçek olamaz.", a: "Lev Tolstoy" },
+      { q: "Kader, cesurlara boyun eğer, korkakları ise sürükler.", a: "Marcus Aurelius" },
+      { q: "Kendine karşı acımasız ol ki, hayat sana karşı merhametli olsun.", a: "Samuray Atasözü" },
+      { q: "Bizden önce gelenlerin kemikleri üzerine basarak yürüyoruz. Düşmemek için onlardan daha sağlam basmalıyız.", a: "Fatih Sultan Mehmet" },
+      { q: "Bir kavgaya girmeden önce kaybedecek neyin olduğunu değil, kazanacak neyin olduğunu düşün.", a: "Spartaküs" },
+      { q: "Şikayet etmek, çaresizliğin en ucuz formudur.", a: "Charles Bukowski" },
+      { q: "Ruhunu şeytana satan adam, neyi kaybettiğini asla anlayamaz.", a: "Goethe" },
+      { q: "Yatağında ölmeyi uman bir savaşçı, daha kılıcını çekmeden ölmüştür.", a: "Sun Tzu" },
+      { q: "Gerçek yıkım, dışarıdan gelen darbelerle değil, içerideki inancın çökmesiyle başlar.", a: "Halil Cibran" },
+      { q: "Eğer karanlığa uzun süre bakarsan, karanlık da senin içine bakar.", a: "Friedrich Nietzsche" },
+      { q: "Acı çekmeyen bir ruh, eti çürümeye yüz tutmuş bir bedenden farksızdır.", a: "Meister Eckhart" },
+      { q: "Umut etmek kötüdür; işkenceyi uzatır.", a: "Friedrich Nietzsche" },
+      { q: "Kimse seni kurtarmayacak. Bunu anladığın gün yetişkin olursun.", a: "Franz Kafka" },
+      { q: "Bir insanın karakteri, eline güç geçtiğinde sınanır.", a: "Abraham Lincoln" },
+      { q: "Zırhı ağır yapan çeliği değil, içindeki savaşçının korkusudur.", a: "Miyamoto Musashi" },
+      { q: "Geçmişin hayaletleri, sadece onlara yüz çevirdiğinde seni arkadan vurur.", a: "Carl Gustav Jung" },
+      { q: "İtaat, zayıfın güvenli limanı; isyan, güçlünün açık denizidir.", a: "Jean-Paul Sartre" },
+      { q: "Galiplerin yazdığı bir tarihte, kaybedenlerin sessiz çığlıkları kanar.", a: "Napolyon Bonapart" },
+      { q: "Bir aslan, koyunların fikrini önemsemez.", a: "Tywin Lannister (Uyarlama)" },
+      { q: "Hiçbir şey, inandığı yolda tek başına yürüyen bir adam kadar tehlikeli değildir.", a: "John F. Kennedy" },
+      { q: "Düşmanının zayıf noktasını arıyorsan, önce kendi zayıf noktanı kapat.", a: "Sun Tzu" },
+      { q: "Kan dökülmeden kazanılan zafer, bir illüzyondan ibarettir.", a: "Büyük İskender" },
+      { q: "Bir adamın ruhu, düştükten sonra ayağa kalkarken aldığı nefeste gizlidir.", a: "Fyodor Dostoyevski" },
+      { q: "Uçurumdan atlamak cesaret değildir; asıl cesaret, paraşütün açılmayacağını bile bile atlamaktır.", a: "Hunter S. Thompson" },
+      { q: "Ateşin yaktığı orman, küllerinden daha vahşi doğar.", a: "Charles Bukowski" },
+      { q: "Sessizlik, en güçlü silahtır. Konuştuğunda hedef, sustuğunda tehdit olursun.", a: "George Washington" },
+      { q: "Kendini tanımak, en acı verici intihardır. Çünkü eski seni öldürmeden yeni seni doğuramazsın.", a: "Sigmund Freud" },
+      { q: "Barış istiyorsan, savaşa hazır ol.", a: "Publius Flavius Vegetius" },
+      { q: "Seni öldürmeyen şeyin seni güçlendirdiği koca bir yalandır. Seni öldürmeyen şey, seni acımasız yapar.", a: "Slavoj Žižek" },
+      { q: "Gerçek lider, adamlarını ölüme gönderirken sesi titremeyen ama kalbi kanayan adamdır.", a: "Mustafa Kemal Atatürk" },
+      { q: "Her insan kendi cehennemini yanında taşır.", a: "Virgilius" },
+      { q: "Zeka bir silahtır; eğer onu kullanmazsan, kendi beynine sıkarsın.", a: "Arthur Conan Doyle" },
+      { q: "Eğer bir şey uğruna savaşmıyorsan, hiçbir şey uğruna yaşıyorsun demektir.", a: "George S. Patton" },
+      { q: "Gelecek, onu bugünden kanla yazanların olacaktır.", a: "Che Guevara" },
+      { q: "Düşmanlarını affet ama isimlerini asla unutma.", a: "John F. Kennedy" },
+      { q: "Başkalarının ne yaptığına bakarak yürüyen, her zaman başkalarının izine basar.", a: "Lao Tzu" },
+      { q: "Kaybetmek korkusu, kazanma arzusundan büyük olan bir adam zaten yenilmiştir.", a: "Hannibal Barca" },
+      { q: "Yalnız yürüyen, en hızlı yürüyendir. Ancak nereye gittiğini biliyorsa.", a: "Thomas Jefferson" },
+      { q: "Fırtına yaklaştığında kuşlar saklanır, kartallar ise fırtınanın üzerinde uçar.", a: "Anonim" },
+      { q: "Eğer bir amacın varsa, çektiğin acı kutsaldır.", a: "Friedrich Nietzsche" },
+      { q: "Çölün ortasında bir ağaç olmak, ormanda binlerce ağaçtan biri olmaktan daha değerlidir.", a: "Miyamoto Musashi" },
+      { q: "Korkularını ehlileştiremeyen adam, en büyük canavarın bizzat kendisi olur.", a: "Carl Gustav Jung" },
+      { q: "Merhamet, güçlünün lüksüdür; zayıfın ise intiharı.", a: "Niccolò Machiavelli" },
+      { q: "Bir kavgadan kaçarak onurunu kurtaramazsın, sadece kaçış süreni uzatırsın.", a: "Winston Churchill" },
+      { q: "En tehlikeli adam, hiçbir şeyden korkmayan değil, kaybedecek hiçbir şeyi kalmayandır.", a: "Sun Tzu" },
+      { q: "Sabır, güçsüzlerin boyun eğişi değil, güçlünün doğru anı beklemesidir.", a: "Marcus Aurelius" },
+      { q: "Hayatta kalmak bir içgüdü, savaşmak ise bir karardır.", a: "Erwin Rommel" },
+      { q: "Vücut yorulduğunda, devreye zihnin acımasız diktatörlüğü girmelidir.", a: "David Goggins" },
+      { q: "Gözyaşları, ruhun kanamasıdır; ama kanayan her yara bir gün kabuk bağlar.", a: "Lev Tolstoy" },
+      { q: "Gerçek karanlık, gözler kapandığında değil, umut tükendiğinde başlar.", a: "Fyodor Dostoyevski" },
+      { q: "Asla düşmanının senin kadar zeki olmadığını düşünerek plan yapma.", a: "Cengiz Han" },
+      { q: "Sınırlarını zorlamadıkça, potansiyelinin nerede bittiğini asla öğrenemezsin.", a: "Bruce Lee" },
+      { q: "Eğer hayallerin seni korkutmuyorsa, yeterince büyük değillerdir.", a: "Muhammed Ali" },
+      { q: "Açlık ve soğuk askerleri öldürmez; askerleri öldüren, inançsızlıktır.", a: "Napolyon Bonapart" },
+      { q: "Bana sırtını dönenlere üzülmüyorum, çünkü yüzlerini gördüğümde ne kadar çirkin olduklarını anlıyorum.", a: "Oscar Wilde" },
+      { q: "Başarısızlık, zekice yeniden başlamak için tek fırsattır.", a: "Henry Ford" },
+      { q: "Bir devrim yapmak istiyorsan, işe kendi alışkanlıklarını asarak başla.", a: "Che Guevara" },
+      { q: "Gözlerini ufukta tutan adam, ayağına batan dikeni hissetmez.", a: "Kızılderili Atasözü" },
+      { q: "Geçmiş dökülmüş bir sudur, geri toplayamazsın; ama toprağı nasıl suladığına sen karar verirsin.", a: "Mevlana" },
+      { q: "İnsanları tanıdıkça, köpekleri daha çok seviyorum.", a: "Arthur Schopenhauer" },
+      { q: "Yükün hafiflemesini değil, omuzlarının güçlenmesini dile.", a: "Epiktetos" },
+      { q: "En büyük intikam, düşmanına benzememektir.", a: "Marcus Aurelius" },
+      { q: "Kılıç tek başına kesmez, onu keskin yapan ardındaki niyettir.", a: "Miyamoto Musashi" },
+      { q: "Sürekli bahaneler üreten bir zihin, kendi cehenneminin baş mimarıdır.", a: "Seneca" },
+      { q: "Gerektiğinde parçalanmayı göze alamayan, bütünleşmenin tadını çıkaramaz.", a: "Carl Gustav Jung" },
+      { q: "Mutluluk bir lüks, güç ise bir gerekliliktir.", a: "Niccolò Machiavelli" },
+      { q: "Güçlü bir rüzgar, kökü sağlam olmayan her ağacı devirir.", a: "Sun Tzu" },
+      { q: "Eğer seni eleştiriyorlarsa, doğru yoldasın demektir. Kimse ölü bir köpeği tekmelemez.", a: "Dale Carnegie" },
+      { q: "Hayatta kalmak için bir nedenin varsa, her nasıla katlanırsın.", a: "Viktor Frankl" },
+      { q: "Eğer rüzgar esmiyorsa, küreklere asılacaksın.", a: "Latin Atasözü" },
+      { q: "Elinizde bir çekiç varsa, her şey size çivi gibi görünmeye başlar. Silahınızı değiştirin.", a: "Abraham Maslow" },
+      { q: "Karşındaki adamın gözlerinin içine bak, orada korku görürsen, artık senindir.", a: "Büyük İskender" },
+      { q: "Çatışma olmadan karakter gelişmez. Barış, sadece savaşlar arası bir mola anıdır.", a: "Herakleitos" },
+      { q: "Kendini aşmayan bir insan, sadece etrafındaki kopyaların bir yankısıdır.", a: "Friedrich Nietzsche" },
+      { q: "Bir gemi limanda güvendedir, ama gemiler limanlar için yapılmamıştır.", a: "Grace Hopper" },
+      { q: "Cehalet, cesareti doğurur; bilgi ise tereddüdü.", a: "Charles Bukowski" },
+      { q: "Onur, karnı tok olanların felsefesidir.", a: "Karl Marx" },
+      { q: "Konfor alanı güzel bir yerdir, ancak orada hiçbir şey büyümez.", a: "Anonim" },
+      { q: "Kendini kandıran bir adam, en büyük düşmanıyla aynı yatakta uyuyordur.", a: "Fyodor Dostoyevski" },
+      { q: "Şans, her zaman en iyi hazırlık yapanın yanındadır.", a: "Seneca" },
+      { q: "Kazanmayı hayal edenler ile kazanmak için uykusuz kalanlar arasında koca bir uçurum vardır.", a: "Conor McGregor" },
+      { q: "Doğru olanı yapmak için asla geç değildir, yeter ki ödemen gereken bedele razı ol.", a: "Malcolm X" },
+      { q: "Kılıcın ucuyla yazılanlar, tükenmez kalemle yazılanlardan daha uzun yaşar.", a: "Napolyon Bonapart" },
+      { q: "Bir kavgayı kaybedebilirsin, ama ruhunu teslim edersen savaşı kaybetmiş olursun.", a: "Winston Churchill" },
+      { q: "Vücudunu esir alabilirler ama zihnini asla.", a: "Epiktetos" },
+      { q: "Gelecek, onu bugünden inşa edenlerin olacaktır, bekleyenlerin değil.", a: "Hannibal Barca" },
+      { q: "Hayat bir fırtınadır; ya fırtınaya boyun eğip yok olursun ya da fırtınanın ta kendisi olursun.", a: "Dante Alighieri" },
+      { q: "Zaman, acımasız bir öğretmendir. Önce sınav yapar, sonra dersi verir.", a: "Oscar Wilde" },
+      { q: "Hedefi olmayan bir adam, başkasının hedefine mermi taşır.", a: "Sun Tzu" },
+      { q: "Kaybettiğinde değil, pes ettiğinde gerçekten yenilmiş sayılırsın.", a: "Richard Nixon" },
+      { q: "Kendini tamamen yok edemeyen, kendini yeniden yaratamaz.", a: "Carl Gustav Jung" },
+      { q: "Kan dökmekten korkan adam, köle olarak yaşamayı baştan kabul etmiştir.", a: "Cengiz Han" },
+      { q: "Hayat, başınıza gelenlerin yüzde onu, ona verdiğiniz tepkinin yüzde doksanıdır.", a: "Charles R. Swindoll" },
+      { q: "Düştüğünde kalkmayı bilmiyorsan, koşmaya hiç yeltenme.", a: "Miyamoto Musashi" },
+      { q: "Eğer savaşçının gözlerinde ölüm korkusu yoksa, kılıcı her zaman daha keskindir.", a: "Samuray Atasözü" },
+      { q: "Seni rahatsız etmeyen bir hedef, senin için yeterince büyük değildir.", a: "David Goggins" },
+      { q: "Bir insanın zekasını verdiği cevaplardan, karakterini ise sorduğu sorulardan anlarsın.", a: "Albert Einstein" },
+      { q: "Merhamet acizlerin değil, en büyük güce sahip olanların erdemidir.", a: "Selahaddin Eyyubi" },
+      { q: "Umut etmeyi bırak, plan yapmaya başla.", a: "George S. Patton" },
+      { q: "Gerçek savaşçı, düşmanından nefret ettiği için değil, arkasındakileri sevdiği için savaşır.", a: "G.K. Chesterton" },
+      { q: "Zihnini silahın gibi keskin tut, çünkü beden pes ettiğinde tek silahın o kalır.", a: "Bruce Lee" },
+      { q: "Eğer bir yolda ilerlerken acı çekmiyorsan, bil ki yokuş aşağı gidiyorsundur.", a: "Seneca" },
+      { q: "Ne kadar terlersen, savaşta o kadar az kanarsın.", a: "Sparta Atasözü" },
+      { q: "Geri çekilmek korkaklık değildir, daha sert vurmak için mesafe açmaktır.", a: "Sun Tzu" },
+      { q: "İnsan en çok, kimsenin göremediği kendi karanlık köşelerinde boğulur.", a: "Fyodor Dostoyevski" },
+      { q: "Ateşle oynamak istiyorsan, yanmayı da göze alacaksın.", a: "Niccolò Machiavelli" },
+      { q: "Düşmanının ne kadar güçlü olduğu değil, senin ne kadar kararlı olduğun önemlidir.", a: "Hannibal Barca" },
+      { q: "Bir şeyi inşa etmeden önce yıkmayı öğrenmelisin.", a: "Friedrich Nietzsche" },
+      { q: "Başkalarına hükmetmek güç, kendine hükmetmek ise mutlak zaferdir.", a: "Lao Tzu" },
+      { q: "Gözlerin kapalıyken bile yürüyebiliyorsan, karanlıktan korkmana gerek kalmamıştır.", a: "Miyamoto Musashi" },
+      { q: "Kimsenin seni anlamamasını dert etme, çünkü yükseklerde hava incedir.", a: "Sigmund Freud" },
+      { q: "Zorluklar, insanın kendi içindeki tanrıyla yüzleşmesidir.", a: "Epiktetos" },
+      { q: "Başarısızlık bir olaydır, bir insan değil.", a: "William D. Brown" },
+      { q: "Gücünü koşullardan değil, kararlılığından alan adam yenilmezdir.", a: "Marcus Aurelius" },
+      { q: "Açlık ve acı, ruhun en iyi temizleyicileridir.", a: "Lev Tolstoy" },
+      { q: "Kader, ona meydan okumayanları ezer geçer.", a: "Julius Caesar" },
+      { q: "Sabır sadece beklemek değil, doğru zaman geldiğinde tüm gücünle vurabilmektir.", a: "Büyük İskender" },
+      { q: "Geçmişe bakarak ancak ders alırsın; geleceğe bakarak ise krallık kurarsın.", a: "Napolyon Bonapart" },
+      { q: "Acı geçicidir, utanç ise ömür boyu kalır.", a: "Cengiz Han" },
+      { q: "Yarışı bitirmek için koşma, yarışı yok etmek için koş.", a: "David Goggins" },
+      { q: "Kendi koyduğun kuralları yıkacak cesaretin yoksa, başkalarının kurallarıyla yaşarsın.", a: "Carl Gustav Jung" },
+      { q: "Hayal kurmak kolaydır, asıl zor olan, kan ter içinde o hayali gerçeğe dönüştürmektir.", a: "Winston Churchill" },
+      { q: "Kendini aşmaktan başka, bu hayatta oynanmaya değer hiçbir oyun yoktur.", a: "Friedrich Nietzsche" },
+      { q: "Unutma; acı, zayıflığın vücudu terk etme şeklidir.", a: "Cem Protokol" }
+    ];
+
+    let days = [];
+    let isDataLoaded = false;
+    let currentFilter = 'all';
+
+    // Gerçek zamana göre bugünün tespiti
+    const baseStartDate = new Date(2026, 10, 1, 0, 0, 0); // 1 Kasım 2026 (Aylar 0'dan başlar: 10 = Kasım)
+    const todayObj = new Date(); 
+    todayObj.setHours(0, 0, 0, 0); // Saat farkı sapmalarını önlemek için bugünün saatini sıfırlıyoruz
+    
+    // Uygulama yüklenirken kaçıncı günde olduğumuzu hesapla
+    const diffTime = todayObj.getTime() - baseStartDate.getTime();
+    let currentDayIndex = Math.round(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Eğer protokol başlamadıysa veya bittiyse sınırları belirle
+    if (currentDayIndex < 0) currentDayIndex = 0;
+    if (currentDayIndex >= totalDays) currentDayIndex = totalDays - 1;
+
+    // Günleri doldur
+    for (let i = 0; i < totalDays; i++) {
+      const d = new Date(baseStartDate.getFullYear(), baseStartDate.getMonth(), baseStartDate.getDate() + i);
+      const dayStr = d.getDate() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
+      
+      // Pazartesi (1) ve Perşembe (4) günleri menüye + 300g Pirinç eklenecek
+      const dayOfWeek = d.getDay();
+      const dailyMenu = (dayOfWeek === 1 || dayOfWeek === 4) ? "700g Tavuk + 10 Yumurta + 300g Pirinç" : "700g Tavuk + 10 Yumurta";
+      
+      days.push({
+        index: i,
+        dayNumber: i + 1,
+        dateStr: dayStr,
+        dayName: dayNames[dayOfWeek],
+        week: Math.floor(i / 7) + 1,
+        menu: dailyMenu,
+        done: false // Varsayılan false. Tarayıcıda veri tutmuyoruz, tablo karar verecek.
+      });
+    }
+
+    // Bulunduğumuz güne (index'e) göre söz seç
+    const selectedQuote = quotes[currentDayIndex] || quotes[0];
+    document.getElementById('splash-quote-text').innerText = '"' + selectedQuote.q + '"';
+    document.getElementById('splash-author-text').innerText = '— ' + selectedQuote.a;
+
+    function dismissSplash() {
+      const el = document.getElementById('splash-screen');
+      if (el) {
+        el.style.opacity = '0';
+        setTimeout(function() { el.style.display = 'none'; }, 600);
+      }
+    }
+    setTimeout(dismissSplash, 10000);
+
+    function toggleAccordion() {
+      const drawer = document.getElementById('days-drawer');
+      const icon = document.getElementById('acc-icon');
+      drawer.classList.toggle('open');
+      icon.classList.toggle('open');
+    }
+
+    function updateProgress() {
+      const completed = days.filter(function(d) { return d.done; }).length;
+      const remaining = totalDays - completed;
+      const pct = ((completed / totalDays) * 100).toFixed(1);
+
+      document.getElementById('hero-pct-val').innerText = '%' + pct;
+      document.getElementById('hero-progress-fill').style.width = pct + '%';
+      document.getElementById('hero-completed-text').innerText = completed + ' / ' + totalDays + ' Gün';
+      document.getElementById('hero-days-status').innerText = completed + ' Gün Tamamlandı';
+      document.getElementById('hero-days-left').innerText = remaining + ' Gün Kaldı';
+
+      const prox = document.getElementById('splash-proximity-text');
+      if (prox) prox.innerText = 'Hedefe Yakınlık: %' + pct;
+    }
+
+    function renderToday() {
+      const today = days[currentDayIndex];
+      document.getElementById('today-day-title').innerText = 'Gün ' + today.dayNumber;
+      document.getElementById('today-date-sub').innerText = today.dateStr + ', ' + today.dayName;
+      document.getElementById('today-menu').innerText = today.menu;
+
+      const btn = document.getElementById('today-tick-btn');
+      
+      if (!isDataLoaded) {
+        btn.disabled = true;
+        btn.innerText = 'Tablo Verisi Bekleniyor...';
+        btn.className = 'btn-tick';
+        return;
+      }
+      
+      btn.disabled = false;
+      if (today.done) {
+        btn.className = 'btn-tick ticked';
+        btn.innerText = 'Bugün Başarıyla Tamamlandı';
+      } else {
+        btn.className = 'btn-tick';
+        btn.innerText = 'Güne Uyuldu Olarak İşaretle';
+      }
+    }
+
+    function renderFeed() {
+      const container = document.getElementById('days-container');
+      container.innerHTML = '';
+      const currentWeek = days[currentDayIndex].week;
+
+      days.forEach(function(d) {
+        if (currentFilter === 'pending' && d.done) return;
+        if (currentFilter === 'done' && !d.done) return;
+        if (currentFilter === 'week' && d.week !== currentWeek) return;
+
+        const isToday = d.index === currentDayIndex;
+        const row = document.createElement('div');
+        row.className = 'day-row-card' + (isToday ? ' current' : '');
+
+        row.innerHTML = `
+          <div class="row-check ${d.done ? 'checked' : ''}" onclick="toggleDay(${d.index})">
+            ${d.done ? '✓' : ''}
+          </div>
+          <div class="row-main" onclick="toggleDay(${d.index})">
+            <div class="row-title">Gün ${d.dayNumber} — ${d.dayName}</div>
+            <div class="row-sub">${d.dateStr} • ${d.menu}</div>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function setTab(tab, el) {
+      currentFilter = tab;
+      document.querySelectorAll('.filter-tab').forEach(function(b) { b.classList.remove('active'); });
+      el.classList.add('active');
+      renderFeed();
+    }
+
+    // Ağa İstek At - GVIZ Yalnızca Okuma İçin (CORS Korumalı Hata Yakalama)
+    function fetchLiveSheet() {
+      const loader = document.getElementById('loading-indicator');
+      loader.style.display = 'block';
+      loader.style.background = 'rgba(29, 29, 31, 0.9)';
+      loader.innerText = 'E-Tablodan Veriler Çekiliyor...';
+
+      fetch(GVIZ_URL)
+        .then(function(res) { 
+          if (!res.ok) throw new Error("Ağ yanıtı uygun değil.");
+          return res.text(); 
+        })
+        .then(function(text) {
+          const startIdx = text.indexOf('(');
+          const endIdx = text.lastIndexOf(')');
+          if (startIdx !== -1 && endIdx !== -1) {
+            const json = JSON.parse(text.substring(startIdx + 1, endIdx));
+            const rows = json.table.rows;
+            
+            rows.forEach(function(r, idx) {
+              if (idx < days.length && r.c) {
+                // Sütun 1 (E-tabloda 'B' sütunu): UYULDU MU? (Yeni tertemiz tablomuz)
+                const val = r.c[1] ? r.c[1].v : null;
+                if (val === true || val === 'TRUE' || val === 'true') {
+                  days[idx].done = true;
+                } else {
+                  days[idx].done = false;
+                }
+              }
+            });
+
+            isDataLoaded = true;
+            loader.style.display = 'none';
+            updateProgress();
+            renderToday();
+            renderFeed();
+          }
+        })
+        .catch(function(err) {
+          console.error("Fetch Hatası:", err);
+          // Hata durumunda uygulamanın çökmesini önler ve kullanıcıya bilgi verir.
+          loader.style.background = '#b45309';
+          loader.innerHTML = `Bağlantı Hatası: Lütfen Google E-Tablonuzun "Paylaş" menüsünden<br><b>"Bağlantıya sahip olan herkes"</b> olarak ayarlandığından emin olun.`;
+          
+          // Uygulamanın en azından boş haliyle etkileşime açık olması için:
+          isDataLoaded = true;
+          updateProgress();
+          renderToday();
+          renderFeed();
+          
+          setTimeout(() => { loader.style.display = 'none'; }, 6000);
+        });
+    }
+
+    // Ağa İstek At - Webhook ile Yazma İçin (Gizli no-cors)
+    function sendToGoogleSheets(dayIndex, isDone) {
+      if (!WEBHOOK_URL || WEBHOOK_URL === 'BURAYA_APPS_SCRIPT_URL_GELECEK') {
+        const loader = document.getElementById('loading-indicator');
+        loader.style.display = 'block';
+        loader.style.background = '#b45309';
+        loader.innerText = 'Uyarı: Apps Script URL eksik! Tikler kaydedilemiyor.';
+        setTimeout(() => { loader.style.display = 'none'; }, 3000);
+        return;
+      }
+      
+      const rowNumber = dayIndex + 2; 
+      const url = WEBHOOK_URL + (WEBHOOK_URL.includes('?') ? '&' : '?') + 'row=' + rowNumber + '&val=' + (isDone ? 'TRUE' : 'FALSE');
+      
+      fetch(url, { method: 'GET', mode: 'no-cors' })
+        .catch(err => {
+          console.error("Yazma hatası:", err);
+        });
+    }
+
+    function toggleToday() {
+      if (!isDataLoaded) return;
+      const today = days[currentDayIndex];
+      today.done = !today.done;
+      
+      updateProgress();
+      renderToday();
+      renderFeed();
+      sendToGoogleSheets(today.index, today.done);
+    }
+
+    function toggleDay(idx) {
+      if (!isDataLoaded) return;
+      days[idx].done = !days[idx].done;
+      
+      updateProgress();
+      renderToday();
+      renderFeed();
+      sendToGoogleSheets(idx, days[idx].done);
+    }
+
+    // Başlatma
+    updateProgress();
+    renderToday();
+    renderFeed();
+    fetchLiveSheet(); 
+
+  </script>
+</body>
+</html>
