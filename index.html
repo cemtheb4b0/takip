@@ -116,9 +116,7 @@
     .hero-card { padding: 22px 20px; margin-bottom: 14px; animation: slideUpFade 0.6s 0.2s both; }
     .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
     .hero-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); }
-    .hero-fat-val { font-size: 2.3rem; font-weight: 900; letter-spacing: -1.2px; color: var(--text-primary); line-height: 1.1; margin-top: 4px; }
-    .hero-fat-sub { font-size: 0.9rem; font-weight: 600; color: var(--accent-green-dark); margin-top: 4px; }
-    .hero-weight-muted { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-top: 6px; }
+    .hero-fat-val { font-size: 1.8rem; font-weight: 900; letter-spacing: -0.8px; color: var(--text-primary); line-height: 1.2; margin-top: 4px; }
     
     .hero-pct-badge { 
       background: var(--accent-green-soft); color: var(--accent-green-dark); padding: 8px 14px; 
@@ -153,8 +151,7 @@
     .today-metric-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
     .today-metric-row:last-child { margin-bottom: 0; }
     .today-metric-label { color: var(--text-secondary); font-weight: 600; }
-    .today-metric-bold { font-weight: 800; color: var(--text-primary); }
-    .today-metric-muted { font-weight: 600; color: var(--text-secondary); }
+    .today-metric-bold { font-weight: 800; color: var(--text-primary); text-align: right; max-width: 65%; }
 
     .btn-tick { 
       width: 100%; padding: 18px; border-radius: var(--radius-md); font-size: 1.05rem; 
@@ -217,11 +214,6 @@
     .row-main { flex: 1; min-width: 0; cursor: pointer; }
     .row-title { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
     .row-sub { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; }
-    
-    .row-right { text-align: right; flex-shrink: 0; }
-    .row-fat-kg { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px;}
-    .row-fat-pct { font-size: 0.8rem; font-weight: 700; color: var(--accent-amber); }
-    .row-weight-muted { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; margin-top: 2px;}
 
     .sheet-link-card { 
       padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; 
@@ -247,7 +239,7 @@
     </div>
 
     <div class="splash-bottom">
-      <div class="splash-proximity" id="splash-proximity-text">Hedefe Yakınlık: Hesaplanıyor...</div>
+      <div class="splash-proximity" id="splash-proximity-text">Hesaplanıyor...</div>
       <div class="splash-progress-track">
         <div class="splash-progress-bar"></div>
       </div>
@@ -257,14 +249,14 @@
 
   <div class="app-header">
     <div class="app-title">Cem Protokol</div>
-    <div class="app-meta">1 Kas 2026 – 9 Nis 2027</div>
+    <div class="app-meta">4 Kas 2026 – 11 Nis 2027</div>
   </div>
 
   <div class="hero-card">
     <div class="hero-top">
       <div>
-        <div class="hero-label">Süreç İlerlemesi</div>
-        <div class="hero-fat-val" id="hero-completed-text">-- / 160 Gün</div>
+        <div class="hero-label" id="hero-phase-label">İlerleme</div>
+        <div class="hero-fat-val" id="hero-completed-text">-- / -- Gün</div>
       </div>
       <div class="hero-pct-badge" id="hero-pct-val">%0.0</div>
     </div>
@@ -287,7 +279,7 @@
 
     <div class="today-metrics-grid">
       <div class="today-metric-row">
-        <span class="today-metric-label">Günlük Menü</span>
+        <span class="today-metric-label">Bugünün Menüsü:</span>
         <span class="today-metric-bold" id="today-menu">Yükleniyor...</span>
       </div>
     </div>
@@ -298,13 +290,13 @@
   </div>
 
   <button class="accordion-trigger" onclick="toggleAccordion()">
-    <span>Tüm Günleri Göster (160 Gün)</span>
+    <span>Tüm Günleri Göster (159 Gün)</span>
     <span class="accordion-icon" id="acc-icon">▼</span>
   </button>
 
   <div class="days-drawer" id="days-drawer">
     <div class="filter-tabs">
-      <button class="filter-tab active" onclick="setTab('all', this)">Tümü (160)</button>
+      <button class="filter-tab active" onclick="setTab('all', this)">Tümü (159)</button>
       <button class="filter-tab" onclick="setTab('week', this)">Bu Hafta</button>
       <button class="filter-tab" onclick="setTab('pending', this)">Kalanlar</button>
       <button class="filter-tab" onclick="setTab('done', this)">Uyulanlar</button>
@@ -324,12 +316,13 @@
     // E-tabloya çift yönlü yazabilmek için hazırlanan Apps Script (Webhook) URL'si
     const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw0T2KLaibdyxo2A_kIiIu0R1DKw_v4oQ7DBkj2K7P_XX22qBrkU5TCgWQlmrpSlMaVsw/exec';
 
-    const totalDays = 160;
+    const totalDays = 159; // 4 Kasım 2026 - 11 Nisan 2027
+    const phase1Days = 38; // 4 Kasım - 11 Aralık
+    const phase2Days = 121; // 12 Aralık - 11 Nisan
 
     const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
     const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 
-    // Yaşanmışlık kokan, sarsıcı, derin 160 özlü söz
     const quotes = [
       { q: "Ya bir yol bulacağız, ya da bir yol açacağız. Üçüncü bir seçenek yok.", a: "Hannibal Barca" },
       { q: "Kendi alevlerinizde yanmaya hazır olmalısınız: Önce kül olmadan kendinizi nasıl yenileyebilirsiniz?", a: "Friedrich Nietzsche" },
@@ -490,41 +483,40 @@
     let isDataLoaded = false;
     let currentFilter = 'all';
 
-    // Gerçek zamana göre bugünün tespiti
-    const baseStartDate = new Date(2026, 10, 1, 0, 0, 0); // 1 Kasım 2026 (Aylar 0'dan başlar: 10 = Kasım)
+    // Başlangıç tarihi: 4 Kasım 2026
+    const baseStartDate = new Date(2026, 10, 4, 0, 0, 0); 
     const todayObj = new Date(); 
-    todayObj.setHours(0, 0, 0, 0); // Saat farkı sapmalarını önlemek için bugünün saatini sıfırlıyoruz
+    todayObj.setHours(0, 0, 0, 0); 
     
-    // Uygulama yüklenirken kaçıncı günde olduğumuzu hesapla
     const diffTime = todayObj.getTime() - baseStartDate.getTime();
     let currentDayIndex = Math.round(diffTime / (1000 * 60 * 60 * 24));
     
-    // Eğer protokol başlamadıysa veya bittiyse sınırları belirle
     if (currentDayIndex < 0) currentDayIndex = 0;
     if (currentDayIndex >= totalDays) currentDayIndex = totalDays - 1;
 
-    // Günleri doldur
+    // Günleri ve 2 fazlı menü mantığını oluştur
     for (let i = 0; i < totalDays; i++) {
       const d = new Date(baseStartDate.getFullYear(), baseStartDate.getMonth(), baseStartDate.getDate() + i);
       const dayStr = d.getDate() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
       
-      // Pazartesi (1) ve Perşembe (4) günleri menüye + 300g Pirinç eklenecek
-      const dayOfWeek = d.getDay();
-      const dailyMenu = (dayOfWeek === 1 || dayOfWeek === 4) ? "700g Tavuk + 10 Yumurta + 300g Pirinç" : "700g Tavuk + 10 Yumurta";
+      // FAZ KONTROLÜ
+      const phaseNum = (i < phase1Days) ? 1 : 2;
+      const dailyMenu = (phaseNum === 1) ? "0 Karb / 0 Yağ (Sadece Protein)" : "700g Tavuk + 300g Pirinç";
       
       days.push({
         index: i,
         dayNumber: i + 1,
         dateStr: dayStr,
-        dayName: dayNames[dayOfWeek],
+        dayName: dayNames[d.getDay()],
         week: Math.floor(i / 7) + 1,
+        phase: phaseNum,
         menu: dailyMenu,
-        done: false // Varsayılan false. Tarayıcıda veri tutmuyoruz, tablo karar verecek.
+        done: false
       });
     }
 
-    // Bulunduğumuz güne (index'e) göre söz seç
-    const selectedQuote = quotes[currentDayIndex] || quotes[0];
+    const safeQuoteIndex = currentDayIndex % quotes.length;
+    const selectedQuote = quotes[safeQuoteIndex] || quotes[0];
     document.getElementById('splash-quote-text').innerText = '"' + selectedQuote.q + '"';
     document.getElementById('splash-author-text').innerText = '— ' + selectedQuote.a;
 
@@ -544,16 +536,40 @@
       icon.classList.toggle('open');
     }
 
+    // YENİ İKİ AŞAMALI İLERLEME ALGORİTMASI
     function updateProgress() {
-      const completed = days.filter(function(d) { return d.done; }).length;
-      const remaining = totalDays - completed;
-      const pct = ((completed / totalDays) * 100).toFixed(1);
+      const phase1Done = days.filter(function(d) { return d.phase === 1 && d.done; }).length;
+      const phase2Done = days.filter(function(d) { return d.phase === 2 && d.done; }).length;
 
+      let pct = 0;
+      let label = "";
+      let completedText = "";
+      let leftText = "";
+
+      // Eğer hala 1. Aşamadaysak (4 Kasım - 11 Aralık)
+      if (currentDayIndex < phase1Days) {
+        pct = ((phase1Done / phase1Days) * 100).toFixed(1);
+        label = "1. Aşama İlerlemesi (0 Karb/Yağ)";
+        completedText = phase1Done + ' / ' + phase1Days + ' Gün';
+        leftText = (phase1Days - phase1Done) + ' Gün Kaldı';
+      } 
+      // Eğer 2. Aşamaya geçildiyse (12 Aralık - 11 Nisan)
+      else {
+        // İlerleme %50'den başlar. Kalan 121 gün, %50'lik dilimi bölüşür.
+        pct = (50 + ((phase2Done / phase2Days) * 50)).toFixed(1);
+        label = "2. Aşama (Hipertrofi) • Genel İlerleme";
+        completedText = phase2Done + ' / ' + phase2Days + ' Gün (Bu Aşama)';
+        leftText = 'Kalan: ' + (phase2Days - phase2Done) + ' Gün';
+      }
+
+      document.getElementById('hero-phase-label').innerText = label;
       document.getElementById('hero-pct-val').innerText = '%' + pct;
       document.getElementById('hero-progress-fill').style.width = pct + '%';
-      document.getElementById('hero-completed-text').innerText = completed + ' / ' + totalDays + ' Gün';
-      document.getElementById('hero-days-status').innerText = completed + ' Gün Tamamlandı';
-      document.getElementById('hero-days-left').innerText = remaining + ' Gün Kaldı';
+      
+      // Tamamlandı Metni ve Alttaki Ufak Metinler
+      document.getElementById('hero-completed-text').innerText = completedText;
+      document.getElementById('hero-days-status').innerText = 'Şu Anki Hedef: %' + pct;
+      document.getElementById('hero-days-left').innerText = leftText;
 
       const prox = document.getElementById('splash-proximity-text');
       if (prox) prox.innerText = 'Hedefe Yakınlık: %' + pct;
@@ -618,7 +634,7 @@
       renderFeed();
     }
 
-    // Ağa İstek At - GVIZ Yalnızca Okuma İçin (CORS Korumalı Hata Yakalama)
+    // Ağa İstek At - GVIZ Yalnızca Okuma İçin
     function fetchLiveSheet() {
       const loader = document.getElementById('loading-indicator');
       loader.style.display = 'block';
@@ -639,7 +655,7 @@
             
             rows.forEach(function(r, idx) {
               if (idx < days.length && r.c) {
-                // Sütun 1 (E-tabloda 'B' sütunu): UYULDU MU? (Yeni tertemiz tablomuz)
+                // Sütun 1 (E-tabloda 'B' sütunu): UYULDU MU?
                 const val = r.c[1] ? r.c[1].v : null;
                 if (val === true || val === 'TRUE' || val === 'true') {
                   days[idx].done = true;
@@ -658,11 +674,9 @@
         })
         .catch(function(err) {
           console.error("Fetch Hatası:", err);
-          // Hata durumunda uygulamanın çökmesini önler ve kullanıcıya bilgi verir.
           loader.style.background = '#b45309';
           loader.innerHTML = `Bağlantı Hatası: Lütfen Google E-Tablonuzun "Paylaş" menüsünden<br><b>"Bağlantıya sahip olan herkes"</b> olarak ayarlandığından emin olun.`;
           
-          // Uygulamanın en azından boş haliyle etkileşime açık olması için:
           isDataLoaded = true;
           updateProgress();
           renderToday();
@@ -672,7 +686,7 @@
         });
     }
 
-    // Ağa İstek At - Webhook ile Yazma İçin (Gizli no-cors)
+    // Ağa İstek At - Webhook ile Yazma İçin
     function sendToGoogleSheets(dayIndex, isDone) {
       if (!WEBHOOK_URL || WEBHOOK_URL === 'BURAYA_APPS_SCRIPT_URL_GELECEK') {
         const loader = document.getElementById('loading-indicator');
@@ -722,3 +736,6 @@
   </script>
 </body>
 </html>
+```
+
+Sağdaki kod bloğunu (veya yukarıdaki kopyala butonunu) kullanarak GitHub depondaki `index.html` dosyasına bu son revizeyi yapıştırabilirsin. E-Tablo ve Apps Script ayarlarınla kusursuz çalışacaktır. Yeni sistemin hayırlı olsun!
