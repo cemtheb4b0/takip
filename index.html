@@ -117,6 +117,7 @@
     .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
     .hero-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); }
     .hero-fat-val { font-size: 1.8rem; font-weight: 900; letter-spacing: -0.8px; color: var(--text-primary); line-height: 1.2; margin-top: 4px; }
+    .hero-weight-muted { font-size: 0.85rem; font-weight: 600; color: var(--accent-amber); margin-top: 6px; }
     
     .hero-pct-badge { 
       background: var(--accent-green-soft); color: var(--accent-green-dark); padding: 8px 14px; 
@@ -152,6 +153,7 @@
     .today-metric-row:last-child { margin-bottom: 0; }
     .today-metric-label { color: var(--text-secondary); font-weight: 600; }
     .today-metric-bold { font-weight: 800; color: var(--text-primary); text-align: right; max-width: 65%; }
+    .today-metric-target { font-weight: 800; color: var(--accent-green-dark); text-align: right; }
 
     .btn-tick { 
       width: 100%; padding: 18px; border-radius: var(--radius-md); font-size: 1.05rem; 
@@ -215,6 +217,10 @@
     .row-title { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
     .row-sub { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; }
 
+    .row-right { text-align: right; flex-shrink: 0; }
+    .row-fat-pct { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
+    .row-weight-muted { font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; }
+
     .sheet-link-card { 
       padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; 
       text-decoration: none; color: var(--text-primary); font-size: 0.95rem; font-weight: 700; 
@@ -257,6 +263,7 @@
       <div>
         <div class="hero-label" id="hero-phase-label">İlerleme</div>
         <div class="hero-fat-val" id="hero-completed-text">-- / -- Gün</div>
+        <div class="hero-weight-muted" id="hero-current-target">Bugün Hedeflenen: --</div>
       </div>
       <div class="hero-pct-badge" id="hero-pct-val">%0.0</div>
     </div>
@@ -281,6 +288,10 @@
       <div class="today-metric-row">
         <span class="today-metric-label">Bugünün Menüsü:</span>
         <span class="today-metric-bold" id="today-menu">Yükleniyor...</span>
+      </div>
+      <div class="today-metric-row" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05);">
+        <span class="today-metric-label">Hedeflenen Fizik:</span>
+        <span class="today-metric-target" id="today-target-stats">--</span>
       </div>
     </div>
 
@@ -313,7 +324,6 @@
     const SHEET_ID = '1lFr5qDWDNXMNbuqtd3VCRXlg9KFTjGyDMocXx1Ruswg';
     const GVIZ_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
     
-    // E-tabloya çift yönlü yazabilmek için hazırlanan Apps Script (Webhook) URL'si
     const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw0T2KLaibdyxo2A_kIiIu0R1DKw_v4oQ7DBkj2K7P_XX22qBrkU5TCgWQlmrpSlMaVsw/exec';
 
     const totalDays = 160; 
@@ -323,7 +333,6 @@
     const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
     const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 
-    // Tam 160 adet, sıradanlıktan uzak, felsefi, ağır ve yaşanmışlık kokan sözler.
     const quotes = [
       { q: "Cehennemin içinden geçiyorsan, yürümeye devam et.", a: "Winston Churchill" },
       { q: "Yara, ışığın senin içine sızdığı yerdir.", a: "Mevlana" },
@@ -488,7 +497,7 @@
     let isDataLoaded = false;
     let currentFilter = 'all';
 
-    // Başlangıç tarihi: 6 Kasım 2026
+    // Başlangıç tarihi ve gün hesaplaması
     const baseStartDate = new Date(2026, 10, 6, 0, 0, 0); 
     const todayObj = new Date(); 
     todayObj.setHours(0, 0, 0, 0); 
@@ -499,15 +508,43 @@
     if (currentDayIndex < 0) currentDayIndex = 0;
     if (currentDayIndex >= totalDays) currentDayIndex = totalDays - 1;
 
-    // Günleri ve 2 fazlı menü mantığını oluştur
+    // FİZİKSEL HEDEFLER VE METABOLİK ADAPTASYON SİMÜLASYONU
+    // 6 Kasım başlangıç değerleri. 
+    let simWeight = 112.2; 
+    let simFatMass = 29.8; 
+    let adaptationMultiplier = 1.0; 
+    const heightCm = 193;
+    const ageYrs = 22;
+
     for (let i = 0; i < totalDays; i++) {
       const d = new Date(baseStartDate.getFullYear(), baseStartDate.getMonth(), baseStartDate.getDate() + i);
       const dayStr = d.getDate() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
       
-      // FAZ KONTROLÜ
       const phaseNum = (i < phase1Days) ? 1 : 2;
       const dailyMenu = (phaseNum === 1) ? "0 Karb / 0 Yağ (Sadece Protein)" : "700g Tavuk + 300g Pirinç";
+      const dailyIntakeKcal = (phaseNum === 1) ? 800 : 1850; 
       
+      // Faz 2'ye geçişte (12 Aralık - index 36) Karbonhidratın tuttuğu Su ve Glikojen ağırlığı
+      if (i === phase1Days) {
+          simWeight += 1.2; // 300g Karbonhidrat = Yaklaşık 1.2kg saf su tutulumu ekleniyor.
+      }
+
+      // Mifflin-St Jeor Formülü + Aktivite + Adaptasyon
+      let bmr = (10 * simWeight) + (6.25 * heightCm) - (5 * ageYrs) + 5;
+      let activityMultiplier = 1.25; // 4 idman + 4000 adım sedanter ağırlıklı
+      let tdee = bmr * activityMultiplier * adaptationMultiplier;
+      
+      let deficit = tdee - dailyIntakeKcal;
+      
+      // Kaybolan ağırlığın %85'inin yağ, %15'inin yağsız kütle/su olduğu ekstrem kalori açığı modellemesi
+      let weightLossKg = deficit / 6770; 
+      let fatLossKg = (deficit * 0.85) / 7700;
+      
+      let currentFatPct = (simFatMass / simWeight) * 100;
+      
+      // 10 Kasım (Index 4) öncesinde metrikler gizli
+      let showMet = i >= 4; 
+
       days.push({
         index: i,
         dayNumber: i + 1,
@@ -516,8 +553,19 @@
         week: Math.floor(i / 7) + 1,
         phase: phaseNum,
         menu: dailyMenu,
-        done: false
+        done: false,
+        targetWeight: simWeight,
+        targetFatPct: currentFatPct,
+        showMetrics: showMet
       });
+      
+      simWeight -= weightLossKg;
+      simFatMass -= fatLossKg;
+      
+      // Diyet süresi uzadıkça ve kilo düştükçe metabolizma ekstradan yavaşlar (Adaptasyon)
+      if (adaptationMultiplier > 0.88) {
+        adaptationMultiplier -= 0.001; 
+      }
     }
 
     const safeQuoteIndex = currentDayIndex % quotes.length;
@@ -541,7 +589,6 @@
       icon.classList.toggle('open');
     }
 
-    // YENİ İKİ AŞAMALI İLERLEME ALGORİTMASI
     function updateProgress() {
       const phase1Done = days.filter(function(d) { return d.phase === 1 && d.done; }).length;
       const phase2Done = days.filter(function(d) { return d.phase === 2 && d.done; }).length;
@@ -551,16 +598,13 @@
       let completedText = "";
       let leftText = "";
 
-      // Eğer hala 1. Aşamadaysak (6 Kasım - 11 Aralık)
       if (currentDayIndex < phase1Days) {
         pct = ((phase1Done / phase1Days) * 100).toFixed(1);
         label = "1. Aşama İlerlemesi (0 Karb/Yağ)";
         completedText = phase1Done + ' / ' + phase1Days + ' Gün';
         leftText = (phase1Days - phase1Done) + ' Gün Kaldı';
       } 
-      // Eğer 2. Aşamaya geçildiyse (12 Aralık - 14 Nisan)
       else {
-        // İlerleme %50'den başlar. Kalan gün sayısı, %50'lik dilimi bölüşür.
         pct = (50 + ((phase2Done / phase2Days) * 50)).toFixed(1);
         label = "2. Aşama (Hipertrofi) • Genel İlerleme";
         completedText = phase2Done + ' / ' + phase2Days + ' Gün (Bu Aşama)';
@@ -571,13 +615,20 @@
       document.getElementById('hero-pct-val').innerText = '%' + pct;
       document.getElementById('hero-progress-fill').style.width = pct + '%';
       
-      // Tamamlandı Metni ve Alttaki Ufak Metinler
       document.getElementById('hero-completed-text').innerText = completedText;
       document.getElementById('hero-days-status').innerText = 'Şu Anki Hedef: %' + pct;
       document.getElementById('hero-days-left').innerText = leftText;
 
       const prox = document.getElementById('splash-proximity-text');
       if (prox) prox.innerText = 'Hedefe Yakınlık: %' + pct;
+
+      // Bugünün Hedeflenen Ağırlığı (Hero Card - Gizlilik Kontrolüyle)
+      const todayTarget = days[currentDayIndex];
+      if (todayTarget.showMetrics) {
+        document.getElementById('hero-current-target').innerText = `Bugün Hedeflenen: ${todayTarget.targetWeight.toFixed(1)} kg • %${todayTarget.targetFatPct.toFixed(1)} Yağ`;
+      } else {
+        document.getElementById('hero-current-target').innerText = `Bugün Hedeflenen: Hazırlık (Kilo Takibi Yok)`;
+      }
     }
 
     function renderToday() {
@@ -585,6 +636,13 @@
       document.getElementById('today-day-title').innerText = 'Gün ' + today.dayNumber;
       document.getElementById('today-date-sub').innerText = today.dateStr + ', ' + today.dayName;
       document.getElementById('today-menu').innerText = today.menu;
+      
+      // Hedeflenen Fizik (Gizlilik Kontrolüyle)
+      if (today.showMetrics) {
+        document.getElementById('today-target-stats').innerText = today.targetWeight.toFixed(1) + ' kg (%' + today.targetFatPct.toFixed(1) + ')';
+      } else {
+        document.getElementById('today-target-stats').innerText = '10 Kasım\'da Başlıyor';
+      }
 
       const btn = document.getElementById('today-tick-btn');
       
@@ -626,6 +684,10 @@
           <div class="row-main" onclick="toggleDay(${d.index})">
             <div class="row-title">Gün ${d.dayNumber} — ${d.dayName}</div>
             <div class="row-sub">${d.dateStr} • ${d.menu}</div>
+          </div>
+          <div class="row-right">
+            <div class="row-fat-pct">${d.showMetrics ? '%' + d.targetFatPct.toFixed(1) + ' Yağ' : '--'}</div>
+            <div class="row-weight-muted">${d.showMetrics ? d.targetWeight.toFixed(1) + ' kg' : '--'}</div>
           </div>
         `;
         container.appendChild(row);
