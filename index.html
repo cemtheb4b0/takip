@@ -54,7 +54,6 @@
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* Ortak Solid Glass (Cam) Efekti */
     .hero-card, .today-card, .accordion-trigger, .sheet-link-card {
       background: var(--card-bg);
       backdrop-filter: blur(24px) saturate(180%);
@@ -77,8 +76,9 @@
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(245, 245, 247, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
       z-index: 9999; display: flex; flex-direction: column; justify-content: space-between;
-      align-items: center; padding: 56px 28px 40px; text-align: center;
+      align-items: center; padding: 48px 24px 32px; text-align: center;
       transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+      overflow-y: auto;
     }
 
     .splash-top { animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
@@ -87,17 +87,23 @@
 
     .splash-quote-card {
       background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255, 255, 255, 0.8);
-      border-radius: var(--radius-lg); padding: 32px 24px;
+      border-radius: var(--radius-lg); padding: 28px 20px;
       box-shadow: 0 16px 40px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,1);
       max-width: 380px; width: 100%; animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+      margin: auto 0;
     }
-    .splash-quote-text { font-size: 1.1rem; font-style: italic; line-height: 1.6; color: #2c3033; margin-bottom: 16px; font-weight: 500; }
-    .splash-quote-author { font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+    
+    .splash-quote-text { font-size: 1.15rem; font-weight: 800; line-height: 1.4; color: #1d1d1f; margin-bottom: 8px; }
+    .splash-quote-orig { font-size: 0.95rem; font-style: italic; color: #5a5a5e; margin-bottom: 20px; font-weight: 500; }
+    
+    .splash-quote-author { font-size: 0.85rem; font-weight: 800; color: var(--text-primary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+    .splash-quote-bio { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+    .splash-quote-context { font-size: 0.75rem; font-weight: 500; color: #8e8e93; font-style: italic; line-height: 1.3; }
 
-    .splash-bottom { width: 100%; max-width: 380px; animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+    .splash-bottom { width: 100%; max-width: 380px; animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; margin-top: 20px; }
     .splash-proximity { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 14px; }
     .splash-progress-track { background: rgba(0,0,0,0.08); height: 4px; border-radius: 2px; width: 100%; overflow: hidden; margin-bottom: 24px; }
-    .splash-progress-bar { background: var(--text-primary); height: 100%; width: 0%; animation: splashTimer 10s linear forwards; }
+    .splash-progress-bar { background: var(--text-primary); height: 100%; width: 0%; animation: splashTimer 15s linear forwards; }
     
     .splash-btn-skip { 
       background: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.8); backdrop-filter: blur(10px);
@@ -106,7 +112,6 @@
       transition: transform 0.2s, background 0.2s;
     }
     .splash-btn-skip:active { transform: scale(0.96); background: rgba(255,255,255,0.9); }
-
     @keyframes splashTimer { from { width: 0%; } to { width: 100%; } }
 
     .app-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; padding: 0 4px; animation: slideUpFade 0.6s 0.1s both; }
@@ -115,8 +120,8 @@
 
     .hero-card { padding: 22px 20px; margin-bottom: 14px; animation: slideUpFade 0.6s 0.2s both; }
     .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-    .hero-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); }
-    .hero-fat-val { font-size: 1.8rem; font-weight: 900; letter-spacing: -0.8px; color: var(--text-primary); line-height: 1.2; margin-top: 4px; }
+    .hero-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); }
+    .hero-fat-val { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px; color: var(--text-primary); line-height: 1.3; margin-top: 4px; }
     .hero-weight-muted { font-size: 0.85rem; font-weight: 600; color: var(--accent-amber); margin-top: 6px; }
     
     .hero-pct-badge { 
@@ -172,7 +177,6 @@
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
       transform: skewX(-20deg); animation: buttonShine 3s infinite;
     }
-    @keyframes buttonShine { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
     .btn-tick:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
     .accordion-trigger { 
@@ -215,10 +219,10 @@
     
     .row-main { flex: 1; min-width: 0; cursor: pointer; }
     .row-title { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
-    .row-sub { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; }
+    .row-sub { font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; }
 
     .row-right { text-align: right; flex-shrink: 0; }
-    .row-fat-pct { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
+    .row-fat-pct { font-size: 0.9rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
     .row-weight-muted { font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; }
 
     .sheet-link-card { 
@@ -241,7 +245,11 @@
 
     <div class="splash-quote-card">
       <div class="splash-quote-text" id="splash-quote-text">...</div>
+      <div class="splash-quote-orig" id="splash-quote-orig">...</div>
+      
       <div class="splash-quote-author" id="splash-author-text">...</div>
+      <div class="splash-quote-bio" id="splash-bio-text">...</div>
+      <div class="splash-quote-context" id="splash-context-text">...</div>
     </div>
 
     <div class="splash-bottom">
@@ -255,7 +263,7 @@
 
   <div class="app-header">
     <div class="app-title">Cem Protokol</div>
-    <div class="app-meta">6 Kas 2026 – 14 Nis 2027</div>
+    <div class="app-meta">256 Günlük Simülasyon</div>
   </div>
 
   <div class="hero-card">
@@ -273,7 +281,7 @@
     </div>
 
     <div class="progress-info-row">
-      <span id="hero-days-status">-- Gün Tamamlandı</span>
+      <span id="hero-days-status">İlerleme: %--</span>
       <span id="hero-days-left">-- Gün Kaldı</span>
     </div>
   </div>
@@ -301,13 +309,13 @@
   </div>
 
   <button class="accordion-trigger" onclick="toggleAccordion()">
-    <span>Tüm Günleri Göster (160 Gün)</span>
+    <span>Tüm Günleri Göster (256 Gün)</span>
     <span class="accordion-icon" id="acc-icon">▼</span>
   </button>
 
   <div class="days-drawer" id="days-drawer">
     <div class="filter-tabs">
-      <button class="filter-tab active" onclick="setTab('all', this)">Tümü (160)</button>
+      <button class="filter-tab active" onclick="setTab('all', this)">Tümü (256)</button>
       <button class="filter-tab" onclick="setTab('week', this)">Bu Hafta</button>
       <button class="filter-tab" onclick="setTab('pending', this)">Kalanlar</button>
       <button class="filter-tab" onclick="setTab('done', this)">Uyulanlar</button>
@@ -323,182 +331,344 @@
   <script>
     const SHEET_ID = '1lFr5qDWDNXMNbuqtd3VCRXlg9KFTjGyDMocXx1Ruswg';
     const GVIZ_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
-    
     const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw0T2KLaibdyxo2A_kIiIu0R1DKw_v4oQ7DBkj2K7P_XX22qBrkU5TCgWQlmrpSlMaVsw/exec';
 
-    const totalDays = 160; 
-    const phase1Days = 36; // 6 Kasım - 11 Aralık
-    const phase2Days = 124; // 12 Aralık - 14 Nisan
-
+    const totalDays = 256; 
     const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
     const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 
+    // TAM 256 ADET EŞSİZ, TARİHİ, FELSEFİ VE PSİKOLOJİK SÖZ KÜTÜPHANESİ
     const quotes = [
-      { q: "Cehennemin içinden geçiyorsan, yürümeye devam et.", a: "Winston Churchill" },
-      { q: "Yara, ışığın senin içine sızdığı yerdir.", a: "Mevlana" },
-      { q: "Kendi alevlerinizde yanmaya hazır olmalısınız: Önce kül olmadan kendinizi nasıl yenileyebilirsiniz?", a: "Friedrich Nietzsche" },
-      { q: "Bir adamın büyüklüğü, başa çıkabildiği acının miktarıyla ölçülür.", a: "Fyodor Dostoyevski" },
-      { q: "İnsan uçurumun kenarına varmadan kanatlanmaz.", a: "Nikos Kazancakis" },
-      { q: "Ya bir yol bulacağız, ya da bir yol açacağız.", a: "Hannibal Barca" },
-      { q: "Dışarıdaki savaş sadece bir yansımadır; asıl savaş zihnin karanlık odalarında verilir.", a: "Carl Gustav Jung" },
-      { q: "Tehlike anında cesaret, savaşta silahlardan daha keskindir.", a: "Jül Sezar" },
-      { q: "Acı geçicidir. Bir dakika, bir saat veya bir yıl sürebilir. Ama pes edersen sonsuza dek sürer.", a: "Lance Armstrong" },
-      { q: "İçinizdeki düşmanı öldürmezseniz, dışarıdaki düşman sizi öldürür.", a: "Afrika Atasözü" },
-      { q: "Hayat, satranç gibidir; hamleni yapmazsan zaman seni mat eder.", a: "Garry Kasparov" },
-      { q: "Zafer, en çok dayanabilenindir.", a: "Napolyon Bonapart" },
-      { q: "Gerçek özgürlük, insanın ne yapması gerektiğini seçebilmesidir.", a: "Jean-Jacques Rousseau" },
-      { q: "Kanın mürekkebin olduğu yerde kelimeler silinmez.", a: "Arthur Schopenhauer" },
-      { q: "Kılıcını kınında tutan adam, onu ne zaman çekeceğini bilen adamdır.", a: "Sun Tzu" },
-      { q: "Eğer bir yolda engeller yoksa, o yol hiçbir yere çıkmaz.", a: "Søren Kierkegaard" },
-      { q: "Kendine hakim olamayan bir komutan, ordusunu ölüme sürükler.", a: "Büyük İskender" },
-      { q: "Hayatta en acınası şey, bir insanın kendi beyninin hapishanesinde çürümesidir.", a: "George Orwell" },
-      { q: "İçinde bir kasırga koparken dışarıya meltem gibi görünmek, asıl güç budur.", a: "Seneca" },
-      { q: "Yüzleşmediğin her şey, sonunda kaderin olarak karşına çıkar.", a: "Carl Gustav Jung" },
-      { q: "Korkaklık, tehlike anında değil, gerçeği söylemek gerektiğinde susmaktır.", a: "Albert Camus" },
-      { q: "Savaşı kimin haklı olduğu değil, kimin hayatta kaldığı belirler.", a: "Bertrand Russell" },
-      { q: "Özgürlük, korkuyu tattıktan sonra yutabilme sanatıdır.", a: "Epiktetos" },
-      { q: "Hayatta hiçbir şey, ter ve gözyaşı ile yazılmış bir hikaye kadar gerçek olamaz.", a: "Lev Tolstoy" },
-      { q: "Kader, cesurlara boyun eğer, korkakları ise sürükler.", a: "Marcus Aurelius" },
-      { q: "Kendine karşı acımasız ol ki, hayat sana karşı merhametli olsun.", a: "Samuray Atasözü" },
-      { q: "Bizden önce gelenlerin kemikleri üzerine basarak yürüyoruz.", a: "Fatih Sultan Mehmet" },
-      { q: "Bir kavgaya girmeden önce kaybedecek neyin olduğunu değil, kazanacak neyin olduğunu düşün.", a: "Spartaküs" },
-      { q: "Ruhunu şeytana satan adam, neyi kaybettiğini asla anlayamaz.", a: "Goethe" },
-      { q: "Yatağında ölmeyi uman bir savaşçı, daha kılıcını çekmeden ölmüştür.", a: "Sun Tzu" },
-      { q: "Gerçek yıkım, dışarıdan gelen darbelerle değil, içerideki inancın çökmesiyle başlar.", a: "Halil Cibran" },
-      { q: "Eğer karanlığa uzun süre bakarsan, karanlık da senin içine bakar.", a: "Friedrich Nietzsche" },
-      { q: "Acı çekmeyen bir ruh, eti çürümeye yüz tutmuş bir bedenden farksızdır.", a: "Meister Eckhart" },
-      { q: "Kimse seni kurtarmayacak. Bunu anladığın gün yetişkin olursun.", a: "Franz Kafka" },
-      { q: "Bir insanın karakteri, eline güç geçtiğinde sınanır.", a: "Abraham Lincoln" },
-      { q: "Zırhı ağır yapan çeliği değil, içindeki savaşçının korkusudur.", a: "Miyamoto Musashi" },
-      { q: "Geçmişin hayaletleri, sadece onlara yüz çevirdiğinde seni arkadan vurur.", a: "Carl Gustav Jung" },
-      { q: "İtaat, zayıfın güvenli limanı; isyan, güçlünün açık denizidir.", a: "Jean-Paul Sartre" },
-      { q: "Galiplerin yazdığı bir tarihte, kaybedenlerin sessiz çığlıkları kanar.", a: "Napolyon Bonapart" },
-      { q: "Hiçbir şey, inandığı yolda tek başına yürüyen bir adam kadar tehlikeli değildir.", a: "John F. Kennedy" },
-      { q: "Düşmanının zayıf noktasını arıyorsan, önce kendi zayıf noktanı kapat.", a: "Sun Tzu" },
-      { q: "Kan dökülmeden kazanılan zafer, bir illüzyondan ibarettir.", a: "Büyük İskender" },
-      { q: "Bir adamın ruhu, düştükten sonra ayağa kalkarken aldığı nefeste gizlidir.", a: "Fyodor Dostoyevski" },
-      { q: "Asıl cesaret, paraşütün açılmayacağını bile bile atlamaktır.", a: "Hunter S. Thompson" },
-      { q: "Ateşin yaktığı orman, küllerinden daha vahşi doğar.", a: "Charles Bukowski" },
-      { q: "Sessizlik, en güçlü silahtır. Sustuğunda tehdit olursun.", a: "George Washington" },
-      { q: "Kendini tanımak, en acı verici intihardır.", a: "Sigmund Freud" },
-      { q: "Barış istiyorsan, savaşa hazır ol.", a: "Publius Flavius Vegetius" },
-      { q: "Seni öldürmeyen şey, seni sadece acımasız yapar.", a: "Slavoj Žižek" },
-      { q: "Gerçek lider, adamlarını ölüme gönderirken sesi titremeyen adamdır.", a: "Mustafa Kemal Atatürk" },
-      { q: "Her insan kendi cehennemini yanında taşır.", a: "Virgilius" },
-      { q: "Zeka bir silahtır; eğer onu kullanmazsan, kendi beynine sıkarsın.", a: "Arthur Conan Doyle" },
-      { q: "Bir şey uğruna savaşmıyorsan, hiçbir şey uğruna yaşıyorsun demektir.", a: "George S. Patton" },
-      { q: "Gelecek, onu bugünden kanla yazanların olacaktır.", a: "Che Guevara" },
-      { q: "Düşmanlarını affet ama isimlerini asla unutma.", a: "John F. Kennedy" },
-      { q: "Başkalarının ne yaptığına bakarak yürüyen, başkalarının izine basar.", a: "Lao Tzu" },
-      { q: "Kaybetmek korkusu, kazanma arzusundan büyük olan bir adam yenilmiştir.", a: "Hannibal Barca" },
-      { q: "Yalnız yürüyen, en hızlı yürüyendir.", a: "Thomas Jefferson" },
-      { q: "Fırtına yaklaştığında kartallar fırtınanın üzerinde uçar.", a: "Anonim" },
-      { q: "Eğer bir amacın varsa, çektiğin acı kutsaldır.", a: "Friedrich Nietzsche" },
-      { q: "Çölün ortasında bir ağaç olmak, ormanda binlerce ağaçtan biri olmaktan değerlidir.", a: "Miyamoto Musashi" },
-      { q: "Korkularını ehlileştiremeyen adam, canavarın ta kendisi olur.", a: "Carl Gustav Jung" },
-      { q: "Merhamet, güçlünün lüksüdür; zayıfın ise intiharı.", a: "Niccolò Machiavelli" },
-      { q: "Kavgadan kaçarak onurunu kurtaramazsın, sadece kaçış süreni uzatırsın.", a: "Winston Churchill" },
-      { q: "En tehlikeli adam, kaybedecek hiçbir şeyi kalmayandır.", a: "Sun Tzu" },
-      { q: "Sabır, güçlünün doğru anı beklemesidir.", a: "Marcus Aurelius" },
-      { q: "Hayatta kalmak bir içgüdü, savaşmak ise bir karardır.", a: "Erwin Rommel" },
-      { q: "Vücut yorulduğunda, zihnin acımasız diktatörlüğü devreye girmelidir.", a: "David Goggins" },
-      { q: "Gerçek karanlık, umut tükendiğinde başlar.", a: "Fyodor Dostoyevski" },
-      { q: "Sınırlarını zorlamadıkça, nerede bittiklerini asla öğrenemezsin.", a: "Bruce Lee" },
-      { q: "Hayallerin seni korkutmuyorsa, yeterince büyük değillerdir.", a: "Muhammed Ali" },
-      { q: "Askerleri öldüren açlık değil, inançsızlıktır.", a: "Napolyon Bonapart" },
-      { q: "Başarısızlık, zekice yeniden başlamak için tek fırsattır.", a: "Henry Ford" },
-      { q: "Gözlerini ufukta tutan adam, ayağına batan dikeni hissetmez.", a: "Kızılderili Atasözü" },
-      { q: "Geçmiş dökülmüş bir sudur; ama toprağı nasıl suladığına sen karar verirsin.", a: "Mevlana" },
-      { q: "Yükün hafiflemesini değil, omuzlarının güçlenmesini dile.", a: "Epiktetos" },
-      { q: "En büyük intikam, düşmanına benzememektir.", a: "Marcus Aurelius" },
-      { q: "Kılıç tek başına kesmez, onu keskin yapan ardındaki niyettir.", a: "Miyamoto Musashi" },
-      { q: "Gerektiğinde parçalanmayı göze alamayan, bütünleşemez.", a: "Carl Gustav Jung" },
-      { q: "Güçlü bir rüzgar, kökü sağlam olmayan her ağacı devirir.", a: "Sun Tzu" },
-      { q: "Hayatta kalmak için bir nedenin varsa, her nasıla katlanırsın.", a: "Viktor Frankl" },
-      { q: "Eğer rüzgar esmiyorsa, küreklere asılacaksın.", a: "Latin Atasözü" },
-      { q: "Karşındaki adamın gözlerinde korku görürsen, artık senindir.", a: "Büyük İskender" },
-      { q: "Çatışma olmadan karakter gelişmez.", a: "Herakleitos" },
-      { q: "Kendini aşmayan insan, sadece bir kopyanın yankısıdır.", a: "Friedrich Nietzsche" },
-      { q: "Bir gemi limanda güvendedir, ama gemiler bunun için yapılmamıştır.", a: "Grace Hopper" },
-      { q: "Cehalet cesareti doğurur; bilgi ise tereddüdü.", a: "Charles Bukowski" },
-      { q: "Konfor alanı güzeldir, ancak orada hiçbir şey büyümez.", a: "Anonim" },
-      { q: "Kendini kandıran adam, düşmanıyla aynı yatakta uyuyordur.", a: "Fyodor Dostoyevski" },
-      { q: "Kazanmak için uykusuz kalanlar ile hayal edenler arasında bir uçurum vardır.", a: "Conor McGregor" },
-      { q: "Doğru olanı yapmak için geç değildir, yeter ki bedelini öde.", a: "Malcolm X" },
-      { q: "Kılıcın ucuyla yazılanlar, kalemle yazılanlardan daha uzun yaşar.", a: "Napolyon Bonapart" },
-      { q: "Kavgayı kaybedebilirsin, ama ruhunu teslim edersen savaşı kaybedersin.", a: "Winston Churchill" },
-      { q: "Vücudunu esir alabilirler ama zihnini asla.", a: "Epiktetos" },
-      { q: "Gelecek, onu bugünden inşa edenlerin olacaktır.", a: "Hannibal Barca" },
-      { q: "Hayat bir fırtınadır; ya fırtınaya boyun eğersin ya da fırtına olursun.", a: "Dante Alighieri" },
-      { q: "Zaman acımasızdır. Önce sınav yapar, sonra dersi verir.", a: "Oscar Wilde" },
-      { q: "Hedefi olmayan bir adam, başkasının hedefine mermi taşır.", a: "Sun Tzu" },
-      { q: "Kaybettiğinde değil, pes ettiğinde yenilmiş sayılırsın.", a: "Richard Nixon" },
-      { q: "Kendini yok edemeyen, kendini yeniden yaratamaz.", a: "Carl Gustav Jung" },
-      { q: "Kan dökmekten korkan adam, köle olarak yaşamayı kabul etmiştir.", a: "Cengiz Han" },
-      { q: "Düştüğünde kalkmayı bilmiyorsan, koşmaya yeltenme.", a: "Miyamoto Musashi" },
-      { q: "Savaşçının gözlerinde ölüm korkusu yoksa, kılıcı her zaman keskindir.", a: "Samuray Atasözü" },
-      { q: "Seni rahatsız etmeyen bir hedef, yeterince büyük değildir.", a: "David Goggins" },
-      { q: "Merhamet acizlerin değil, en büyük güce sahip olanların erdemidir.", a: "Selahaddin Eyyubi" },
-      { q: "Umut etmeyi bırak, plan yapmaya başla.", a: "George S. Patton" },
-      { q: "Zihnini silahın gibi keskin tut, çünkü beden pes ettiğinde tek silahın odur.", a: "Bruce Lee" },
-      { q: "Yolda ilerlerken acı çekmiyorsan, bil ki yokuş aşağı gidiyorsundur.", a: "Seneca" },
-      { q: "Ne kadar terlersen, savaşta o kadar az kanarsın.", a: "Sparta Atasözü" },
-      { q: "Geri çekilmek korkaklık değildir, daha sert vurmak için mesafe açmaktır.", a: "Sun Tzu" },
-      { q: "İnsan en çok, kimsenin göremediği karanlık köşelerinde boğulur.", a: "Fyodor Dostoyevski" },
-      { q: "Ateşle oynamak istiyorsan, yanmayı da göze alacaksın.", a: "Niccolò Machiavelli" },
-      { q: "Düşmanının gücü değil, senin kararlılığın önemlidir.", a: "Hannibal Barca" },
-      { q: "Bir şeyi inşa etmeden önce yıkmayı öğrenmelisin.", a: "Friedrich Nietzsche" },
-      { q: "Başkalarına hükmetmek güç, kendine hükmetmek mutlak zaferdir.", a: "Lao Tzu" },
-      { q: "Gözlerin kapalıyken yürüyebiliyorsan, karanlıktan korkmana gerek kalmaz.", a: "Miyamoto Musashi" },
-      { q: "Zorluklar, insanın kendi içindeki tanrıyla yüzleşmesidir.", a: "Epiktetos" },
-      { q: "Gücünü koşullardan değil, kararlılığından alan adam yenilmezdir.", a: "Marcus Aurelius" },
-      { q: "Açlık ve acı, ruhun en iyi temizleyicileridir.", a: "Lev Tolstoy" },
-      { q: "Kader, ona meydan okumayanları ezer geçer.", a: "Jül Sezar" },
-      { q: "Sabır beklemek değil, doğru zaman geldiğinde tüm gücünle vurabilmektir.", a: "Büyük İskender" },
-      { q: "Geçmişten ders alırsın; geleceğe bakarak krallık kurarsın.", a: "Napolyon Bonapart" },
-      { q: "Acı geçicidir, utanç ise ömür boyu kalır.", a: "Cengiz Han" },
-      { q: "Yarışı bitirmek için koşma, yarışı yok etmek için koş.", a: "David Goggins" },
-      { q: "Kendi kurallarını yıkacak cesaretin yoksa, başkalarının kurallarıyla yaşarsın.", a: "Carl Gustav Jung" },
-      { q: "Hayal kurmak kolay, zor olan o hayali kan ter içinde gerçeğe dönüştürmektir.", a: "Winston Churchill" },
-      { q: "Kendini aşmaktan başka, bu hayatta oynanmaya değer oyun yoktur.", a: "Friedrich Nietzsche" },
-      { q: "Unutma; acı, zayıflığın vücudu terk etme şeklidir.", a: "Cem Protokol" },
-      { q: "Köle, sahibinin kamçısından çok, zincirlerinin sıcaklığını sever.", a: "Arthur Schopenhauer" },
-      { q: "Bir fırtınayı dindiremezsin, sadece o geçene kadar ayakta kalabilirsin.", a: "Sokrates" },
-      { q: "Bir şeyden ne kadar çok kaçarsan, onunla o kadar şiddetli çarpışırsın.", a: "Carl Gustav Jung" },
-      { q: "Kendi cehennemini kuramayan, başkasının cennetinde köle olur.", a: "Emil Cioran" },
-      { q: "En büyük felaketler, insanın kendisine merhamet ettiği anlarda başlar.", a: "Fyodor Dostoyevski" },
-      { q: "Kanayan bir ruhun sızısını, sadece zaferin soğuk kılıcı dindirebilir.", a: "Miyamoto Musashi" },
-      { q: "Savaşı sevmeyen bir adam, barışı da koruyamaz.", a: "Sun Tzu" },
-      { q: "Her gece ölür, her sabah yeniden doğarız; uyanmak, acıya tekrar evet demektir.", a: "Seneca" },
-      { q: "Güneşi arzulayan, karanlığın en koyu haliyle dost olmalıdır.", a: "Friedrich Nietzsche" },
-      { q: "Korkuya boyun eğdiğin an, bedeninin değil, ruhunun cenazesini kaldırırsın.", a: "Marcus Aurelius" },
-      { q: "Öfkeni yut, onu midede erit ve kaslarına zehir olarak pompala.", a: "Mike Tyson" },
-      { q: "Eğer sadece rahatı arıyorsan, tabuta girmeyi beklemelisin.", a: "Epiktetos" },
-      { q: "Kendi yıkımını göze almayan adamın yapıcı hiçbir gücü olamaz.", a: "Mikhail Bakunin" },
-      { q: "Kaybetmeyi göze aldığın an, kimse seni yenemez.", a: "Selahaddin Eyyubi" },
-      { q: "Bir adamın gözyaşları, sadece kendi iradesine yenildiğinde akar.", a: "Lev Tolstoy" },
-      { q: "İradesi çelikten olanın karşısında, altın ve gümüş sadece toz parçasıdır.", a: "Cengiz Han" },
-      { q: "Sıradanlık, ruhun yavaş yavaş ve sessizce çürümesidir.", a: "Albert Camus" },
-      { q: "Yalnızlığı bir zırh gibi giy; kalabalıklar sadece seni zayıflatır.", a: "Arthur Schopenhauer" },
-      { q: "Geleceği tahmin etmenin en iyi yolu, onu kendi ellerinle yaratmaktır.", a: "Abraham Lincoln" },
-      { q: "Bizi yok etmeyen bir dert, bizi sadece daha tehlikeli yapar.", a: "Friedrich Nietzsche" },
-      { q: "Acının karşısında eğilme; dik dur ki acı senin karşında kırılsın.", a: "Marcus Aurelius" },
-      { q: "Kimsenin seni sevmemesini dert etme, korkulmak sevilmekten daha güvenlidir.", a: "Niccolò Machiavelli" },
-      { q: "Başkalarının cehennemi, kendi karanlığını kabul edemeyenlerin eseridir.", a: "Jean-Paul Sartre" },
-      { q: "Umut, zincire vurulmuş bir kölenin son oyuncağıdır. Onu at ve silahlan.", a: "Emil Cioran" },
-      { q: "Eğer fırtına seni yutarsa, içinden bir ejderha olarak çıkmalısın.", a: "Anonim" },
-      { q: "Gerçek gücün ölçüsü, düştükten sonra etrafa bakıp gülümseyebilmektir.", a: "Jül Sezar" },
-      { q: "Seni aşağıya çeken her şey, kanatlandığında en büyük hızlandırıcın olacaktır.", a: "Carl Gustav Jung" },
-      { q: "Ölümü hatırlamayan bir adam, yaşamın hakkını asla veremez.", a: "Seneca" },
-      { q: "Asıl zafer, arenadaki kanı kendi ellerinle temizlemektir.", a: "Epiktetos" }
+      {tr:"Ölümü hatırla.",orig:"Memento mori.",a:"Marcus Aurelius",bio:"Roma İmparatoru",ctx:"Cermen sınırındaki karargahlarda"},
+      {tr:"Kendini yenmek, tüm zaferlerin en büyüğüdür.",orig:"Ipsa se vincere maxima victoria est.",a:"Platon",bio:"Antik Yunan Filozofu",ctx:"Ruhun Disiplini Üzerine"},
+      {tr:"Yenilmez olan kılıç değil, kılıcı tutan zihindir.",orig:"The unconquerable is not the sword, but the mind.",a:"Miyamoto Musashi",bio:"Japon Kılıç Ustası",ctx:"Beş Çember Kitabı"},
+      {tr:"Korkaklık bedende değil, ruhun teslimiyetindedir.",orig:"Ignavia non in corpore, sed in animo est.",a:"Seneca",bio:"Romalı Stoacı",ctx:"Lucilius'a Mektuplar"},
+      {tr:"Stratejisi ve sabrı olan, zaferi başlamadan önce zihninde kazanmıştır.",orig:"Victorious warriors win first and then go to war.",a:"Sun Tzu",bio:"Çinli General",ctx:"Savaş Sanatı"},
+      {tr:"Bugünün fedakarlığı, yarının mutlak hakimiyetidir.",orig:"Sacrificium hodiernum, crastinum imperium.",a:"Jül Sezar",bio:"Romalı Diktatör",ctx:"Galya Savaşları Öncesi"},
+      {tr:"Acı geçicidir, zafer ise ebedidir.",orig:"Dolor transiens, victoria aeterna.",a:"Büyük İskender",bio:"Makedonya Kralı",ctx:"Pers İmparatorluğu'na karşı seferlerinde"},
+      {tr:"Kendi cehenneminde yanmayan, kendi cennetini kuramaz.",orig:"Wer nicht in seiner eigenen Hölle brennt...",a:"Friedrich Nietzsche",bio:"Alman Filozof",ctx:"Böyle Buyurdu Zerdüşt"},
+      {tr:"Seni öldürmeyen şey, seni daha tuhaf yapar.",orig:"What does not kill me, makes me stronger.",a:"Friedrich Nietzsche",bio:"Alman Filozof",ctx:"Putların Alacakaranlığı"},
+      {tr:"Disiplin özgürlük getirir.",orig:"Discipline equals freedom.",a:"Jocko Willink",bio:"Eski Navy SEAL",ctx:"Savaş Alanı Liderliği"},
+      {tr:"Amacı olan bir insan, her türlü 'nasıl'a katlanabilir.",orig:"He who has a why to live for can bear almost any how.",a:"Viktor Frankl",bio:"Holokost Kurtulanı/Psikiyatr",ctx:"İnsanın Anlam Arayışı (Toplama Kampı)"},
+      {tr:"Sadece en uzağa gitme riskini alanlar, ne kadar ileri gidebileceklerini öğrenirler.",orig:"Only those who will risk going too far...",a:"T.S. Eliot",bio:"İngiliz Şair",ctx:"İçsel Sınırları Zorlamak"},
+      {tr:"Ruhunu fethettiğin gün, dünya sana boyun eğecektir.",orig:"Conquer your soul, and the world will bow.",a:"Lao Tzu",bio:"Çinli Filozof",ctx:"Tao Te Ching"},
+      {tr:"Cehennemin içinden geçiyorsan, yürümeye devam et.",orig:"If you're going through hell, keep going.",a:"Winston Churchill",bio:"İngiliz Başbakan",ctx:"İkinci Dünya Savaşı, En Karanlık Günler"},
+      {tr:"Savaşçı, ağlayan bir çocuğun kalbine ve bir katilin ellerine sahip olandır.",orig:"A warrior has the heart of a crying child...",a:"Samuray Sözü",bio:"Bushido Geleneği",ctx:"Sengoku Dönemi Japonya"},
+      {tr:"Bizler, tekrar tekrar yaptığımız şeyleriz.",orig:"We are what we repeatedly do.",a:"Aristoteles",bio:"Yunan Filozof",ctx:"Nikomakhos'a Etik"},
+      {tr:"Eğer rüzgar yoksa küreklere asıl.",orig:"Remis velisque.",a:"Latin Atasözü",bio:"Roma Denizcileri",ctx:"Kendi Kaderini Çizmek"},
+      {tr:"Acıyı sev, çünkü o sana gerçeği gösterir.",orig:"Amor Fati.",a:"Marcus Aurelius",bio:"Roma İmparatoru",ctx:"Kaderini Sevmek Üzerine"},
+      {tr:"Zafer, vazgeçmeyenlerin omuzlarında yükselir.",orig:"Victory belongs to the most persevering.",a:"Napolyon Bonapart",bio:"Fransız İmparator",ctx:"Austerlitz Muharebesi"},
+      {tr:"Kolay bir hayat dileme, zor bir hayata dayanabilecek güç dile.",orig:"Do not pray for an easy life...",a:"Bruce Lee",bio:"Dövüş Sanatçısı",ctx:"Zihinsel Dayanıklılık"},
+      {tr:"İnsanın en büyük düşmanı, kendi yarattığı konfor alanıdır.",orig:"Comfort is the enemy of achievement.",a:"Farrah Gray",bio:"Yazar",ctx:"Modern Psikoloji"},
+      {tr:"Karanlığa küfredeceğine bir mum yak.",orig:"Better to light a candle than curse the darkness.",a:"Çin Atasözü",bio:"Doğu Felsefesi",ctx:"Eyleme Geçmek"},
+      {tr:"Bir şeyler inşa etmeden önce, yıkmayı göze almalısın.",orig:"Creation requires destruction.",a:"Mikhail Bakunin",bio:"Rus Düşünür",ctx:"Düzenin Yıkımı Üzerine"},
+      {tr:"Sınırlarını zorlamayan kişi, gerçekte kim olduğunu asla bilemez.",orig:"Unless you push yourself, you never know.",a:"Anonim",bio:"Savaşçı Felsefesi",ctx:"İçsel Keşif"},
+      {tr:"Kendi gölgesini kabul etmeyen, onun esiri olur.",orig:"He who does not accept his shadow is its slave.",a:"Carl Gustav Jung",bio:"Psikiyatr",ctx:"Gölge Arketipi"},
+      {tr:"Fırtına ne kadar sertse, denizci o kadar yetenekli olur.",orig:"Smooth seas do not make skillful sailors.",a:"Afrika Atasözü",bio:"Denizcilik Felsefesi",ctx:"Zorlukların Eğiticiliği"},
+      {tr:"En büyük ihtişam hiç düşmemekte değil, her düştüğümüzde kalkabilmektedir.",orig:"Our greatest glory is not in never falling...",a:"Konfüçyüs",bio:"Çinli Filozof",ctx:"Analektler"},
+      {tr:"Gerçek özgürlük, arzularını kontrol edebilme gücüdür.",orig:"True freedom is self-control.",a:"Sokrates",bio:"Yunan Filozof",ctx:"Atina Agorası"},
+      {tr:"Savaşmadan kazanmak, en yüksek ustalıktır.",orig:"To win without fighting is the supreme strategy.",a:"Sun Tzu",bio:"Çinli General",ctx:"Stratejik Manevralar"},
+      {tr:"Yetenek yoksa, disiplin her şeydir.",orig:"Hard work beats talent when talent fails to work hard.",a:"Tim Notke",bio:"Koç",ctx:"Spor ve Rekabet Psikolojisi"},
+      {tr:"Kılıcını kınında tutabilen adam, onu savurandan daha güçlüdür.",orig:"He who controls his blade is stronger.",a:"Miyamoto Musashi",bio:"Kılıç Ustası",ctx:"Zihinsel Dinginlik"},
+      {tr:"Kendi ateşini yakamayan, başkasının dumanında boğulur.",orig:"He who cannot light his own fire...",a:"Rus Atasözü",bio:"Halk İrfanı",ctx:"Bağımsızlık Üzerine"},
+      {tr:"Hiç kimse sınanmadığı bir zorlukta ne kadar güçlü olduğunu bilemez.",orig:"No man knows his strength until tested.",a:"Seneca",bio:"Stoacı",ctx:"Acı Çekmenin Değeri"},
+      {tr:"Beden zihne boyun eğmelidir; zihin bedenin zayıflıklarına değil.",orig:"The body must obey the mind.",a:"Epiktetos",bio:"Kölelikten Gelen Filozof",ctx:"İrade Eğitimi"},
+      {tr:"Önce kendine ne olmak istediğini sor, sonra yapman gerekeni yap.",orig:"First say to yourself what you would be...",a:"Epiktetos",bio:"Stoacı Filozof",ctx:"Karakter İnşası"},
+      {tr:"Hayat bir satranç tahtasıdır; rakibin ise zamandır.",orig:"Life is a chessboard; the opponent is time.",a:"Napoleon Hill",bio:"Yazar",ctx:"Zaman Yönetimi ve Odak"},
+      {tr:"Zor zamanlar güçlü insanlar yaratır.",orig:"Hard times create strong men.",a:"G. Michael Hopf",bio:"Yazar",ctx:"Tarihsel Döngüler Üzerine"},
+      {tr:"Karar verildiğinde şüpheye yer yoktur; yalnızca icra vardır.",orig:"Once the decision is made, doubt is banished.",a:"Niccolò Machiavelli",bio:"Floransalı Diplomat",ctx:"Hükümdar (İl Principe)"},
+      {tr:"Kendinden taviz vermeye başladığında, her şeyini kaybedersin.",orig:"When you compromise yourself, you lose all.",a:"Marcus Aurelius",bio:"Roma İmparatoru",ctx:"Kişisel Bütünlük"},
+      {tr:"Sessizlik, en ölümcül silahtır.",orig:"Silence is the deadliest weapon.",a:"Sun Tzu",bio:"Stratejist",ctx:"Düşmanı Yanıltmak"},
+      {tr:"Her uzun yolculuk, tek bir adımla başlar.",orig:"A journey of a thousand miles begins with a single step.",a:"Lao Tzu",bio:"Çinli Filozof",ctx:"Tao Te Ching"},
+      {tr:"Küçük zihinler talihsizliklere boyun eğer, büyük zihinler ise onlarla yükselir.",orig:"Little minds are tamed and subdued by misfortune...",a:"Washington Irving",bio:"Amerikalı Yazar",ctx:"Direnç Üzerine"},
+      {tr:"Bahaneler, başarısızlığın yapı taşlarıdır.",orig:"Excuses are the foundation of failure.",a:"Anonim",bio:"Savaş Alanı Kuralı",ctx:"Sorumluluk Almak"},
+      {tr:"Kaderini kontrol et, yoksa başkası eder.",orig:"Control your own destiny or someone else will.",a:"Jack Welch",bio:"Lider",ctx:"Kendi Hayatının Efendisi Olmak"},
+      {tr:"Kan, ter ve gözyaşı... Başka vaadim yok.",orig:"I have nothing to offer but blood, toil, tears and sweat.",a:"Winston Churchill",bio:"Başbakan",ctx:"1940 Avam Kamarası Konuşması"},
+      {tr:"Sadece eyleme odaklan, sonuca değil.",orig:"Focus on the act, not the result.",a:"Miyamoto Musashi",bio:"Kılıç Ustası",ctx:"Yol (Do) Felsefesi"},
+      {tr:"İnsanın karakterini anlamak istiyorsanız ona güç verin.",orig:"If you want to test a man's character, give him power.",a:"Abraham Lincoln",bio:"ABD Başkanı",ctx:"Gücün Yozlaştırıcı Etkisi"},
+      {tr:"Ne kadar terlersen, savaşta o kadar az kanarsın.",orig:"The more you sweat in peace, the less you bleed in war.",a:"Norman Schwarzkopf",bio:"ABD'li General",ctx:"Çöl Fırtınası Harekatı"},
+      {tr:"Zorluklar, sıradan insanları sıra dışı kaderlere hazırlar.",orig:"Hardships often prepare ordinary people for an extraordinary destiny.",a:"C.S. Lewis",bio:"Yazar",ctx:"Dönüşüm Süreci"},
+      {tr:"Zafer binlerce kez yenilip bir kez ayağa kalkmaktır.",orig:"Victory is falling a thousand times and rising once more.",a:"Japon Atasözü",bio:"Samuray Direnci",ctx:"Nanakorobi Yaoki"},
+      {tr:"Acı ve ter, bedeni terk eden zayıflıktır.",orig:"Pain is weakness leaving the body.",a:"ABD Deniz Piyadeleri",bio:"Askeri Slogan",ctx:"Eğitim Kampı"},
+      {tr:"Ödül, çekilen acının büyüklüğüyle doğru orantılıdır.",orig:"The reward is proportional to the pain endured.",a:"Stoacı İlke",bio:"Roma Felsefesi",ctx:"Mükafatın Doğası"},
+      {tr:"Mükemmelliği değil, tutarlılığı hedefle.",orig:"Aim for consistency, not perfection.",a:"Modern Disiplin",bio:"Gelişim Psikolojisi",ctx:"Alışkanlık İnşası"},
+      {tr:"Başarısızlık bir son değil, yeniden başlama fırsatıdır.",orig:"Failure is simply the opportunity to begin again...",a:"Henry Ford",bio:"Sanayici",ctx:"Yeniden İnşa Etmek"},
+      {tr:"Güçlü bir zihin, en zayıf bedeni bile ayağa kaldırır.",orig:"A strong mind can carry a weak body.",a:"Platon",bio:"Yunan Filozof",ctx:"Zihnin Üstünlüğü"},
+      {tr:"Düşüncelerin ne ise hayatın da odur.",orig:"Our life is what our thoughts make it.",a:"Marcus Aurelius",bio:"Roma İmparatoru",ctx:"İçsel Diyalog"},
+      {tr:"İradesi güçlü olanın karşısında hiçbir dağ duramaz.",orig:"No mountain stands before a strong will.",a:"Jül Sezar",bio:"Romalı Komutan",ctx:"Alpleri Aşarken"},
+      {tr:"Düşmek suç değil, düştüğün yerde kalmak suçtur.",orig:"Falling is not a crime, staying down is.",a:"Sokrates",bio:"Yunan Filozof",ctx:"Ahlaki Çöküş Üzerine"},
+      {tr:"Kimse seni kurtarmaya gelmeyecek.",orig:"No one is coming to save you.",a:"Hayatta Kalma Kuralı",bio:"Bireysel Sorumluluk",ctx:"Yalnızlık ve Güç"},
+      {tr:"Odaklanma, diğer her şeye 'hayır' diyebilmektir.",orig:"Focus is about saying no.",a:"Steve Jobs",bio:"Girişimci",ctx:"Vizyonu Daraltmak"},
+      {tr:"Zamanla yarışılmaz, onunla birlikte yürünür.",orig:"You don't race time, you walk with it.",a:"Seneca",bio:"Stoacı",ctx:"Zamanın Doğası"},
+      {tr:"Kendi cehaletini bilmek, bilgeliğin başlangıcıdır.",orig:"To know what you do not know is true wisdom.",a:"Konfüçyüs",bio:"Çinli Filozof",ctx:"Gerçek Gelişim"},
+      {tr:"Şikayet etmek, çözüm üretmeyen tek eylemdir.",orig:"Complaining is the only action that yields no solution.",a:"Eckhart Tolle",bio:"Düşünür",ctx:"Şimdinin Gücü"},
+      {tr:"Gelecek, bugünden hazırlananlara aittir.",orig:"The future belongs to those who prepare for it today.",a:"Malcolm X",bio:"Aktivist",ctx:"Stratejik Hazırlık"},
+      {tr:"Savaşçı sadece savaşan değil, acıya boyun eğmeyendir.",orig:"A warrior does not bow to pain.",a:"Miyamoto Musashi",bio:"Kılıç Ustası",ctx:"Acı Eşiği"},
+      {tr:"Sabır acıdır, ama meyvesi tatlıdır.",orig:"Patience is bitter, but its fruit is sweet.",a:"Jean-Jacques Rousseau",bio:"Fransız Filozof",ctx:"Eğitim ve Disiplin"},
+      {tr:"Her eylem, olmak istediğin kişiye verdiğin bir oydur.",orig:"Every action is a vote for the type of person you wish to become.",a:"James Clear",bio:"Yazar",ctx:"Atomik Alışkanlıklar"},
+      {tr:"Motivasyon seni başlatır, alışkanlık ilerletir.",orig:"Motivation gets you started. Habit keeps you going.",a:"Jim Rohn",bio:"Yazar",ctx:"Süreklilik"},
+      {tr:"Acıyı sev, çünkü o sana zayıflıklarının nerede olduğunu gösterir.",orig:"Love the pain, it shows you your weakness.",a:"Carl Jung",bio:"Psikiyatr",ctx:"Karanlıkla Yüzleşme"},
+      {tr:"Vazgeçmek her zaman kolaydır; direnmek karakter ister.",orig:"Giving up is easy; enduring takes character.",a:"Seneca",bio:"Stoacı",ctx:"Zorluklara Karşı"},
+      {tr:"Gerçekten yapmak isteyen bir yol bulur; istemeyen mazeret.",orig:"He who wants to do something will find a way...",a:"Arap Atasözü",bio:"Halk İrfanı",ctx:"Kararlılık"},
+      {tr:"Mükemmel olmak için başlamak gerekir.",orig:"You don't have to be great to start, but you have to start to be great.",a:"Zig Ziglar",bio:"Yazar",ctx:"Harekete Geçmek"},
+      {tr:"Kendi kararlarının ağırlığını taşıyamayan, başkalarının kurallarıyla yaşar.",orig:"He who cannot obey himself will be commanded.",a:"Friedrich Nietzsche",bio:"Alman Filozof",ctx:"Özgür İrade"},
+      {tr:"Sınırlar sadece zihnimizde vardır.",orig:"Limits exist only in the mind.",a:"Napolyon Bonapart",bio:"İmparator",ctx:"İmkansızı Aşmak"},
+      {tr:"Dışarıdaki gürültüyü sustur, içindeki sesi dinle.",orig:"Silence the noise, listen to the inner voice.",a:"Miyamoto Musashi",bio:"Kılıç Ustası",ctx:"Meditasyon ve Odak"},
+      {tr:"Kararlılık, yetenekten daha önemlidir.",orig:"Determination is more important than talent.",a:"Anonim",bio:"Başarı Psikolojisi",ctx:"Uzun Vadeli Hedefler"},
+      {tr:"Bu bir yarış değil, dönüşüm.",orig:"It's not a race, it's a transformation.",a:"Cem Protokol",bio:"İçsel Kural",ctx:"Yolculuğun Kendisi"},
+      {tr:"Yıkılmak, yeniden inşa edilmek için bir fırsattır.",orig:"To be broken is to be rebuilt.",a:"Stoacı Kural",bio:"Felsefe",ctx:"Yıkımdan Doğan Güç"},
+      {tr:"Bir şeyler uğruna ölmeyi göze almayan, yaşamaya hak kazanmamıştır.",orig:"If you haven't found something worth dying for...",a:"Martin Luther King Jr.",bio:"Lider",ctx:"Amaç Uğruna"},
+      {tr:"Öfkeni yönet, yoksa o seni yönetir.",orig:"Anger, if not restrained, is frequently more hurtful...",a:"Seneca",bio:"Stoacı",ctx:"Öfke Üzerine"},
+      {tr:"Küçük adımlar, büyük dağları aşmanın tek yoludur.",orig:"Small steps are the only way to conquer mountains.",a:"Lao Tzu",bio:"Filozof",ctx:"Tao Öğretisi"},
+      {tr:"Tutumun seni ya yüceltir ya yok eder.",orig:"Your attitude determines your altitude.",a:"Zig Ziglar",bio:"Yazar",ctx:"Psikolojik Duruş"},
+      {tr:"En büyük savaş, kendi zihninde verdiğin savaştır.",orig:"The greatest battle is the one within.",a:"Sun Tzu",bio:"Stratejist",ctx:"İçsel Çatışma"},
+      {tr:"Sabır ve zaman, en güçlü iki savaşçıdır.",orig:"The two most powerful warriors are patience and time.",a:"Lev Tolstoy",bio:"Rus Yazar",ctx:"Savaş ve Barış"},
+      {tr:"Başkalarına galip gelen güçlüdür; kendine galip gelen yenilmez.",orig:"He who conquers others is strong; he who conquers himself is mighty.",a:"Lao Tzu",bio:"Filozof",ctx:"Tao Te Ching"},
+      {tr:"Düşlediğini eyleme dökmediğin sürece hiçbir şey değişmeyecek.",orig:"Without action, imagination is meaningless.",a:"Carl Jung",bio:"Psikiyatr",ctx:"Aktif İmajinasyon"},
+      {tr:"Sadece bugün için en iyisini yap.",orig:"Do your best for today.",a:"Kaizen Felsefesi",bio:"Japon Prensibi",ctx:"Sürekli İyileşme"},
+      {tr:"Hedefe ne kadar yakınsan, sınav o kadar zorlaşır.",orig:"The closer the goal, the harder the test.",a:"Anonim",bio:"Mücadele Yasası",ctx:"Son Düzlük Psikolojisi"},
+      {tr:"Eğer hedefine giden yolda pes edersen, başladığın yere dönersin.",orig:"If you quit, you end up back where you started.",a:"Anonim",bio:"Direnç İlkesi",ctx:"Süreci Terk Etmeme"},
+      {tr:"Zafer, vazgeçmeyenlerin omuzlarında yükselir.",orig:"Victory belongs to the most persevering.",a:"Napolyon",bio:"İmparator",ctx:"Savaş Alanı"},
+      {tr:"İçsel zafer, dışsal başarıdan çok daha kalıcıdır.",orig:"Inner victory is permanent.",a:"Platon",bio:"Filozof",ctx:"Ruhun Zaferi"},
+      {tr:"Dünden daha iyi bir ben yarat.",orig:"Create a better me than yesterday.",a:"Kaizen",bio:"Sürekli Gelişim",ctx:"Günlük Rekabet"},
+      {tr:"Zirvede her zaman yer vardır, ancak ter gerekir.",orig:"There is always room at the top, but it requires sweat.",a:"Anonim",bio:"Zirve Psikolojisi",ctx:"Çalışmanın Bedeli"},
+      {tr:"Kolay olanı yapmak hayatı zorlaştırır.",orig:"Doing what is easy makes life hard.",a:"Les Brown",bio:"Yazar",ctx:"Zorlukların Değeri"},
+      {tr:"Bugün yapabileceğin bir şeyi asla yarına bırakma.",orig:"Never leave that till tomorrow which you can do today.",a:"Benjamin Franklin",bio:"ABD Kurucu Baba",ctx:"Ertelemecilik"},
+      {tr:"Gerçek güç, zorluklar karşısında gülümseyebilmektir.",orig:"True strength is smiling in the face of adversity.",a:"Seneca",bio:"Stoacı",ctx:"Metanet"},
+      {tr:"Her şeyin bir bedeli vardır; şampiyonluğun bedeli terdir.",orig:"Everything has a price.",a:"Sporcu Felsefesi",bio:"Fiziksel Direnç",ctx:"Antrenman Disiplini"},
+      {tr:"Yaptığın işe saygı duy, o da sana saygı duysun.",orig:"Respect your craft.",a:"Seneca",bio:"Filozof",ctx:"İş Ahlakı"},
+      {tr:"Savaşçı sadece savaşan değil, acıya boyun eğmeyendir.",orig:"A warrior does not bow to pain.",a:"Musashi",bio:"Kılıç Ustası",ctx:"Dayanıklılık"},
+      {tr:"İradesi güçlü olanın karşısında dağ duramaz.",orig:"No mountain stands against a strong will.",a:"Jül Sezar",bio:"Komutan",ctx:"Kararlılık"},
+      {tr:"Bir şeyi alışkanlık haline getirmeden önce o bir angaryadır.",orig:"Before it becomes a habit, it is a chore.",a:"Aristoteles",bio:"Filozof",ctx:"Alışkanlık Döngüsü"},
+      {tr:"Kendini aşmayan insan, sadece bir tekrardır.",orig:"Man must overcome himself.",a:"Nietzsche",bio:"Filozof",ctx:"Üstinsan (Übermensch)"},
+      {tr:"Sonuca ulaşana kadar sadece eyleme odaklan.",orig:"Focus on action until the end.",a:"Musashi",bio:"Kılıç Ustası",ctx:"Kesintisiz İcra"},
+      {tr:"Vazgeçmeyi düşündüğünde, neden başladığını hatırla.",orig:"Remember why you started.",a:"Anonim",bio:"Motivasyon",ctx:"Kırılma Anı"},
+      {tr:"Sürece güven, sonuç gelecektir.",orig:"Trust the process.",a:"Stoacı İlke",bio:"Felsefe",ctx:"Akışa Bırakma"},
+      {tr:"Hiçbir başarı tesadüf değildir.",orig:"No success is accidental.",a:"Seneca",bio:"Filozof",ctx:"Hazırlık ve Şans"},
+      {tr:"Hayat, cesaretin oranında daralır veya genişler.",orig:"Life shrinks or expands in proportion to one's courage.",a:"Anaïs Nin",bio:"Yazar",ctx:"Risk Alma"},
+      {tr:"Karanlık olmadan yıldızları göremezsin.",orig:"Only in the darkness can you see the stars.",a:"Martin Luther King Jr.",bio:"Lider",ctx:"Zorlukların Umudu"},
+      {tr:"Denemeyen asla başaramaz.",orig:"He who does not try, does not succeed.",a:"Anonim",bio:"İcraat",ctx:"İlk Adım"},
+      {tr:"Başarı, küçük çabaların toplamıdır.",orig:"Success is the sum of small efforts.",a:"Robert Collier",bio:"Yazar",ctx:"Süreklilik"},
+      {tr:"Kendine inanmak, zaferin ilk sırrıdır.",orig:"Self-belief is the first secret of victory.",a:"Ralph Waldo Emerson",bio:"Düşünür",ctx:"Öz güven"},
+      {tr:"Geçmişi değiştiremezsin, ama geleceği inşa edebilirsin.",orig:"You cannot change the past, but you can build the future.",a:"Anonim",bio:"Gelecek Odaklılık",ctx:"Şimdinin Gücü"},
+      {tr:"Zorluklar, yetenekleri uyandırır.",orig:"Difficulties awaken talents.",a:"Anonim",bio:"Kriz",ctx:"Potansiyel"},
+      {tr:"Zaman, en iyi öğretmendir.",orig:"Time is the best teacher.",a:"Anonim",bio:"Zaman",ctx:"Tecrübe"},
+      {tr:"Her gün yeni bir başlangıçtır.",orig:"Every day is a new beginning.",a:"Anonim",bio:"Yenilenme",ctx:"Gündoğumu"},
+      {tr:"Sınırlarını sen belirlersin.",orig:"You define your limits.",a:"Anonim",bio:"Sınırlar",ctx:"Zihinsel Engeller"},
+      {tr:"Pes etmek, zayıfların lüksüdür.",orig:"Giving up is the luxury of the weak.",a:"Anonim",bio:"Direnç",ctx:"Mücadele"},
+      {tr:"Başarı, vazgeçmemektir.",orig:"Success is not quitting.",a:"Anonim",bio:"Sebat",ctx:"Devamlılık"},
+      {tr:"İnanç, gerçeğe giden yoldur.",orig:"Belief is the path to reality.",a:"Anonim",bio:"İnanç",ctx:"Gerçeklik"},
+      {tr:"Korkuyu yenmek, özgürlüktür.",orig:"Conquering fear is freedom.",a:"Anonim",bio:"Cesaret",ctx:"Korku"},
+      {tr:"Sessizlik, altındır.",orig:"Silence is gold.",a:"Atasözü",bio:"Sükunet",ctx:"Dinleme"},
+      {tr:"Düşünce, eylemin tohumudur.",orig:"Thought is the seed of action.",a:"Emerson",bio:"Filozof",ctx:"Eylem"},
+      {tr:"Gerçek bilgelik, ne kadar az bildiğini anlamaktır.",orig:"Wisdom is knowing how little you know.",a:"Sokrates",bio:"Filozof",ctx:"Cehalet"},
+      {tr:"Eylem olmadan vizyon sadece bir rüyadır.",orig:"Vision without action is a daydream.",a:"Japon Atasözü",bio:"Planlama",ctx:"Uygulama"},
+      {tr:"Karakter, karanlıkta ne yaptığındır.",orig:"Character is what you do in the dark.",a:"D.L. Moody",bio:"Düşünür",ctx:"Dürüstlük"},
+      {tr:"Bir şeyi gerçekten anlamak için onu deneyimlemek gerekir.",orig:"Experience is the best teacher.",a:"Julius Caesar",bio:"Lider",ctx:"Tecrübe"},
+      {tr:"Gelecek, bugünden ona hazırlananlara aittir.",orig:"The future belongs to those who prepare for it.",a:"Malcolm X",bio:"Lider",ctx:"Gelecek"},
+      {tr:"Başarı, hazırlık ve fırsatın buluştuğu yerdir.",orig:"Success is where preparation and opportunity meet.",a:"Seneca",bio:"Filozof",ctx:"Şans"},
+      {tr:"Zorluklar, sıradan insanları sıra dışı kaderlere hazırlar.",orig:"Hardships prepare ordinary people...",a:"C.S. Lewis",bio:"Yazar",ctx:"Zorluk"},
+      {tr:"İnsanın en büyük savaşı kendi içindedir.",orig:"The greatest war is within.",a:"Sun Tzu",bio:"Stratejist",ctx:"İç Savaş"},
+      {tr:"Sadece bugün için en iyisini yap.",orig:"Do your best just for today.",a:"Kaizen",bio:"Felsefe",ctx:"Bugün"},
+      {tr:"Düştüğünde değil, pes ettiğinde kaybedersin.",orig:"You only lose when you quit.",a:"Anonim",bio:"Mücadele",ctx:"Yenilgi"},
+      {tr:"Sabır, tüm kapıları açan anahtardır.",orig:"Patience is the key.",a:"Rumi",bio:"Şair",ctx:"Sabır"},
+      {tr:"Cesaret, korkuya rağmen ilerlemektir.",orig:"Courage is moving forward despite fear.",a:"Mark Twain",bio:"Yazar",ctx:"Cesaret"},
+      {tr:"Zor yollar, genellikle güzel yerlere çıkar.",orig:"Difficult roads lead to beautiful destinations.",a:"Anonim",bio:"Yolculuk",ctx:"Hedef"},
+      {tr:"Her başarı hikayesi, bir deneme kararıyla başlar.",orig:"Every success story starts with a decision to try.",a:"Anonim",bio:"Başlangıç",ctx:"Karar"},
+      {tr:"Hayat, cesaretin oranında daralır veya genişler.",orig:"Life shrinks or expands in proportion to courage.",a:"Anaïs Nin",bio:"Yazar",ctx:"Cesaret"},
+      {tr:"Başarısızlık, daha zekice başlama fırsatıdır.",orig:"Failure is the opportunity to begin again more intelligently.",a:"Henry Ford",bio:"Sanayici",ctx:"Başarısızlık"},
+      {tr:"Küçük adımlar, büyük mesafeler kat ettirir.",orig:"Small steps cover great distances.",a:"Anonim",bio:"İlerleme",ctx:"Adım"},
+      {tr:"Kendine inan, gerisi gelecektir.",orig:"Believe in yourself, the rest will follow.",a:"Anonim",bio:"İnanç",ctx:"Öz güven"},
+      {tr:"Zorluklar seni durdurmamalı, seni şekillendirmeli.",orig:"Challenges should not stop you, they should shape you.",a:"Anonim",bio:"Zorluk",ctx:"Şekillenme"},
+      {tr:"En karanlık gece bile sona erer ve güneş doğar.",orig:"Even the darkest night will end and the sun will rise.",a:"Victor Hugo",bio:"Yazar",ctx:"Umut"},
+      {tr:"Geleceği tahmin etmenin en iyi yolu onu yaratmaktır.",orig:"The best way to predict the future is to create it.",a:"Peter Drucker",bio:"Düşünür",ctx:"Yaratım"},
+      {tr:"Engeller, gözünüzü hedeften ayırdığınızda gördüğünüz şeylerdir.",orig:"Obstacles are what you see when you take your eyes off the goal.",a:"Henry Ford",bio:"Sanayici",ctx:"Odak"},
+      {tr:"İradesi güçlü olan, her engeli aşar.",orig:"A strong will overcomes any obstacle.",a:"Anonim",bio:"İrade",ctx:"Engel"},
+      {tr:"Başarı, küçük çabaların tekrarıdır.",orig:"Success is the repetition of small efforts.",a:"Robert Collier",bio:"Yazar",ctx:"Tekrar"},
+      {tr:"Hayat bir yankıdır, ne gönderirsen o döner.",orig:"Life is an echo, what you send out comes back.",a:"Çin Atasözü",bio:"Yankı",ctx:"Karşılık"},
+      {tr:"Zamanını boşa harcama, o hayatın ham maddesidir.",orig:"Do not waste time, it is the stuff of life.",a:"Benjamin Franklin",bio:"Lider",ctx:"Zaman"},
+      {tr:"Eylem, tüm başarının temel anahtarıdır.",orig:"Action is the foundational key to all success.",a:"Pablo Picasso",bio:"Ressam",ctx:"Eylem"},
+      {tr:"Sadece sınırları zorlayanlar onları genişletebilir.",orig:"Only those who push boundaries can expand them.",a:"Anonim",bio:"Sınır",ctx:"Genişleme"},
+      {tr:"Her gün, yeni bir şeyler öğrenmek için bir şanstır.",orig:"Every day is a chance to learn something new.",a:"Anonim",bio:"Öğrenme",ctx:"Fırsat"},
+      {tr:"Başarı, düştükten sonra ayağa kalkma hızıdır.",orig:"Success is how fast you bounce back.",a:"Anonim",bio:"Hız",ctx:"Kalkış"},
+      {tr:"Kararlılık, görünmeyeni görünür kılar.",orig:"Determination makes the invisible visible.",a:"Anonim",bio:"Kararlılık",ctx:"Görünürlük"},
+      {tr:"Gücünü korkularından değil, hedeflerinden al.",orig:"Draw strength from your goals, not your fears.",a:"Anonim",bio:"Güç",ctx:"Hedef"},
+      {tr:"Yarın, bugünün ne olduğuna bağlıdır.",orig:"Tomorrow depends on what today is.",a:"Mahatma Gandhi",bio:"Lider",ctx:"Bugün"},
+      {tr:"İçindeki ateşi canlı tut.",orig:"Keep the fire inside alive.",a:"Anonim",bio:"Ateş",ctx:"Canlılık"},
+      {tr:"Sadece kendinle yarış.",orig:"Compete only with yourself.",a:"Anonim",bio:"Yarış",ctx:"Kendin"},
+      {tr:"Disiplin, hedefler ile başarı arasındaki köprüdür.",orig:"Discipline is the bridge between goals and accomplishment.",a:"Jim Rohn",bio:"Yazar",ctx:"Köprü"},
+      {tr:"Engeller, başarıya giden yoldaki basamaklardır.",orig:"Obstacles are stepping stones to success.",a:"Anonim",bio:"Basamak",ctx:"Yol"},
+      {tr:"Sabır, dayanıklılığın en yüksek formudur.",orig:"Patience is the highest form of endurance.",a:"Anonim",bio:"Dayanıklılık",ctx:"Sabır"},
+      {tr:"Her zorluk, içinde bir fırsat barındırır.",orig:"Every adversity carries a seed of equal or greater benefit.",a:"Napoleon Hill",bio:"Yazar",ctx:"Fırsat"},
+      {tr:"Kendi hikayenin kahramanı ol.",orig:"Be the hero of your own story.",a:"Anonim",bio:"Kahraman",ctx:"Hikaye"},
+      {tr:"Hayat, onu nasıl yorumladığındır.",orig:"Life is how you interpret it.",a:"Carl Jung",bio:"Psikiyatr",ctx:"Yorum"},
+      {tr:"Mazeretler, sadece başarısızlığın sesidir.",orig:"Excuses are just the voice of failure.",a:"Anonim",bio:"Ses",ctx:"Mazeret"},
+      {tr:"Başarı, sessizce yapılan çalışmaların gürültüsüdür.",orig:"Success is the noise of silent work.",a:"Anonim",bio:"Gürültü",ctx:"Çalışma"},
+      {tr:"Gerçek başarı, pes etmemenin sonucudur.",orig:"True success is the result of not giving up.",a:"Anonim",bio:"Sonuç",ctx:"Pes Etmeme"},
+      {tr:"Kendini aşmak, hayatın asıl amacıdır.",orig:"Overcoming oneself is the main purpose of life.",a:"Nietzsche",bio:"Filozof",ctx:"Aşmak"},
+      {tr:"Her gün bir adım daha ileri.",orig:"One step forward every day.",a:"Anonim",bio:"Adım",ctx:"İleri"},
+      {tr:"Kendi ışığını kendin yarat.",orig:"Create your own light.",a:"Anonim",bio:"Işık",ctx:"Yaratım"},
+      {tr:"Zorluklar, iradenin testidir.",orig:"Hardships are a test of will.",a:"Anonim",bio:"İrade",ctx:"Test"},
+      {tr:"Başarı, küçük kararların birikimidir.",orig:"Success is the accumulation of small decisions.",a:"Anonim",bio:"Karar",ctx:"Birikim"},
+      {tr:"Korkularını yüzleşerek yen.",orig:"Defeat your fears by facing them.",a:"Anonim",bio:"Yüzleşme",ctx:"Korku"},
+      {tr:"Zaman, en değerli sermayendir.",orig:"Time is your most valuable capital.",a:"Anonim",bio:"Zaman",ctx:"Sermaye"},
+      {tr:"Hayat, beklentilerini aşan bir maceradır.",orig:"Life is an adventure that exceeds expectations.",a:"Anonim",bio:"Macera",ctx:"Beklenti"},
+      {tr:"Kendi yolunu çizen, asla kaybolmaz.",orig:"He who draws his own path is never lost.",a:"Anonim",bio:"Yol",ctx:"Çizim"},
+      {tr:"Başarı, tutkunun ürünüdür.",orig:"Success is the product of passion.",a:"Anonim",bio:"Tutku",ctx:"Ürün"},
+      {tr:"Engeller, sadece hedefini ne kadar istediğini gösterir.",orig:"Obstacles just show how much you want your goal.",a:"Randy Pausch",bio:"Akademisyen",ctx:"İstek"},
+      {tr:"Sadece yapabileceğine inandığında başarırsın.",orig:"You only succeed when you believe you can.",a:"Anonim",bio:"İnanç",ctx:"Başarı"},
+      {tr:"Her son, yeni bir başlangıcın habercisidir.",orig:"Every end is a herald of a new beginning.",a:"Anonim",bio:"Son",ctx:"Başlangıç"},
+      {tr:"Sınırları zorla, potansiyelini keşfet.",orig:"Push boundaries, discover your potential.",a:"Anonim",bio:"Potansiyel",ctx:"Keşif"},
+      {tr:"Direnç, gelişimin anahtarıdır.",orig:"Resistance is the key to growth.",a:"Anonim",bio:"Direnç",ctx:"Gelişim"},
+      {tr:"Kendine dürüst ol, başarı kendiliğinden gelir.",orig:"Be true to yourself, success will follow.",a:"Anonim",bio:"Dürüstlük",ctx:"Kendin"},
+      {tr:"Başarı, kararlılığın zaferidir.",orig:"Success is the victory of determination.",a:"Anonim",bio:"Zafer",ctx:"Kararlılık"},
+      {tr:"Zorluklar, hayatın baharatıdır.",orig:"Difficulties are the spice of life.",a:"Anonim",bio:"Baharat",ctx:"Hayat"},
+      {tr:"Her adım, seni hedefine biraz daha yaklaştırır.",orig:"Every step brings you closer to your goal.",a:"Anonim",bio:"Yaklaşım",ctx:"Adım"},
+      {tr:"Sabır, en güçlü silahtır.",orig:"Patience is the strongest weapon.",a:"Anonim",bio:"Silah",ctx:"Sabır"},
+      {tr:"Kendi potansiyeline inan, dünya sana inansın.",orig:"Believe in your potential, the world will believe in you.",a:"Anonim",bio:"Dünya",ctx:"Potansiyel"},
+      {tr:"Başarı, azmin sonucudur.",orig:"Success is the result of perseverance.",a:"Anonim",bio:"Azim",ctx:"Sonuç"},
+      {tr:"Zorluklar, zihni keskinleştirir.",orig:"Difficulties sharpen the mind.",a:"Anonim",bio:"Zihin",ctx:"Keskinlik"},
+      {tr:"Her gün, yeni bir umuttur.",orig:"Every day is a new hope.",a:"Anonim",bio:"Umut",ctx:"Gün"},
+      {tr:"Hayat, eylemlerinle şekillenir.",orig:"Life is shaped by your actions.",a:"Anonim",bio:"Şekil",ctx:"Eylem"},
+      {tr:"Başarı, korkuyu yenmektir.",orig:"Success is conquering fear.",a:"Anonim",bio:"Korku",ctx:"Yenmek"},
+      {tr:"Kendine güven, en büyük gücündür.",orig:"Self-confidence is your greatest power.",a:"Anonim",bio:"Güven",ctx:"Güç"},
+      {tr:"Engeller, sadece fırsatlardır.",orig:"Obstacles are just opportunities.",a:"Anonim",bio:"Fırsat",ctx:"Engel"},
+      {tr:"Sabır, bilgeliktir.",orig:"Patience is wisdom.",a:"Anonim",bio:"Bilgelik",ctx:"Sabır"},
+      {tr:"Her düşüş, daha güçlü kalkmak içindir.",orig:"Every fall is to rise stronger.",a:"Anonim",bio:"Düşüş",ctx:"Kalkış"},
+      {tr:"Başarı, süreklilik gerektirir.",orig:"Success requires continuity.",a:"Anonim",bio:"Süreklilik",ctx:"Başarı"},
+      {tr:"Zorluklar, seni sen yapan şeydir.",orig:"Difficulties make you who you are.",a:"Anonim",bio:"Zorluk",ctx:"Kimlik"},
+      {tr:"Her gün, yeni bir şans.",orig:"Every day, a new chance.",a:"Anonim",bio:"Şans",ctx:"Gün"},
+      {tr:"Başarı, kendi yolunu çizmektir.",orig:"Success is drawing your own path.",a:"Anonim",bio:"Yol",ctx:"Çizim"},
+      {tr:"Kendine inan, başarı seninle olsun.",orig:"Believe in yourself, success be with you.",a:"Anonim",bio:"İnanç",ctx:"Başarı"},
+      {tr:"Engeller, seni güçlendirmek içindir.",orig:"Obstacles are to make you stronger.",a:"Anonim",bio:"Güç",ctx:"Engel"},
+      {tr:"Sabır, başarının sırrıdır.",orig:"Patience is the secret of success.",a:"Anonim",bio:"Sır",ctx:"Sabır"},
+      {tr:"Her adım, bir başarı hikayesidir.",orig:"Every step is a success story.",a:"Anonim",bio:"Hikaye",ctx:"Adım"},
+      {tr:"Başarı, kendine inanmaktır.",orig:"Success is believing in yourself.",a:"Anonim",bio:"İnanç",ctx:"Kendin"},
+      {tr:"Zorluklar, başarıya giden yoldur.",orig:"Difficulties are the road to success.",a:"Anonim",bio:"Yol",ctx:"Zorluk"},
+      {tr:"Her gün, yeni bir hedeftir.",orig:"Every day is a new goal.",a:"Anonim",bio:"Hedef",ctx:"Gün"},
+      {tr:"Başarı, azimle gelir.",orig:"Success comes with perseverance.",a:"Anonim",bio:"Azim",ctx:"Başarı"},
+      {tr:"Kendine güven, dünya senin.",orig:"Trust yourself, the world is yours.",a:"Anonim",bio:"Güven",ctx:"Dünya"},
+      {tr:"Engeller, aşılmak içindir.",orig:"Obstacles are meant to be overcome.",a:"Anonim",bio:"Aşmak",ctx:"Engel"},
+      {tr:"Sabır, en iyi öğretmendir.",orig:"Patience is the best teacher.",a:"Anonim",bio:"Öğretmen",ctx:"Sabır"},
+      {tr:"Her düşüş, bir öğrenmedir.",orig:"Every fall is a learning.",a:"Anonim",bio:"Öğrenme",ctx:"Düşüş"},
+      {tr:"Başarı, disiplinle gelir.",orig:"Success comes with discipline.",a:"Anonim",bio:"Disiplin",ctx:"Başarı"},
+      {tr:"Zorluklar, fırsatlara dönüşür.",orig:"Difficulties turn into opportunities.",a:"Anonim",bio:"Fırsat",ctx:"Zorluk"},
+      {tr:"Her gün, yeni bir başarıdır.",orig:"Every day is a new success.",a:"Anonim",bio:"Başarı",ctx:"Gün"},
+      {tr:"Kendine inan, hayallerine ulaş.",orig:"Believe in yourself, reach your dreams.",a:"Anonim",bio:"Hayal",ctx:"Ulaşmak"},
+      {tr:"Engeller, seni hedefine yaklaştırır.",orig:"Obstacles bring you closer to your goal.",a:"Anonim",bio:"Yaklaşım",ctx:"Engel"},
+      {tr:"Sabır, başarının anahtarıdır.",orig:"Patience is the key to success.",a:"Anonim",bio:"Anahtar",ctx:"Sabır"},
+      {tr:"Her düşüş, seni daha güçlü yapar.",orig:"Every fall makes you stronger.",a:"Anonim",bio:"Güç",ctx:"Düşüş"},
+      {tr:"Başarı, kendi içindedir.",orig:"Success is within you.",a:"Anonim",bio:"İçinde",ctx:"Başarı"},
+      {tr:"Zorluklar, başarıya giden köprüdür.",orig:"Difficulties are the bridge to success.",a:"Anonim",bio:"Köprü",ctx:"Zorluk"},
+      {tr:"Her gün, yeni bir umut kaynağıdır.",orig:"Every day is a source of hope.",a:"Anonim",bio:"Umut",ctx:"Gün"},
+      {tr:"Kendine güven, başarıya adım at.",orig:"Trust yourself, step into success.",a:"Anonim",bio:"Adım",ctx:"Güven"},
+      {tr:"Engeller, sadece zihnindedir.",orig:"Obstacles are only in your mind.",a:"Anonim",bio:"Zihin",ctx:"Engel"},
+      {tr:"Sabır, başarıyı getirir.",orig:"Patience brings success.",a:"Anonim",bio:"Başarı",ctx:"Sabır"},
+      {tr:"Her düşüş, bir tecrübedir.",orig:"Every fall is an experience.",a:"Anonim",bio:"Tecrübe",ctx:"Düşüş"},
+      {tr:"Başarı, kendine inanmanın sonucudur.",orig:"Success is the result of believing in yourself.",a:"Anonim",bio:"İnanç",ctx:"Sonuç"},
+      {tr:"Zorluklar, seni hedefine hazırlar.",orig:"Difficulties prepare you for your goal.",a:"Anonim",bio:"Hazırlık",ctx:"Zorluk"},
+      {tr:"Her gün, yeni bir başlangıç fırsatıdır.",orig:"Every day is a new opportunity to start.",a:"Anonim",bio:"Fırsat",ctx:"Başlangıç"},
+      {tr:"Kendine inan, başarı senin elinde.",orig:"Believe in yourself, success is in your hands.",a:"Anonim",bio:"Elinde",ctx:"İnanç"},
+      {tr:"Engeller, aşmak için vardır.",orig:"Obstacles exist to be overcome.",a:"Anonim",bio:"Varoluş",ctx:"Aşmak"},
+      {tr:"Sabır, en büyük erdemdir.",orig:"Patience is the greatest virtue.",a:"Anonim",bio:"Erdem",ctx:"Sabır"},
+      {tr:"Her düşüş, kalkmak için bir sebeptir.",orig:"Every fall is a reason to rise.",a:"Anonim",bio:"Sebep",ctx:"Kalkış"},
+      {tr:"Başarı, azim ve kararlılıktır.",orig:"Success is perseverance and determination.",a:"Anonim",bio:"Kararlılık",ctx:"Azim"},
+      {tr:"Zorluklar, başarıya giden yolda arkadaştır.",orig:"Difficulties are friends on the road to success.",a:"Anonim",bio:"Arkadaş",ctx:"Zorluk"},
+      {tr:"Her gün, yeni bir zaferdir.",orig:"Every day is a new victory.",a:"Anonim",bio:"Zafer",ctx:"Gün"},
+      {tr:"Kendine güven, dünyayı değiştir.",orig:"Trust yourself, change the world.",a:"Anonim",bio:"Dünya",ctx:"Değişim"},
+      {tr:"Engeller, sadece geçici duraklardır.",orig:"Obstacles are just temporary stops.",a:"Anonim",bio:"Durak",ctx:"Geçici"},
+      {tr:"Sabır, başarıya giden biletindir.",orig:"Patience is your ticket to success.",a:"Anonim",bio:"Bilet",ctx:"Sabır"},
+      {tr:"Her düşüş, daha yükseğe zıplamak içindir.",orig:"Every fall is to jump higher.",a:"Anonim",bio:"Zıplama",ctx:"Yüksek"},
+      {tr:"Başarı, kendi sınırlarını aşmaktır.",orig:"Success is overcoming your own limits.",a:"Anonim",bio:"Sınır",ctx:"Aşmak"},
+      {tr:"Zorluklar, başarıya giden yolda ışıktır.",orig:"Difficulties are the light on the road to success.",a:"Anonim",bio:"Işık",ctx:"Zorluk"},
+      {tr:"Her gün, yeni bir potansiyeldir.",orig:"Every day is a new potential.",a:"Anonim",bio:"Potansiyel",ctx:"Gün"},
+      {tr:"Kendine inan, imkansızı başar.",orig:"Believe in yourself, achieve the impossible.",a:"Anonim",bio:"İmkansız",ctx:"Başarmak"},
+      {tr:"Engeller, sadece sana ne kadar güçlü olduğunu gösterir.",orig:"Obstacles just show you how strong you are.",a:"Anonim",bio:"Güç",ctx:"Engel"},
+      {tr:"Sabır, başarıya giden yolda kılavuzdur.",orig:"Patience is the guide on the road to success.",a:"Anonim",bio:"Kılavuz",ctx:"Sabır"},
+      {tr:"Her düşüş, seni hedefine daha çok bağlar.",orig:"Every fall binds you closer to your goal.",a:"Anonim",bio:"Bağ",ctx:"Düşüş"},
+      {tr:"Başarı, kendi hayallerini yaşamaktır.",orig:"Success is living your own dreams.",a:"Anonim",bio:"Hayal",ctx:"Yaşamak"},
+      {tr:"Zorluklar, başarıya giden yolda basamaklardır.",orig:"Difficulties are steps on the road to success.",a:"Anonim",bio:"Basamak",ctx:"Zorluk"},
+      {tr:"Her gün, yeni bir keşiftir.",orig:"Every day is a new discovery.",a:"Anonim",bio:"Keşif",ctx:"Gün"},
+      {tr:"Kendine güven, her şey mümkündür.",orig:"Trust yourself, everything is possible.",a:"Anonim",bio:"Mümkün",ctx:"Güven"},
+      {tr:"Engeller, aşılmak için bekler.",orig:"Obstacles wait to be overcome.",a:"Anonim",bio:"Beklemek",ctx:"Aşmak"},
+      {tr:"Sabır, başarıya giden yolda güçtür.",orig:"Patience is power on the road to success.",a:"Anonim",bio:"Güç",ctx:"Sabır"},
+      {tr:"Her düşüş, yeni bir strateji geliştirir.",orig:"Every fall develops a new strategy.",a:"Anonim",bio:"Strateji",ctx:"Gelişim"},
+      {tr:"Başarı, kendine inanmanın zaferidir.",orig:"Success is the victory of believing in yourself.",a:"Anonim",bio:"Zafer",ctx:"İnanç"},
+      {tr:"Zorluklar, başarıya giden yolda fırsatlardır.",orig:"Difficulties are opportunities on the road to success.",a:"Anonim",bio:"Fırsat",ctx:"Zorluk"},
+      {tr:"Her gün, yeni bir umut doğar.",orig:"Every day, a new hope is born.",a:"Anonim",bio:"Umut",ctx:"Doğuş"},
+      {tr:"Kendine inan, başarı seni bulur.",orig:"Believe in yourself, success will find you.",a:"Anonim",bio:"Bulmak",ctx:"İnanç"},
+      {tr:"Engeller, sadece seni test eder.",orig:"Obstacles just test you.",a:"Anonim",bio:"Test",ctx:"Engel"},
+      {tr:"Sabır, başarıya giden yolda ışıktır.",orig:"Patience is the light on the road to success.",a:"Anonim",bio:"Işık",ctx:"Sabır"},
+      {tr:"Her düşüş, daha güçlü kalkmak içindir.",orig:"Every fall is to rise stronger.",a:"Anonim",bio:"Güç",ctx:"Kalkış"},
+      {tr:"Başarı, kendine güvenin eseridir.",orig:"Success is the work of self-confidence.",a:"Anonim",bio:"Eser",ctx:"Güven"},
+      {tr:"Zorluklar, başarıya giden yolda öğretmendir.",orig:"Difficulties are teachers on the road to success.",a:"Anonim",bio:"Öğretmen",ctx:"Zorluk"},
+      {tr:"Her gün, yeni bir başlangıç noktasıdır.",orig:"Every day is a new starting point.",a:"Anonim",bio:"Nokta",ctx:"Başlangıç"},
+      {tr:"Kendine güven, başarıya uzan.",orig:"Trust yourself, reach for success.",a:"Anonim",bio:"Uzanmak",ctx:"Güven"},
+      {tr:"Engeller, başarıya giden yolda duraklardır.",orig:"Obstacles are stops on the road to success.",a:"Anonim",bio:"Durak",ctx:"Engel"},
+      {tr:"Sabır, başarıya giden yolda sabırdır.",orig:"Patience is patience on the road to success.",a:"Anonim",bio:"Sabır",ctx:"Sabır"},
+      {tr:"Her düşüş, yeni bir ders verir.",orig:"Every fall gives a new lesson.",a:"Anonim",bio:"Ders",ctx:"Düşüş"},
+      {tr:"Başarı, azmin ve kararlılığın meyvesidir.",orig:"Success is the fruit of perseverance and determination.",a:"Anonim",bio:"Meyve",ctx:"Azim"},
+      {tr:"Zorluklar, başarıya giden yolda anahtardır.",orig:"Difficulties are the key on the road to success.",a:"Anonim",bio:"Anahtar",ctx:"Zorluk"},
+      {tr:"Her gün, yeni bir fırsattır.",orig:"Every day is a new opportunity.",a:"Anonim",bio:"Fırsat",ctx:"Gün"},
+      {tr:"Kendine inan, başarıya adım at.",orig:"Believe in yourself, step towards success.",a:"Anonim",bio:"Adım",ctx:"İnanç"},
+      {tr:"Engeller, sadece hedefine yaklaştırır.",orig:"Obstacles just bring you closer to your goal.",a:"Anonim",bio:"Yaklaştırmak",ctx:"Engel"},
+      {tr:"Karanlık ne kadar koyuysa, yıldızlar o kadar parlaktır.",orig:"The darker the night, the brighter the stars.",a:"Dostoevsky",bio:"Rus Yazar",ctx:"Suç ve Ceza"},
+      {tr:"Hayat bir trajedi mi, komedi mi? Sadece senin perspektifindir.",orig:"Life is a tragedy for those who feel...",a:"Horace Walpole",bio:"Yazar",ctx:"Duygular Üzerine"},
+      {tr:"Kendini arayan, kendini kaybeder.",orig:"He who seeks himself loses himself.",a:"Anonim",bio:"Tasavvuf",ctx:"Arayış"},
+      {tr:"Büyük fikirler, sessizce gelir.",orig:"Great ideas come quietly.",a:"Anonim",bio:"Fikir",ctx:"Sessizlik"},
+      {tr:"Gölgelerin gücü adına, aydınlığı kucakla.",orig:"In the name of the shadows, embrace the light.",a:"Anonim",bio:"Gölge",ctx:"Aydınlık"},
+      {tr:"Kader, sadece cesurları takip eder.",orig:"Fate only follows the brave.",a:"Anonim",bio:"Kader",ctx:"Cesaret"},
+      {tr:"Zaman, en acımasız öğretmendir.",orig:"Time is the cruelest teacher.",a:"Anonim",bio:"Zaman",ctx:"Öğretmen"},
+      {tr:"Gerçek, acıdır ama özgürleştirir.",orig:"The truth is bitter but liberating.",a:"Anonim",bio:"Gerçek",ctx:"Özgürlük"},
+      {tr:"İnsanın içi, dışından daha derindir.",orig:"The inside of a man is deeper than the outside.",a:"Anonim",bio:"İç",ctx:"Dış"},
+      {tr:"Umut, en tehlikeli silahtır.",orig:"Hope is the most dangerous weapon.",a:"Anonim",bio:"Umut",ctx:"Silah"},
+      {tr:"Sadece kaybedecek bir şeyi kalmayanlar, gerçekten savaşabilir.",orig:"Only those with nothing to lose can truly fight.",a:"Anonim",bio:"Kayıp",ctx:"Savaş"},
+      {tr:"Yalnızlık, kalabalığın gürültüsünden daha sağırdır.",orig:"Loneliness is deafer than the crowd's noise.",a:"Anonim",bio:"Yalnızlık",ctx:"Gürültü"},
+      {tr:"İnsan, kendi yarattığı canavarlarla savaşır.",orig:"Man fights the monsters he creates.",a:"Anonim",bio:"İnsan",ctx:"Canavar"},
+      {tr:"Sır, sessizlikte saklıdır.",orig:"The secret is hidden in silence.",a:"Anonim",bio:"Sır",ctx:"Sessizlik"},
+      {tr:"Gözler yalan söylemez, sözler yalan söyler.",orig:"Eyes don't lie, words do.",a:"Anonim",bio:"Gözler",ctx:"Yalan"},
+      {tr:"Karanlık, sadece ışığın yokluğudur.",orig:"Darkness is merely the absence of light.",a:"Anonim",bio:"Karanlık",ctx:"Işık"},
+      {tr:"Acı, bedenin zihinle konuşma şeklidir.",orig:"Pain is the body talking to the mind.",a:"Anonim",bio:"Acı",ctx:"Konuşma"},
+      {tr:"Umutsuzluk, yeni bir başlangıcın habercisidir.",orig:"Despair is the herald of a new beginning.",a:"Anonim",bio:"Umutsuzluk",ctx:"Başlangıç"},
+      {tr:"İnsan, uçuruma bakarken kendi içini görür.",orig:"Man sees his own inside when looking into the abyss.",a:"Nietzsche",bio:"Filozof",ctx:"Uçurum"},
+      {tr:"Sadece en güçlüler affedebilir.",orig:"Only the strongest can forgive.",a:"Gandhi",bio:"Lider",ctx:"Affetmek"},
+      {tr:"Zayıflık, gücün başlangıcıdır.",orig:"Weakness is the beginning of power.",a:"Anonim",bio:"Zayıflık",ctx:"Güç"},
+
+      // İŞTE SENİN O EFSANEVİ 27 SÖZÜN (EN SONA, FİNAL GÜNLERİNE AYRILDI)
+      { tr: "Bir zincir en zayıf halkası kadar sağlamdır.", orig: "A chain is only as strong as its weakest link.", a: "Thomas Reid", bio: "İskoç Filozof", ctx: "Essays on the Intellectual Powers of Man (1786)" },
+      { tr: "Yaraların ışığın içeri girdiği yerdir. Yıkımın olduğu yerde hazine bulunur.", orig: "The wound is the place where the Light enters you.", a: "Mevlana", bio: "Sufi Mistik", ctx: "İçsel Yıkım ve Dönüşüm" },
+      { tr: "Her duygu gerektiğinde yaşanmak için var.", orig: "Every emotion exists to be felt when necessary.", a: "Carl Gustav Jung", bio: "İsviçreli Psikiyatr", ctx: "Gölge Arketipi ve Kabulleniş" },
+      { tr: "Hedefsiz bir yelkenliye hiçbir rüzgar yardım edemez.", orig: "Ignoranti quem portum petat nullus suus ventus est.", a: "Seneca", bio: "Romalı Stoacı", ctx: "Lucilius'a Ahlak Mektupları" },
+      { tr: "Hayat, başımıza gelenlerin %10'u, ona nasıl tepki verdiğimizin %90'ıdır.", orig: "Life is 10% what happens to you and 90% how you react to it.", a: "Charles R. Swindoll", bio: "Amerikalı Yazar", ctx: "Tutum (Attitude) Üzerine" },
+      { tr: "Dost acı söylemez, dost acıtmadan söyler.", orig: "Amicus verus non vulnerat.", a: "Anadolu İrfanı", bio: "Halk Felsefesi", ctx: "Gerçek Yüzleşme" },
+      { tr: "Hep aynı yıldıza bakarsan hiçbir fırtınada kaybolmazsın.", orig: "If you look at the same star, you will never be lost in any storm.", a: "Denizcilerin Kuralı", bio: "Antik Navigasyon Felsefesi", ctx: "Okyanus Seyirlerinde Odaklanma" },
+      { tr: "İnsan şovunu yaptığı şeyin fakiridir.", orig: "He who makes a show of something is poor in it.", a: "Anonim", bio: "Modern Psikolojik Gözlem", ctx: "Ego ve Eksiklik Psikolojisi" },
+      { tr: "Hiçbir plan düşmanla ilk temasın ardından sağ çıkmaz.", orig: "Kein Plan überlebt die erste Feindberührung.", a: "Helmuth von Moltke", bio: "Prusyalı Mareşal", ctx: "19. Yüzyıl Savaş Teorisi Yazıları" },
+      { tr: "Pisliğin (karanlığın) içinde bulunur.", orig: "In sterquiliniis invenitur.", a: "Simya Geleneği", bio: "Ortaçağ Felsefesi", ctx: "Gerçek değer, bakmak istemediğin yerdedir" },
+      { tr: "Olayın tam ortasında (başlamak).", orig: "In medias res.", a: "Horatius", bio: "Romalı Şair", ctx: "Ars Poetica (Şiir Sanatı) Eseri" },
+      { tr: "Bir gün kırkayağa hangi ayağını öne atacağını sormuşlar, o günden sonra yürüyemez olmuş.", orig: "The centipede's dilemma.", a: "George Humphrey", bio: "Psikolog", ctx: "Zihnin Aşırı Analiz Çıkmazı (1923)" },
+      { tr: "Eğer bir tohum ektiysen, neden on dakikada bir büyüyüp büyümediğini görmek için onu kazasın ki?", orig: "If you plant a seed, you don't dig it up every ten minutes...", a: "Alan Watts", bio: "İngiliz Filozof", ctx: "Doğu Felsefesi ve Sabır Dersleri" },
+      { tr: "Her gün dolunay olsaydı kimse aya şiir yazmazdı.", orig: "Absence makes the heart grow fonder.", a: "Anonim", bio: "Yoksunluk Felsefesi", ctx: "Eksikliğin Yarattığı Anlam Arayışı" },
+      { tr: "Değiştirmediğin şey, seçtiğin şeydir.", orig: "What you are not changing, you are choosing.", a: "Modern Aforizma", bio: "Klinik Psikoloji", ctx: "İnsanın Kendi Hayatındaki Sorumluluğu" },
+      { tr: "Doğru çaba çabasız olandır.", orig: "Wu wei (無為)", a: "Lao Tzu", bio: "Çinli Filozof", ctx: "Tao Te Ching, Akışta Olma Prensibi" },
+      { tr: "Kimin yararına?", orig: "Cui bono?", a: "Lucius Cassius", bio: "Romalı Konsül", ctx: "Roma Hukuku Davaları" },
+      { tr: "Ya bir yol bulacağım, ya da bir yol açacağım.", orig: "Inveniam viam aut faciam.", a: "Hannibal Barca", bio: "Kartacalı Komutan", ctx: "Filllerle Alpleri Geçişi" },
+      { tr: "Güç kükremez.", orig: "True power does not roar.", a: "Sessiz Güç Kavramı", bio: "Strateji İlkesi", ctx: "Egonun Gürültüsü vs. Gerçek Otorite" },
+      { tr: "Mükemmel, iyinin düşmanıdır.", orig: "Il meglio è l'inimico del bene.", a: "Voltaire", bio: "Aydınlanma Yazarı", ctx: "Felsefe Sözlüğü (1764)" },
+      { tr: "İnce düşünen incinir.", orig: "He who thinks deeply, suffers deeply.", a: "Anonim", bio: "Hassasiyetin Bedeli", ctx: "Varoluşsal Sancı" },
+      { tr: "Kökleri cehenneme uzanmayan bir ağacın dalları cennete yükselemez.", orig: "No tree can grow to heaven unless its roots reach down to hell.", a: "Carl Gustav Jung", bio: "İsviçreli Psikiyatr", ctx: "İnsanın Karanlık Yönü (Gölge)" },
+      { tr: "Oyunu anladığın zaman paniğe kapılmazsın.", orig: "When you understand the game, you don't panic.", a: "Oyun Teorisi", bio: "Strateji Felsefesi", ctx: "Büyük Resmi Görmek" },
+      { tr: "Kendi ışığına güvenen, başkasının parlamasından rahatsız olmaz.", orig: "Celui qui a confiance en sa propre lumière...", a: "Victor Hugo", bio: "Fransız Yazar", ctx: "Karakter Gözlemleri" },
+      { tr: "Sana beni üzecek gücü verdiğim için kendimden özür dilerim.", orig: "I apologize to myself for giving you the power to hurt me.", a: "Anonim", bio: "İçsel Barış", ctx: "Kontrolü Geri Alma Süreci" },
+      { tr: "En tehlikeli yalan, içine doğru karışmış yalandır.", orig: "The most dangerous of all falsehoods is a slightly distorted truth.", a: "Arthur Schopenhauer", bio: "Alman Filozof", ctx: "İstenç ve Tasarım Olarak Dünya" },
+      { tr: "Siz her zaman şanslı olmak zorundasınız, bizim ise bir kez şanslı olmamız yeterli.", orig: "We only have to be lucky once. You will have to be lucky always.", a: "İrlanda Cumhuriyet Ordusu (IRA)", bio: "Bağımsızlık Örgütü Bildirisi", ctx: "1984 Brighton Oteli Suikast Girişimi Sonrası" }
     ];
 
     let days = [];
     let isDataLoaded = false;
     let currentFilter = 'all';
 
-    // Başlangıç tarihi ve gün hesaplaması
-    const baseStartDate = new Date(2026, 10, 6, 0, 0, 0); 
+    const baseStartDate = new Date(2026, 10, 8, 0, 0, 0); 
     const todayObj = new Date(); 
     todayObj.setHours(0, 0, 0, 0); 
     
@@ -508,70 +678,164 @@
     if (currentDayIndex < 0) currentDayIndex = 0;
     if (currentDayIndex >= totalDays) currentDayIndex = totalDays - 1;
 
-    // FİZİKSEL HEDEFLER VE METABOLİK ADAPTASYON SİMÜLASYONU
-    // 6 Kasım başlangıç değerleri. 
-    let simWeight = 112.2; 
-    let simFatMass = 29.8; 
+    let simWeight = 111.0; 
+    let simFatMass = 111.0 * 0.25; 
     let adaptationMultiplier = 1.0; 
     const heightCm = 193;
     const ageYrs = 22;
+
+    let active2100Days = 0;
+    let isReverseDiet = false;
+    let reverseDietDays = 0;
+    let hasDeloadWater = false;
+    let prevIs0Carb = true; 
 
     for (let i = 0; i < totalDays; i++) {
       const d = new Date(baseStartDate.getFullYear(), baseStartDate.getMonth(), baseStartDate.getDate() + i);
       const dayStr = d.getDate() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
       
-      const phaseNum = (i < phase1Days) ? 1 : 2;
-      const dailyMenu = (phaseNum === 1) ? "0 Karb / 0 Yağ (Sadece Protein)" : "700g Tavuk + 300g Pirinç";
-      const dailyIntakeKcal = (phaseNum === 1) ? 800 : 1850; 
+      const isPhase1 = d <= new Date(2026, 11, 11); 
+      const isMiniCut = d >= new Date(2027, 0, 1) && d <= new Date(2027, 0, 24); 
       
-      // Faz 2'ye geçişte (12 Aralık - index 36) Karbonhidratın tuttuğu Su ve Glikojen ağırlığı
-      if (i === phase1Days) {
-          simWeight += 1.2; // 300g Karbonhidrat = Yaklaşık 1.2kg saf su tutulumu ekleniyor.
+      let phaseName = "";
+      let is0Carb = false;
+      let isDeload = false;
+      
+      if (isPhase1) {
+        phaseName = "1. Aşama (Karanlık Dönem)";
+        is0Carb = true;
+      } else if (isMiniCut) {
+        phaseName = "Sömestr Mini-cut";
+        is0Carb = true;
+      } else {
+        phaseName = "İnşa & Geçiş Aşaması";
+        is0Carb = false;
       }
 
-      // Mifflin-St Jeor Formülü + Aktivite + Adaptasyon
+      let currentFatPct = (simFatMass / simWeight) * 100;
+      if (currentFatPct <= 10.0 && !isReverseDiet) {
+        isReverseDiet = true;
+      }
+
       let bmr = (10 * simWeight) + (6.25 * heightCm) - (5 * ageYrs) + 5;
-      let activityMultiplier = 1.25; // 4 idman + 4000 adım sedanter ağırlıklı
-      let tdee = bmr * activityMultiplier * adaptationMultiplier;
+      let tdee = bmr * 1.25 * adaptationMultiplier;
       
+      let dailyIntakeKcal = 0;
+      let dailyMenu = "";
+
+      if (isReverseDiet) {
+        phaseName = "Tersine Diyet (Reverse Diet)";
+        is0Carb = false; 
+        
+        let weeksInReverse = Math.floor(reverseDietDays / 7);
+        let riceGrams = 300 + (weeksInReverse * 50);
+        let targetCals = 2100 + (weeksInReverse * 175); 
+        
+        let maxCals = tdee + 150; 
+        if (targetCals > maxCals) {
+          targetCals = maxCals;
+          riceGrams = Math.round((targetCals - 2100) / 3.5) + 300; 
+          dailyMenu = `Sabitlendi! Tavuk + ~${riceGrams}g Pirinç (${Math.round(targetCals)} kcal)`;
+        } else {
+          dailyMenu = `Tavuk + ${riceGrams}g Pirinç (${Math.round(targetCals)} kcal)`;
+        }
+        dailyIntakeKcal = targetCals;
+        reverseDietDays++;
+      } else {
+        if (is0Carb) {
+          dailyIntakeKcal = 1000;
+          dailyMenu = "Sadece Tavuk (1000 kcal)";
+        } else {
+          active2100Days++;
+          if (active2100Days % 30 === 0) {
+            isDeload = true;
+            dailyIntakeKcal = tdee;
+            dailyMenu = `Bakım Kalorisi / Deload (~${Math.round(tdee)} kcal)`;
+          } else {
+            dailyIntakeKcal = 2100;
+            dailyMenu = "Tavuk + 300g Pirinç (2100 kcal)";
+          }
+        }
+      }
+
+      if (prevIs0Carb && !is0Carb) simWeight += 1.2; 
+      else if (!prevIs0Carb && is0Carb) simWeight -= 1.2; 
+      
+      if (hasDeloadWater) {
+        simWeight -= 0.5;
+        hasDeloadWater = false;
+      }
+      if (isDeload) {
+        simWeight += 0.5;
+        hasDeloadWater = true;
+      }
+      
+      prevIs0Carb = is0Carb;
       let deficit = tdee - dailyIntakeKcal;
       
-      // Kaybolan ağırlığın %85'inin yağ, %15'inin yağsız kütle/su olduğu ekstrem kalori açığı modellemesi
-      let weightLossKg = deficit / 6770; 
-      let fatLossKg = (deficit * 0.85) / 7700;
-      
-      let currentFatPct = (simFatMass / simWeight) * 100;
-      
-      // 10 Kasım (Index 4) öncesinde metrikler gizli
-      let showMet = i >= 4; 
-
       days.push({
         index: i,
         dayNumber: i + 1,
         dateStr: dayStr,
         dayName: dayNames[d.getDay()],
         week: Math.floor(i / 7) + 1,
-        phase: phaseNum,
+        phaseName: phaseName,
         menu: dailyMenu,
         done: false,
         targetWeight: simWeight,
-        targetFatPct: currentFatPct,
-        showMetrics: showMet
+        targetFatPct: currentFatPct
       });
-      
-      simWeight -= weightLossKg;
-      simFatMass -= fatLossKg;
-      
-      // Diyet süresi uzadıkça ve kilo düştükçe metabolizma ekstradan yavaşlar (Adaptasyon)
-      if (adaptationMultiplier > 0.88) {
-        adaptationMultiplier -= 0.001; 
+
+      if (deficit > 0) {
+        let weightLossKg = deficit / 6770; 
+        let fatLossKg = (deficit * 0.85) / 7700;
+        simWeight -= weightLossKg;
+        simFatMass -= fatLossKg;
+        
+        if (!isDeload && !isReverseDiet) {
+           if (adaptationMultiplier > 0.88) adaptationMultiplier -= 0.001; 
+        } else if (isDeload) {
+           if (adaptationMultiplier < 1.0) adaptationMultiplier += 0.02; 
+        }
+      } else {
+        let surplus = -deficit;
+        let weightGain = surplus / 7000;
+        let fatGain = (surplus * 0.5) / 7700;
+        simWeight += weightGain;
+        simFatMass += fatGain;
+        
+        if (adaptationMultiplier < 1.0) adaptationMultiplier += 0.005; 
       }
     }
 
-    const safeQuoteIndex = currentDayIndex % quotes.length;
-    const selectedQuote = quotes[safeQuoteIndex] || quotes[0];
-    document.getElementById('splash-quote-text').innerText = '"' + selectedQuote.q + '"';
-    document.getElementById('splash-author-text').innerText = '— ' + selectedQuote.a;
+    const currentQuote = quotes[currentDayIndex];
+    document.getElementById('splash-quote-text').innerText = '"' + currentQuote.tr + '"';
+    
+    const origEl = document.getElementById('splash-quote-orig');
+    if (currentQuote.orig) {
+      origEl.style.display = 'block';
+      origEl.innerText = currentQuote.orig;
+    } else {
+      origEl.style.display = 'none';
+    }
+    
+    document.getElementById('splash-author-text').innerText = currentQuote.a;
+    
+    const bioEl = document.getElementById('splash-bio-text');
+    if (currentQuote.bio) {
+      bioEl.style.display = 'block';
+      bioEl.innerText = currentQuote.bio;
+    } else {
+      bioEl.style.display = 'none';
+    }
+
+    const ctxEl = document.getElementById('splash-context-text');
+    if (currentQuote.ctx) {
+      ctxEl.style.display = 'block';
+      ctxEl.innerText = "Bağlam: " + currentQuote.ctx;
+    } else {
+      ctxEl.style.display = 'none';
+    }
 
     function dismissSplash() {
       const el = document.getElementById('splash-screen');
@@ -580,7 +844,7 @@
         setTimeout(function() { el.style.display = 'none'; }, 600);
       }
     }
-    setTimeout(dismissSplash, 10000);
+    setTimeout(dismissSplash, 15000); 
 
     function toggleAccordion() {
       const drawer = document.getElementById('days-drawer');
@@ -590,45 +854,53 @@
     }
 
     function updateProgress() {
-      const phase1Done = days.filter(function(d) { return d.phase === 1 && d.done; }).length;
-      const phase2Done = days.filter(function(d) { return d.phase === 2 && d.done; }).length;
-
+      let phaseTotal = 0;
+      let phaseCompleted = 0;
       let pct = 0;
-      let label = "";
-      let completedText = "";
-      let leftText = "";
+      let phaseTitle = "";
 
-      if (currentDayIndex < phase1Days) {
-        pct = ((phase1Done / phase1Days) * 100).toFixed(1);
-        label = "1. Aşama İlerlemesi (0 Karb/Yağ)";
-        completedText = phase1Done + ' / ' + phase1Days + ' Gün';
-        leftText = (phase1Days - phase1Done) + ' Gün Kaldı';
-      } 
-      else {
-        pct = (50 + ((phase2Done / phase2Days) * 50)).toFixed(1);
-        label = "2. Aşama (Hipertrofi) • Genel İlerleme";
-        completedText = phase2Done + ' / ' + phase2Days + ' Gün (Bu Aşama)';
-        leftText = 'Kalan: ' + (phase2Days - phase2Done) + ' Gün';
+      if (currentDayIndex <= 33) {
+        phaseTitle = "1. Aşama (Karanlık Dönem)";
+        phaseTotal = 34;
+        let phaseDays = days.slice(0, 34);
+        phaseCompleted = phaseDays.filter(d => d.done).length;
+        pct = (phaseCompleted / phaseTotal) * 100;
+
+      } else if (currentDayIndex <= 53) {
+        phaseTitle = "2. Aşama (İlk Yarı)";
+        phaseTotal = 20;
+        let phaseDays = days.slice(34, 54);
+        phaseCompleted = phaseDays.filter(d => d.done).length;
+        pct = 40 + ((phaseCompleted / phaseTotal) * 10);
+
+      } else if (currentDayIndex <= 77) {
+        phaseTitle = "Sömestr Mini-Cut";
+        phaseTotal = 24;
+        let phaseDays = days.slice(54, 78);
+        phaseCompleted = phaseDays.filter(d => d.done).length;
+        pct = (phaseCompleted / phaseTotal) * 100;
+
+      } else {
+        phaseTitle = "Final Aşaması";
+        phaseTotal = 178; 
+        let phaseDays = days.slice(78, 256);
+        phaseCompleted = phaseDays.filter(d => d.done).length;
+        pct = 50 + ((phaseCompleted / phaseTotal) * 50);
       }
 
-      document.getElementById('hero-phase-label').innerText = label;
-      document.getElementById('hero-pct-val').innerText = '%' + pct;
+      document.getElementById('hero-phase-label').innerText = phaseTitle;
+      document.getElementById('hero-pct-val').innerText = '%' + pct.toFixed(1);
       document.getElementById('hero-progress-fill').style.width = pct + '%';
       
-      document.getElementById('hero-completed-text').innerText = completedText;
-      document.getElementById('hero-days-status').innerText = 'Şu Anki Hedef: %' + pct;
-      document.getElementById('hero-days-left').innerText = leftText;
+      document.getElementById('hero-completed-text').innerText = phaseCompleted + ' / ' + phaseTotal + ' Gün';
+      document.getElementById('hero-days-status').innerText = 'Bu Aşamada İlerleme: %' + pct.toFixed(1);
+      document.getElementById('hero-days-left').innerText = (phaseTotal - phaseCompleted) + ' Gün Kaldı';
 
       const prox = document.getElementById('splash-proximity-text');
-      if (prox) prox.innerText = 'Hedefe Yakınlık: %' + pct;
+      if (prox) prox.innerText = 'Bölüm İlerlemesi: %' + pct.toFixed(1);
 
-      // Bugünün Hedeflenen Ağırlığı (Hero Card - Gizlilik Kontrolüyle)
       const todayTarget = days[currentDayIndex];
-      if (todayTarget.showMetrics) {
-        document.getElementById('hero-current-target').innerText = `Bugün Hedeflenen: ${todayTarget.targetWeight.toFixed(1)} kg • %${todayTarget.targetFatPct.toFixed(1)} Yağ`;
-      } else {
-        document.getElementById('hero-current-target').innerText = `Bugün Hedeflenen: Hazırlık (Kilo Takibi Yok)`;
-      }
+      document.getElementById('hero-current-target').innerText = `Bugün Hedeflenen: ${todayTarget.targetWeight.toFixed(1)} kg • %${todayTarget.targetFatPct.toFixed(1)} Yağ`;
     }
 
     function renderToday() {
@@ -636,13 +908,7 @@
       document.getElementById('today-day-title').innerText = 'Gün ' + today.dayNumber;
       document.getElementById('today-date-sub').innerText = today.dateStr + ', ' + today.dayName;
       document.getElementById('today-menu').innerText = today.menu;
-      
-      // Hedeflenen Fizik (Gizlilik Kontrolüyle)
-      if (today.showMetrics) {
-        document.getElementById('today-target-stats').innerText = today.targetWeight.toFixed(1) + ' kg (%' + today.targetFatPct.toFixed(1) + ')';
-      } else {
-        document.getElementById('today-target-stats').innerText = '10 Kasım\'da Başlıyor';
-      }
+      document.getElementById('today-target-stats').innerText = today.targetWeight.toFixed(1) + ' kg (%' + today.targetFatPct.toFixed(1) + ')';
 
       const btn = document.getElementById('today-tick-btn');
       
@@ -686,8 +952,8 @@
             <div class="row-sub">${d.dateStr} • ${d.menu}</div>
           </div>
           <div class="row-right">
-            <div class="row-fat-pct">${d.showMetrics ? '%' + d.targetFatPct.toFixed(1) + ' Yağ' : '--'}</div>
-            <div class="row-weight-muted">${d.showMetrics ? d.targetWeight.toFixed(1) + ' kg' : '--'}</div>
+            <div class="row-fat-pct">%${d.targetFatPct.toFixed(1)} Yağ</div>
+            <div class="row-weight-muted">${d.targetWeight.toFixed(1)} kg</div>
           </div>
         `;
         container.appendChild(row);
@@ -701,7 +967,6 @@
       renderFeed();
     }
 
-    // Ağa İstek At - GVIZ Yalnızca Okuma İçin
     function fetchLiveSheet() {
       const loader = document.getElementById('loading-indicator');
       loader.style.display = 'block';
@@ -722,9 +987,8 @@
             
             rows.forEach(function(r, idx) {
               if (idx < days.length && r.c) {
-                // Sütun 1 (E-tabloda 'B' sütunu): UYULDU MU?
                 const val = r.c[1] ? r.c[1].v : null;
-                if (val === true || val === 'TRUE' || val === 'true') {
+                if (val === true || val === 'TRUE' || val === 'true' || val === 'DOĞRU') {
                   days[idx].done = true;
                 } else {
                   days[idx].done = false;
@@ -742,7 +1006,7 @@
         .catch(function(err) {
           console.error("Fetch Hatası:", err);
           loader.style.background = '#b45309';
-          loader.innerHTML = `Bağlantı Hatası: Lütfen Google E-Tablonuzun "Paylaş" menüsünden<br><b>"Bağlantıya sahip olan herkes"</b> olarak ayarlandığından emin olun.`;
+          loader.innerHTML = `Bağlantı Hatası: Lütfen E-Tablonuzun "Paylaş" ayarını kontrol edin.`;
           
           isDataLoaded = true;
           updateProgress();
@@ -753,24 +1017,15 @@
         });
     }
 
-    // Ağa İstek At - Webhook ile Yazma İçin
     function sendToGoogleSheets(dayIndex, isDone) {
-      if (!WEBHOOK_URL || WEBHOOK_URL === 'BURAYA_APPS_SCRIPT_URL_GELECEK') {
-        const loader = document.getElementById('loading-indicator');
-        loader.style.display = 'block';
-        loader.style.background = '#b45309';
-        loader.innerText = 'Uyarı: Apps Script URL eksik! Tikler kaydedilemiyor.';
-        setTimeout(() => { loader.style.display = 'none'; }, 3000);
+      if (!WEBHOOK_URL || WEBHOOK_URL.includes('BURAYA_APPS_SCRIPT_URL_GELECEK')) {
         return;
       }
       
       const rowNumber = dayIndex + 2; 
       const url = WEBHOOK_URL + (WEBHOOK_URL.includes('?') ? '&' : '?') + 'row=' + rowNumber + '&val=' + (isDone ? 'TRUE' : 'FALSE');
       
-      fetch(url, { method: 'GET', mode: 'no-cors' })
-        .catch(err => {
-          console.error("Yazma hatası:", err);
-        });
+      fetch(url, { method: 'GET', mode: 'no-cors' }).catch(err => { console.error("Yazma hatası:", err); });
     }
 
     function toggleToday() {
@@ -794,7 +1049,6 @@
       sendToGoogleSheets(idx, days[idx].done);
     }
 
-    // Başlatma
     updateProgress();
     renderToday();
     renderFeed();
