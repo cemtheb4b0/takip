@@ -337,7 +337,6 @@
     const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
     const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 
-    // TAM 256 ADET EŞSİZ, TARİHİ, FELSEFİ VE PSİKOLOJİK SÖZ KÜTÜPHANESİ
     const quotes = [
       {tr:"Ölümü hatırla.",orig:"Memento mori.",a:"Marcus Aurelius",bio:"Roma İmparatoru",ctx:"Cermen sınırındaki karargahlarda"},
       {tr:"Kendini yenmek, tüm zaferlerin en büyüğüdür.",orig:"Ipsa se vincere maxima victoria est.",a:"Platon",bio:"Antik Yunan Filozofu",ctx:"Ruhun Disiplini Üzerine"},
@@ -668,7 +667,8 @@
     let isDataLoaded = false;
     let currentFilter = 'all';
 
-    const baseStartDate = new Date(2026, 10, 8, 0, 0, 0); 
+    // 9 KASIM BAŞLANGIÇ
+    const baseStartDate = new Date(2026, 10, 9, 0, 0, 0); 
     const todayObj = new Date(); 
     todayObj.setHours(0, 0, 0, 0); 
     
@@ -690,25 +690,31 @@
     let hasDeloadWater = false;
     let prevIs0Carb = true; 
 
+    // Yeni Aşama İndeksleri:
+    // 1. Aşama: İndeks 0-33 (34 Gün)
+    // 2. Aşama: İndeks 34-53 (20 Gün)
+    // Sömestr (Uzatılmış): İndeks 54-105 (52 Gün)
+    // Final: İndeks 106-255 (150 Gün)
+
     for (let i = 0; i < totalDays; i++) {
       const d = new Date(baseStartDate.getFullYear(), baseStartDate.getMonth(), baseStartDate.getDate() + i);
       const dayStr = d.getDate() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
-      
-      const isPhase1 = d <= new Date(2026, 11, 11); 
-      const isMiniCut = d >= new Date(2027, 0, 1) && d <= new Date(2027, 0, 24); 
       
       let phaseName = "";
       let is0Carb = false;
       let isDeload = false;
       
-      if (isPhase1) {
+      if (i <= 33) {
         phaseName = "1. Aşama (Karanlık Dönem)";
         is0Carb = true;
-      } else if (isMiniCut) {
-        phaseName = "Sömestr Mini-cut";
+      } else if (i <= 53) {
+        phaseName = "2. Aşama (İlk Yarı / Geçiş)";
+        is0Carb = false;
+      } else if (i <= 105) {
+        phaseName = "Sömestr Mini-Cut (Uzatılmış)";
         is0Carb = true;
       } else {
-        phaseName = "İnşa & Geçiş Aşaması";
+        phaseName = "Final Aşaması";
         is0Carb = false;
       }
 
@@ -873,17 +879,17 @@
         phaseCompleted = phaseDays.filter(d => d.done).length;
         pct = 40 + ((phaseCompleted / phaseTotal) * 10);
 
-      } else if (currentDayIndex <= 77) {
-        phaseTitle = "Sömestr Mini-Cut";
-        phaseTotal = 24;
-        let phaseDays = days.slice(54, 78);
+      } else if (currentDayIndex <= 105) {
+        phaseTitle = "Sömestr Mini-Cut (Uzatılmış)";
+        phaseTotal = 52;
+        let phaseDays = days.slice(54, 106);
         phaseCompleted = phaseDays.filter(d => d.done).length;
         pct = (phaseCompleted / phaseTotal) * 100;
 
       } else {
         phaseTitle = "Final Aşaması";
-        phaseTotal = 178; 
-        let phaseDays = days.slice(78, 256);
+        phaseTotal = 150; 
+        let phaseDays = days.slice(106, 256);
         phaseCompleted = phaseDays.filter(d => d.done).length;
         pct = 50 + ((phaseCompleted / phaseTotal) * 50);
       }
