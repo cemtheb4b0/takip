@@ -118,22 +118,31 @@
     .app-title { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.6px; color: var(--text-primary); }
     .app-meta { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); }
 
-    .hero-card { padding: 22px 20px; margin-bottom: 14px; animation: slideUpFade 0.6s 0.2s both; }
-    .hero-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
-    .hero-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text-secondary); }
-    .hero-fat-val { font-size: 1.6rem; font-weight: 900; letter-spacing: -0.5px; color: var(--text-primary); line-height: 1.3; margin-top: 4px; }
-    .hero-weight-muted { font-size: 0.85rem; font-weight: 600; color: var(--accent-amber); margin-top: 6px; }
+    .hero-card { padding: 24px 20px; margin-bottom: 14px; animation: slideUpFade 0.6s 0.2s both; }
+    .hero-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    
+    /* Aşama Seçici (Phase Navigator) Stilleri */
+    .phase-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .nav-btn { 
+      background: rgba(0,0,0,0.06); border: none; border-radius: 12px; width: 28px; height: 28px; 
+      display: flex; align-items: center; justify-content: center; cursor: pointer; 
+      color: var(--text-primary); font-size: 0.85rem; font-weight: bold; transition: all 0.2s; 
+    }
+    .nav-btn:active { background: rgba(0,0,0,0.15); transform: scale(0.9); }
+    .hero-label { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 0; min-width: 130px; text-align: center; }
+    
+    .hero-fat-val { font-size: 1.8rem; font-weight: 900; letter-spacing: -0.5px; color: var(--text-primary); line-height: 1.2; margin-top: 4px; }
     
     .hero-pct-badge { 
-      background: var(--accent-green-soft); color: var(--accent-green-dark); padding: 8px 14px; 
-      border-radius: 24px; font-size: 1.15rem; font-weight: 800; text-align: right; 
+      background: var(--accent-green-soft); color: var(--accent-green-dark); padding: 10px 16px; 
+      border-radius: 24px; font-size: 1.2rem; font-weight: 900; text-align: right; 
       box-shadow: 0 4px 12px rgba(52, 199, 89, 0.1); border: 1px solid rgba(52, 199, 89, 0.2);
     }
 
-    .progress-bar-bg { background: rgba(0,0,0,0.06); height: 10px; border-radius: 5px; overflow: hidden; margin: 16px 0 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+    .progress-bar-bg { background: rgba(0,0,0,0.06); height: 12px; border-radius: 6px; overflow: hidden; margin: 16px 0 10px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
     .progress-bar-fill { 
       background: linear-gradient(90deg, #34c759, #4add72); height: 100%; width: 0%; 
-      border-radius: 5px; transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); position: relative;
+      border-radius: 6px; transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1); position: relative;
       box-shadow: 0 0 10px rgba(52, 199, 89, 0.4);
     }
     .progress-bar-fill::after {
@@ -143,22 +152,20 @@
     }
     @keyframes progressShine { 100% { transform: translateX(100%); } }
 
-    .progress-info-row { display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); }
+    .progress-info-row { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); }
 
     .today-card { padding: 22px 20px; margin-bottom: 16px; animation: slideUpFade 0.6s 0.3s both; }
     .today-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
-    .today-day-tag { font-size: 1rem; font-weight: 800; color: var(--text-primary); }
+    .today-day-tag { font-size: 1.05rem; font-weight: 800; color: var(--text-primary); }
     .today-date-sub { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; }
     
     .today-metrics-grid { 
       background: rgba(255,255,255,0.5); border-radius: var(--radius-md); padding: 14px 16px; 
       margin-bottom: 16px; border: 1px solid rgba(255,255,255,0.6);
+      text-align: center;
     }
-    .today-metric-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem; }
-    .today-metric-row:last-child { margin-bottom: 0; }
-    .today-metric-label { color: var(--text-secondary); font-weight: 600; }
-    .today-metric-bold { font-weight: 800; color: var(--text-primary); text-align: right; max-width: 65%; }
-    .today-metric-target { font-weight: 800; color: var(--accent-green-dark); text-align: right; }
+    .today-metric-bold { font-weight: 800; color: var(--text-primary); font-size: 1rem; }
+    .today-metric-label { font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
 
     .btn-tick { 
       width: 100%; padding: 18px; border-radius: var(--radius-md); font-size: 1.05rem; 
@@ -177,7 +184,7 @@
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
       transform: skewX(-20deg); animation: buttonShine 3s infinite;
     }
-    .btn-tick:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .btn-tick:disabled { opacity: 0.8; cursor: not-allowed; background: rgba(0,0,0,0.04); color: var(--text-secondary); border-color: transparent; box-shadow: none; transform: none; }
 
     .accordion-trigger { 
       padding: 16px 18px; width: 100%; display: flex; justify-content: space-between; 
@@ -219,11 +226,13 @@
     
     .row-main { flex: 1; min-width: 0; cursor: pointer; }
     .row-title { font-size: 0.95rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
-    .row-sub { font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; }
+    .row-sub { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; }
 
     .row-right { text-align: right; flex-shrink: 0; }
-    .row-fat-pct { font-size: 0.9rem; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
-    .row-weight-muted { font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; }
+    .row-status { font-size: 0.8rem; font-weight: 800; }
+    .status-locked { color: var(--text-secondary); opacity: 0.6; }
+    .status-ready { color: var(--accent-amber); }
+    .status-done { color: var(--accent-green-dark); }
 
     .sheet-link-card { 
       padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; 
@@ -240,7 +249,7 @@
   <div id="splash-screen">
     <div class="splash-top">
       <div class="splash-title">Hoş geldin Cem</div>
-      <div class="splash-sub">Süreçte Kal</div>
+      <div class="splash-sub">İrade Her Şeydir</div>
     </div>
 
     <div class="splash-quote-card">
@@ -263,15 +272,18 @@
 
   <div class="app-header">
     <div class="app-title">Cem Protokol</div>
-    <div class="app-meta">256 Günlük Simülasyon</div>
+    <div class="app-meta">256 Günlük Savaş</div>
   </div>
 
   <div class="hero-card">
     <div class="hero-top">
       <div>
-        <div class="hero-label" id="hero-phase-label">İlerleme</div>
+        <div class="phase-nav">
+          <button class="nav-btn" onclick="changePhase(-1)">❮</button>
+          <div class="hero-label" id="hero-phase-label">Yükleniyor</div>
+          <button class="nav-btn" onclick="changePhase(1)">❯</button>
+        </div>
         <div class="hero-fat-val" id="hero-completed-text">-- / -- Gün</div>
-        <div class="hero-weight-muted" id="hero-current-target">Bugün Hedeflenen: --</div>
       </div>
       <div class="hero-pct-badge" id="hero-pct-val">%0.0</div>
     </div>
@@ -281,29 +293,23 @@
     </div>
 
     <div class="progress-info-row">
-      <span id="hero-days-status">İlerleme: %--</span>
+      <span id="hero-days-status">Tamamlanan: %--</span>
       <span id="hero-days-left">-- Gün Kaldı</span>
     </div>
   </div>
 
   <div class="today-card">
     <div class="today-header">
-      <span class="today-day-tag" id="today-day-title">Gün --</span>
-      <span class="today-date-sub" id="today-date-sub">Tarih</span>
+      <span class="today-day-tag">Aktif Değerlendirme</span>
+      <span class="today-date-sub" id="eval-date-sub">Yükleniyor...</span>
     </div>
 
     <div class="today-metrics-grid">
-      <div class="today-metric-row">
-        <span class="today-metric-label">Bugünün Menüsü:</span>
-        <span class="today-metric-bold" id="today-menu">Yükleniyor...</span>
-      </div>
-      <div class="today-metric-row" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05);">
-        <span class="today-metric-label">Hedeflenen Fizik:</span>
-        <span class="today-metric-target" id="today-target-stats">--</span>
-      </div>
+      <span class="today-metric-label">Uygulanan Menü</span>
+      <span class="today-metric-bold" id="eval-menu">Yükleniyor...</span>
     </div>
 
-    <button id="today-tick-btn" class="btn-tick" onclick="toggleToday()" disabled>
+    <button id="today-tick-btn" class="btn-tick" onclick="toggleEvaluation()" disabled>
       Tablo Verisi Bekleniyor...
     </button>
   </div>
@@ -315,7 +321,7 @@
 
   <div class="days-drawer" id="days-drawer">
     <div class="filter-tabs">
-      <button class="filter-tab active" onclick="setTab('all', this)">Tümü (256)</button>
+      <button class="filter-tab active" onclick="setTab('all', this)">Tümü</button>
       <button class="filter-tab" onclick="setTab('week', this)">Bu Hafta</button>
       <button class="filter-tab" onclick="setTab('pending', this)">Kalanlar</button>
       <button class="filter-tab" onclick="setTab('done', this)">Uyulanlar</button>
@@ -633,7 +639,7 @@
       {tr:"Sadece en güçlüler affedebilir.",orig:"Only the strongest can forgive.",a:"Gandhi",bio:"Lider",ctx:"Affetmek"},
       {tr:"Zayıflık, gücün başlangıcıdır.",orig:"Weakness is the beginning of power.",a:"Anonim",bio:"Zayıflık",ctx:"Güç"},
 
-      // İŞTE SENİN O EFSANEVİ 27 SÖZÜN (EN SONA, FİNAL GÜNLERİNE AYRILDI)
+      // ÖZEL FİNAL SÖZLERİ
       { tr: "Bir zincir en zayıf halkası kadar sağlamdır.", orig: "A chain is only as strong as its weakest link.", a: "Thomas Reid", bio: "İskoç Filozof", ctx: "Essays on the Intellectual Powers of Man (1786)" },
       { tr: "Yaraların ışığın içeri girdiği yerdir. Yıkımın olduğu yerde hazine bulunur.", orig: "The wound is the place where the Light enters you.", a: "Mevlana", bio: "Sufi Mistik", ctx: "İçsel Yıkım ve Dönüşüm" },
       { tr: "Her duygu gerektiğinde yaşanmak için var.", orig: "Every emotion exists to be felt when necessary.", a: "Carl Gustav Jung", bio: "İsviçreli Psikiyatr", ctx: "Gölge Arketipi ve Kabulleniş" },
@@ -667,154 +673,98 @@
     let isDataLoaded = false;
     let currentFilter = 'all';
 
-    // 9 KASIM BAŞLANGIÇ
-    const baseStartDate = new Date(2026, 10, 9, 0, 0, 0); 
-    const todayObj = new Date(); 
-    todayObj.setHours(0, 0, 0, 0); 
-    
-    const diffTime = todayObj.getTime() - baseStartDate.getTime();
-    let currentDayIndex = Math.round(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (currentDayIndex < 0) currentDayIndex = 0;
-    if (currentDayIndex >= totalDays) currentDayIndex = totalDays - 1;
+    // BAŞLANGIÇ: 12 Kasım 2026 (Aylar 0 indexli olduğu için 10 = Kasım)
+    const baseStartDate = new Date(2026, 10, 12, 0, 0, 0); 
 
-    let simWeight = 111.0; 
-    let simFatMass = 111.0 * 0.25; 
-    let adaptationMultiplier = 1.0; 
-    const heightCm = 193;
-    const ageYrs = 22;
-
-    let active2100Days = 0;
-    let isReverseDiet = false;
-    let reverseDietDays = 0;
-    let hasDeloadWater = false;
-    let prevIs0Carb = true; 
-
-    // Yeni Aşama İndeksleri:
-    // 1. Aşama: İndeks 0-33 (34 Gün)
-    // 2. Aşama: İndeks 34-53 (20 Gün)
-    // Sömestr (Uzatılmış): İndeks 54-105 (52 Gün)
-    // Final: İndeks 106-255 (150 Gün)
-
+    // GÜNLERİN OLUŞTURULMASI
     for (let i = 0; i < totalDays; i++) {
-      const d = new Date(baseStartDate.getFullYear(), baseStartDate.getMonth(), baseStartDate.getDate() + i);
-      const dayStr = d.getDate() + ' ' + monthNames[d.getMonth()] + ' ' + d.getFullYear();
+      let d = new Date(baseStartDate.getFullYear(), baseStartDate.getMonth(), baseStartDate.getDate() + i);
       
+      // 12:00 Kuralı: Bu günün tiklenebilmesi için, gerçek zamanın bu tarihten 1 gün sonra saat 12:00'ye ulaşması gerekir.
+      let unlockDate = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, 12, 0, 0);
+
+      let y = d.getFullYear();
+      let m = d.getMonth(); // 10=Kasım, 11=Aralık, 0=Ocak, 1=Şubat, 2=Mart
+      let dayOfMonth = d.getDate();
+
       let phaseName = "";
-      let is0Carb = false;
-      let isDeload = false;
-      
-      if (i <= 33) {
-        phaseName = "1. Aşama (Karanlık Dönem)";
-        is0Carb = true;
-      } else if (i <= 53) {
-        phaseName = "2. Aşama (İlk Yarı / Geçiş)";
-        is0Carb = false;
-      } else if (i <= 105) {
-        phaseName = "Sömestr Mini-Cut (Uzatılmış)";
-        is0Carb = true;
-      } else {
-        phaseName = "Final Aşaması";
-        is0Carb = false;
+      let phaseId = 0;
+      let menu = "";
+
+      // 1. Aşama: 12 Kasım - 21 Kasım
+      if (y === 2026 && m === 10 && dayOfMonth <= 21) {
+        phaseName = "1. Aşama: Isınma";
+        phaseId = 1;
+        menu = "Isınma Menüsü";
+      } 
+      // 2. Aşama: 22 Kasım - 11 Aralık
+      else if (y === 2026 && ((m === 10 && dayOfMonth >= 22) || (m === 11 && dayOfMonth <= 11))) {
+        phaseName = "2. Aşama: Sıfır Karb";
+        phaseId = 2;
+        menu = "Sadece Tavuk (0 Karbonhidrat)";
+      } 
+      // 3. Aşama: 12 Aralık - 31 Aralık
+      else if (y === 2026 && m === 11 && dayOfMonth >= 12) {
+        phaseName = "3. Aşama: Final Yüklemesi";
+        phaseId = 3;
+        menu = "Tavuk + 300g Pirinç";
+      } 
+      // 4. Aşama: 1 Ocak - 28 Şubat
+      else if (y === 2027 && (m === 0 || m === 1)) {
+        phaseName = "4. Aşama: Sıfır Karb 2";
+        phaseId = 4;
+        menu = "Sadece Tavuk (0 Karbonhidrat)";
+      } 
+      // 5. Aşama: 1 Mart - Bitiş (256. Gün)
+      else {
+        phaseName = "5. Aşama: 300 Karb Süreci";
+        phaseId = 5;
+        menu = "Tavuk + 300g Pirinç";
       }
 
-      let currentFatPct = (simFatMass / simWeight) * 100;
-      if (currentFatPct <= 10.0 && !isReverseDiet) {
-        isReverseDiet = true;
-      }
-
-      let bmr = (10 * simWeight) + (6.25 * heightCm) - (5 * ageYrs) + 5;
-      let tdee = bmr * 1.25 * adaptationMultiplier;
-      
-      let dailyIntakeKcal = 0;
-      let dailyMenu = "";
-
-      if (isReverseDiet) {
-        phaseName = "Tersine Diyet (Reverse Diet)";
-        is0Carb = false; 
-        
-        let weeksInReverse = Math.floor(reverseDietDays / 7);
-        let riceGrams = 300 + (weeksInReverse * 50);
-        let targetCals = 2100 + (weeksInReverse * 175); 
-        
-        let maxCals = tdee + 150; 
-        if (targetCals > maxCals) {
-          targetCals = maxCals;
-          riceGrams = Math.round((targetCals - 2100) / 3.5) + 300; 
-          dailyMenu = `Sabitlendi! Tavuk + ~${riceGrams}g Pirinç (${Math.round(targetCals)} kcal)`;
-        } else {
-          dailyMenu = `Tavuk + ${riceGrams}g Pirinç (${Math.round(targetCals)} kcal)`;
-        }
-        dailyIntakeKcal = targetCals;
-        reverseDietDays++;
-      } else {
-        if (is0Carb) {
-          dailyIntakeKcal = 1000;
-          dailyMenu = "Sadece Tavuk (1000 kcal)";
-        } else {
-          active2100Days++;
-          if (active2100Days % 30 === 0) {
-            isDeload = true;
-            dailyIntakeKcal = tdee;
-            dailyMenu = `Bakım Kalorisi / Deload (~${Math.round(tdee)} kcal)`;
-          } else {
-            dailyIntakeKcal = 2100;
-            dailyMenu = "Tavuk + 300g Pirinç (2100 kcal)";
-          }
-        }
-      }
-
-      if (prevIs0Carb && !is0Carb) simWeight += 1.2; 
-      else if (!prevIs0Carb && is0Carb) simWeight -= 1.2; 
-      
-      if (hasDeloadWater) {
-        simWeight -= 0.5;
-        hasDeloadWater = false;
-      }
-      if (isDeload) {
-        simWeight += 0.5;
-        hasDeloadWater = true;
-      }
-      
-      prevIs0Carb = is0Carb;
-      let deficit = tdee - dailyIntakeKcal;
-      
       days.push({
         index: i,
         dayNumber: i + 1,
-        dateStr: dayStr,
+        dateObj: d,
+        unlockDate: unlockDate,
+        dateStr: dayOfMonth + ' ' + monthNames[m] + ' ' + y,
         dayName: dayNames[d.getDay()],
         week: Math.floor(i / 7) + 1,
         phaseName: phaseName,
-        menu: dailyMenu,
+        phaseId: phaseId,
+        menu: menu,
         done: false,
-        targetWeight: simWeight,
-        targetFatPct: currentFatPct
+        isEligible: false
       });
-
-      if (deficit > 0) {
-        let weightLossKg = deficit / 6770; 
-        let fatLossKg = (deficit * 0.85) / 7700;
-        simWeight -= weightLossKg;
-        simFatMass -= fatLossKg;
-        
-        if (!isDeload && !isReverseDiet) {
-           if (adaptationMultiplier > 0.88) adaptationMultiplier -= 0.001; 
-        } else if (isDeload) {
-           if (adaptationMultiplier < 1.0) adaptationMultiplier += 0.02; 
-        }
-      } else {
-        let surplus = -deficit;
-        let weightGain = surplus / 7000;
-        let fatGain = (surplus * 0.5) / 7700;
-        simWeight += weightGain;
-        simFatMass += fatGain;
-        
-        if (adaptationMultiplier < 1.0) adaptationMultiplier += 0.005; 
-      }
     }
 
-    const currentQuote = quotes[currentDayIndex];
+    let viewedPhaseId = 1;
+
+    // GERÇEK ZAMAN VE HEDEF GÜN HESAPLAMASI
+    function getCurrentState() {
+      let now = new Date();
+      
+      let diffTime = now.getTime() - baseStartDate.getTime();
+      let currentDayIndex = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      
+      if (currentDayIndex < 0) currentDayIndex = 0;
+      if (currentDayIndex >= totalDays) currentDayIndex = totalDays - 1;
+
+      // Her günün tiklenebilirlik durumu güncellenir
+      days.forEach(d => {
+        d.isEligible = now.getTime() >= d.unlockDate.getTime();
+      });
+
+      // Uygulama açıldığında ekrandaki bar o an içinde bulunulan aşamayı göstersin
+      viewedPhaseId = days[currentDayIndex].phaseId;
+
+      return currentDayIndex;
+    }
+
+    let currentDayIdx = getCurrentState();
+
+    // SÖZLERİN YÜKLENMESİ
+    const currentQuote = quotes[currentDayIdx] || quotes[quotes.length - 1];
     document.getElementById('splash-quote-text').innerText = '"' + currentQuote.tr + '"';
     
     const origEl = document.getElementById('splash-quote-orig');
@@ -859,42 +809,22 @@
       icon.classList.toggle('open');
     }
 
+    // Kullanıcının oklarla aşamalar arası geçiş yapmasını sağlar
+    function changePhase(direction) {
+      viewedPhaseId += direction;
+      if (viewedPhaseId < 1) viewedPhaseId = 1;
+      if (viewedPhaseId > 5) viewedPhaseId = 5;
+      updateProgress();
+    }
+
     function updateProgress() {
-      let phaseTotal = 0;
-      let phaseCompleted = 0;
-      let pct = 0;
-      let phaseTitle = "";
+      let phaseDays = days.filter(d => d.phaseId === viewedPhaseId);
+      
+      let phaseTotal = phaseDays.length;
+      let phaseCompleted = phaseDays.filter(d => d.done).length;
+      let pct = (phaseCompleted / phaseTotal) * 100;
 
-      if (currentDayIndex <= 33) {
-        phaseTitle = "1. Aşama (Karanlık Dönem)";
-        phaseTotal = 34;
-        let phaseDays = days.slice(0, 34);
-        phaseCompleted = phaseDays.filter(d => d.done).length;
-        pct = (phaseCompleted / phaseTotal) * 100;
-
-      } else if (currentDayIndex <= 53) {
-        phaseTitle = "2. Aşama (İlk Yarı)";
-        phaseTotal = 20;
-        let phaseDays = days.slice(34, 54);
-        phaseCompleted = phaseDays.filter(d => d.done).length;
-        pct = 40 + ((phaseCompleted / phaseTotal) * 10);
-
-      } else if (currentDayIndex <= 105) {
-        phaseTitle = "Sömestr Mini-Cut (Uzatılmış)";
-        phaseTotal = 52;
-        let phaseDays = days.slice(54, 106);
-        phaseCompleted = phaseDays.filter(d => d.done).length;
-        pct = (phaseCompleted / phaseTotal) * 100;
-
-      } else {
-        phaseTitle = "Final Aşaması";
-        phaseTotal = 150; 
-        let phaseDays = days.slice(106, 256);
-        phaseCompleted = phaseDays.filter(d => d.done).length;
-        pct = 50 + ((phaseCompleted / phaseTotal) * 50);
-      }
-
-      document.getElementById('hero-phase-label').innerText = phaseTitle;
+      document.getElementById('hero-phase-label').innerText = phaseDays[0].phaseName;
       document.getElementById('hero-pct-val').innerText = '%' + pct.toFixed(1);
       document.getElementById('hero-progress-fill').style.width = pct + '%';
       
@@ -903,18 +833,32 @@
       document.getElementById('hero-days-left').innerText = (phaseTotal - phaseCompleted) + ' Gün Kaldı';
 
       const prox = document.getElementById('splash-proximity-text');
-      if (prox) prox.innerText = 'Bölüm İlerlemesi: %' + pct.toFixed(1);
-
-      const todayTarget = days[currentDayIndex];
-      document.getElementById('hero-current-target').innerText = `Bugün Hedeflenen: ${todayTarget.targetWeight.toFixed(1)} kg • %${todayTarget.targetFatPct.toFixed(1)} Yağ`;
+      // Sadece gerçekte içinde bulunduğumuz aşamanın yüzdesini splash'te göster
+      if (prox && viewedPhaseId === days[currentDayIdx].phaseId) {
+        prox.innerText = 'Bölüm İlerlemesi: %' + pct.toFixed(1);
+      }
     }
 
+    // Değerlendirilmesi Gereken Günü Bulur
+    function getEvaluationDay() {
+      // Eğer "dün" (currentDayIdx - 1) henüz tiklenmemişse ve 12:00'yi geçmişsek, odağımız o gündür.
+      if (currentDayIdx > 0) {
+        let yesterday = days[currentDayIdx - 1];
+        if (yesterday.isEligible && !yesterday.done) {
+          return yesterday;
+        }
+      }
+      // Dün tiklenmişse (veya 1. gündeysek), odak bugündür (buton kilitli kalacak).
+      return days[currentDayIdx];
+    }
+
+    let evaluationTargetDay = null;
+
     function renderToday() {
-      const today = days[currentDayIndex];
-      document.getElementById('today-day-title').innerText = 'Gün ' + today.dayNumber;
-      document.getElementById('today-date-sub').innerText = today.dateStr + ', ' + today.dayName;
-      document.getElementById('today-menu').innerText = today.menu;
-      document.getElementById('today-target-stats').innerText = today.targetWeight.toFixed(1) + ' kg (%' + today.targetFatPct.toFixed(1) + ')';
+      evaluationTargetDay = getEvaluationDay();
+      
+      document.getElementById('eval-date-sub').innerText = evaluationTargetDay.dateStr + ' ' + evaluationTargetDay.dayName;
+      document.getElementById('eval-menu').innerText = evaluationTargetDay.menu;
 
       const btn = document.getElementById('today-tick-btn');
       
@@ -925,29 +869,54 @@
         return;
       }
       
-      btn.disabled = false;
-      if (today.done) {
-        btn.className = 'btn-tick ticked';
-        btn.innerText = 'Bugün Başarıyla Tamamlandı';
+      if (evaluationTargetDay.isEligible) {
+        btn.disabled = false;
+        if (evaluationTargetDay.done) {
+          btn.className = 'btn-tick ticked';
+          btn.innerText = 'Başarıyla Tamamlandı ✓';
+        } else {
+          btn.className = 'btn-tick';
+          btn.innerText = 'Güne Uyuldu Olarak İşaretle';
+        }
       } else {
+        // Hedef gün henüz kilitliyse (12:00 olmamışsa)
+        btn.disabled = true;
         btn.className = 'btn-tick';
-        btn.innerText = 'Güne Uyuldu Olarak İşaretle';
+        
+        let now = new Date();
+        let isToday = (now.getDate() === evaluationTargetDay.unlockDate.getDate() && now.getMonth() === evaluationTargetDay.unlockDate.getMonth());
+        
+        if (isToday) {
+          btn.innerText = "Değerlendirme Bugün 12:00'de Açılacak";
+        } else {
+          btn.innerText = "Değerlendirme Yarın 12:00'de Açılacak";
+        }
       }
     }
 
     function renderFeed() {
       const container = document.getElementById('days-container');
       container.innerHTML = '';
-      const currentWeek = days[currentDayIndex].week;
+      const currentWeek = days[currentDayIdx].week;
 
       days.forEach(function(d) {
         if (currentFilter === 'pending' && d.done) return;
         if (currentFilter === 'done' && !d.done) return;
         if (currentFilter === 'week' && d.week !== currentWeek) return;
 
-        const isToday = d.index === currentDayIndex;
+        // "Bugün" (henüz kilidi açılmamış olan) gün listeye aktif stil ile yansır.
+        const isCurrent = d.index === currentDayIdx;
         const row = document.createElement('div');
-        row.className = 'day-row-card' + (isToday ? ' current' : '');
+        row.className = 'day-row-card' + (isCurrent ? ' current' : '');
+
+        let statusHtml = '';
+        if (d.done) {
+          statusHtml = '<span class="status-done">Tamamlandı ✓</span>';
+        } else if (d.isEligible) {
+          statusHtml = '<span class="status-ready">Değerlendirme Bekliyor</span>';
+        } else {
+          statusHtml = '<span class="status-locked">Kilitli</span>';
+        }
 
         row.innerHTML = `
           <div class="row-check ${d.done ? 'checked' : ''}" onclick="toggleDay(${d.index})">
@@ -958,8 +927,7 @@
             <div class="row-sub">${d.dateStr} • ${d.menu}</div>
           </div>
           <div class="row-right">
-            <div class="row-fat-pct">%${d.targetFatPct.toFixed(1)} Yağ</div>
-            <div class="row-weight-muted">${d.targetWeight.toFixed(1)} kg</div>
+            <div class="row-status">${statusHtml}</div>
           </div>
         `;
         container.appendChild(row);
@@ -1004,6 +972,7 @@
 
             isDataLoaded = true;
             loader.style.display = 'none';
+            currentDayIdx = getCurrentState();
             updateProgress();
             renderToday();
             renderFeed();
@@ -1034,19 +1003,20 @@
       fetch(url, { method: 'GET', mode: 'no-cors' }).catch(err => { console.error("Yazma hatası:", err); });
     }
 
-    function toggleToday() {
-      if (!isDataLoaded) return;
-      const today = days[currentDayIndex];
-      today.done = !today.done;
+    function toggleEvaluation() {
+      if (!isDataLoaded || !evaluationTargetDay || !evaluationTargetDay.isEligible) return;
+      
+      evaluationTargetDay.done = !evaluationTargetDay.done;
       
       updateProgress();
       renderToday();
       renderFeed();
-      sendToGoogleSheets(today.index, today.done);
+      sendToGoogleSheets(evaluationTargetDay.index, evaluationTargetDay.done);
     }
 
     function toggleDay(idx) {
-      if (!isDataLoaded) return;
+      if (!isDataLoaded || !days[idx].isEligible) return;
+      
       days[idx].done = !days[idx].done;
       
       updateProgress();
