@@ -272,18 +272,14 @@
 
   <div class="app-header">
     <div class="app-title">Cem Protokol</div>
-    <div class="app-meta">256 Günlük Savaş</div>
+    <div class="app-meta">17 Kas 2026 – 28 Şub 2027</div>
   </div>
 
   <div class="hero-card">
     <div class="hero-top">
       <div>
-        <div class="phase-nav">
-          <button class="nav-btn" onclick="changePhase(-1)">❮</button>
-          <div class="hero-label" id="hero-phase-label">Yükleniyor</div>
-          <button class="nav-btn" onclick="changePhase(1)">❯</button>
-        </div>
-        <div class="hero-fat-val" id="hero-completed-text">-- / -- Gün</div>
+        <div class="hero-label" id="hero-phase-label">Güncel Yağ Oranı</div>
+        <div class="hero-fat-val" id="hero-current-fat">%26.0</div>
       </div>
       <div class="hero-pct-badge" id="hero-pct-val">%0.0</div>
     </div>
@@ -293,7 +289,7 @@
     </div>
 
     <div class="progress-info-row">
-      <span id="hero-days-status">Tamamlanan: %--</span>
+      <span id="hero-days-status">Tamamlanan: -- / 104 Gün</span>
       <span id="hero-days-left">-- Gün Kaldı</span>
     </div>
   </div>
@@ -315,7 +311,7 @@
   </div>
 
   <button class="accordion-trigger" onclick="toggleAccordion()">
-    <span>Tüm Günleri Göster (256 Gün)</span>
+    <span>Tüm Günleri Göster </span>
     <span class="accordion-icon" id="acc-icon">▼</span>
   </button>
 
@@ -339,7 +335,7 @@
     const GVIZ_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
     const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw0T2KLaibdyxo2A_kIiIu0R1DKw_v4oQ7DBkj2K7P_XX22qBrkU5TCgWQlmrpSlMaVsw/exec';
 
-    const totalDays = 256; 
+    const totalDays = 104; 
     const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
     const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 
@@ -673,8 +669,10 @@
     let isDataLoaded = false;
     let currentFilter = 'all';
 
-    // BAŞLANGIÇ: 12 Kasım 2026 (Aylar 0 indexli olduğu için 10 = Kasım)
-    const baseStartDate = new Date(2026, 10, 12, 0, 0, 0); 
+    // BAŞLANGIÇ: 17 Kasım 2026 (Aylar 0 indexli olduğu için 10 = Kasım)
+    const baseStartDate = new Date(2026, 10, 17, 0, 0, 0); 
+    const startFatPct = 26.0;
+    const endFatPct = 14.0;
 
     // GÜNLERİN OLUŞTURULMASI
     for (let i = 0; i < totalDays; i++) {
@@ -684,43 +682,11 @@
       let unlockDate = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, 12, 0, 0);
 
       let y = d.getFullYear();
-      let m = d.getMonth(); // 10=Kasım, 11=Aralık, 0=Ocak, 1=Şubat, 2=Mart
+      let m = d.getMonth(); 
       let dayOfMonth = d.getDate();
 
-      let phaseName = "";
-      let phaseId = 0;
-      let menu = "";
-
-      // 1. Aşama: 12 Kasım - 21 Kasım
-      if (y === 2026 && m === 10 && dayOfMonth <= 21) {
-        phaseName = "1. Aşama: Isınma";
-        phaseId = 1;
-        menu = "Isınma Menüsü";
-      } 
-      // 2. Aşama: 22 Kasım - 11 Aralık
-      else if (y === 2026 && ((m === 10 && dayOfMonth >= 22) || (m === 11 && dayOfMonth <= 11))) {
-        phaseName = "2. Aşama: Sıfır Karb";
-        phaseId = 2;
-        menu = "Sadece Tavuk (0 Karbonhidrat)";
-      } 
-      // 3. Aşama: 12 Aralık - 31 Aralık
-      else if (y === 2026 && m === 11 && dayOfMonth >= 12) {
-        phaseName = "3. Aşama: Final Yüklemesi";
-        phaseId = 3;
-        menu = "Tavuk + 300g Pirinç";
-      } 
-      // 4. Aşama: 1 Ocak - 28 Şubat
-      else if (y === 2027 && (m === 0 || m === 1)) {
-        phaseName = "4. Aşama: Sıfır Karb 2";
-        phaseId = 4;
-        menu = "Sadece Tavuk (0 Karbonhidrat)";
-      } 
-      // 5. Aşama: 1 Mart - Bitiş (256. Gün)
-      else {
-        phaseName = "5. Aşama: 300 Karb Süreci";
-        phaseId = 5;
-        menu = "Tavuk + 300g Pirinç";
-      }
+      // Yağ Oranı Projeksiyonu (104 günde lineer düşüş)
+      let dailyFatPct = (startFatPct - (i * (startFatPct - endFatPct) / (totalDays - 1))).toFixed(1);
 
       days.push({
         index: i,
@@ -730,15 +696,12 @@
         dateStr: dayOfMonth + ' ' + monthNames[m] + ' ' + y,
         dayName: dayNames[d.getDay()],
         week: Math.floor(i / 7) + 1,
-        phaseName: phaseName,
-        phaseId: phaseId,
-        menu: menu,
+        menu: "1.3kg Tavuk + 100g Pirinç + 15g Yağ",
+        projectedFat: dailyFatPct,
         done: false,
         isEligible: false
       });
     }
-
-    let viewedPhaseId = 1;
 
     // GERÇEK ZAMAN VE HEDEF GÜN HESAPLAMASI
     function getCurrentState() {
@@ -754,9 +717,6 @@
       days.forEach(d => {
         d.isEligible = now.getTime() >= d.unlockDate.getTime();
       });
-
-      // Uygulama açıldığında ekrandaki bar o an içinde bulunulan aşamayı göstersin
-      viewedPhaseId = days[currentDayIndex].phaseId;
 
       return currentDayIndex;
     }
@@ -809,33 +769,27 @@
       icon.classList.toggle('open');
     }
 
-    // Kullanıcının oklarla aşamalar arası geçiş yapmasını sağlar
-    function changePhase(direction) {
-      viewedPhaseId += direction;
-      if (viewedPhaseId < 1) viewedPhaseId = 1;
-      if (viewedPhaseId > 5) viewedPhaseId = 5;
-      updateProgress();
-    }
-
     function updateProgress() {
-      let phaseDays = days.filter(d => d.phaseId === viewedPhaseId);
+      let completed = days.filter(d => d.done).length;
+      let pct = (completed / totalDays) * 100;
       
-      let phaseTotal = phaseDays.length;
-      let phaseCompleted = phaseDays.filter(d => d.done).length;
-      let pct = (phaseCompleted / phaseTotal) * 100;
+      // Güncel tahmini yağ oranını son tiklenen güne göre veya bulunduğumuz güne göre göster
+      let currentFatDisplay = startFatPct.toFixed(1);
+      if (completed > 0) {
+        let lastCompletedDay = days.filter(d => d.done).pop();
+        currentFatDisplay = lastCompletedDay.projectedFat;
+      }
 
-      document.getElementById('hero-phase-label').innerText = phaseDays[0].phaseName;
+      document.getElementById('hero-current-fat').innerText = '%' + currentFatDisplay;
       document.getElementById('hero-pct-val').innerText = '%' + pct.toFixed(1);
       document.getElementById('hero-progress-fill').style.width = pct + '%';
       
-      document.getElementById('hero-completed-text').innerText = phaseCompleted + ' / ' + phaseTotal + ' Gün';
-      document.getElementById('hero-days-status').innerText = 'Bu Aşamada İlerleme: %' + pct.toFixed(1);
-      document.getElementById('hero-days-left').innerText = (phaseTotal - phaseCompleted) + ' Gün Kaldı';
+      document.getElementById('hero-days-status').innerText = 'Tamamlanan: ' + completed + ' / ' + totalDays + ' Gün';
+      document.getElementById('hero-days-left').innerText = (totalDays - completed) + ' Gün Kaldı';
 
       const prox = document.getElementById('splash-proximity-text');
-      // Sadece gerçekte içinde bulunduğumuz aşamanın yüzdesini splash'te göster
-      if (prox && viewedPhaseId === days[currentDayIdx].phaseId) {
-        prox.innerText = 'Bölüm İlerlemesi: %' + pct.toFixed(1);
+      if (prox) {
+        prox.innerText = 'Genel İlerleme: %' + pct.toFixed(1);
       }
     }
 
@@ -924,7 +878,7 @@
           </div>
           <div class="row-main" onclick="toggleDay(${d.index})">
             <div class="row-title">Gün ${d.dayNumber} — ${d.dayName}</div>
-            <div class="row-sub">${d.dateStr} • ${d.menu}</div>
+            <div class="row-sub">${d.dateStr} • Hedef Yağ: %${d.projectedFat}</div>
           </div>
           <div class="row-right">
             <div class="row-status">${statusHtml}</div>
