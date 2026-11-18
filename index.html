@@ -272,7 +272,7 @@
 
   <div class="app-header">
     <div class="app-title">Cem Protokol</div>
-    <div class="app-meta">17 Kas 2026 – 28 Şub 2027</div>
+    <div class="app-meta">18 Kas 2026 – 28 Şub 2027</div>
   </div>
 
   <div class="hero-card">
@@ -335,7 +335,7 @@
     const GVIZ_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
     const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw0T2KLaibdyxo2A_kIiIu0R1DKw_v4oQ7DBkj2K7P_XX22qBrkU5TCgWQlmrpSlMaVsw/exec';
 
-    const totalDays = 104; 
+    const totalDays = 103; 
     const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
     const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
 
@@ -669,8 +669,8 @@
     let isDataLoaded = false;
     let currentFilter = 'all';
 
-    // BAŞLANGIÇ: 17 Kasım 2026 (Aylar 0 indexli olduğu için 10 = Kasım)
-    const baseStartDate = new Date(2026, 10, 17, 0, 0, 0); 
+    // BAŞLANGIÇ: 18 Kasım 2026 (Aylar 0 indexli olduğu için 10 = Kasım)
+    const baseStartDate = new Date(2026, 10, 18, 0, 0, 0); 
     const startFatPct = 26.0;
     const endFatPct = 14.0;
 
@@ -678,25 +678,21 @@
     for (let i = 0; i < totalDays; i++) {
       let d = new Date(baseStartDate.getFullYear(), baseStartDate.getMonth(), baseStartDate.getDate() + i);
       
-      // 12:00 Kuralı: Bu günün tiklenebilmesi için, gerçek zamanın bu tarihten 1 gün sonra saat 12:00'ye ulaşması gerekir.
-      let unlockDate = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1, 12, 0, 0);
-
       let y = d.getFullYear();
       let m = d.getMonth(); 
       let dayOfMonth = d.getDate();
 
-      // Yağ Oranı Projeksiyonu (104 günde lineer düşüş)
+      // Yağ Oranı Projeksiyonu (103 günde lineer düşüş)
       let dailyFatPct = (startFatPct - (i * (startFatPct - endFatPct) / (totalDays - 1))).toFixed(1);
 
       days.push({
         index: i,
         dayNumber: i + 1,
         dateObj: d,
-        unlockDate: unlockDate,
         dateStr: dayOfMonth + ' ' + monthNames[m] + ' ' + y,
         dayName: dayNames[d.getDay()],
         week: Math.floor(i / 7) + 1,
-        menu: "1.3kg Tavuk + 100g Pirinç + 15g Yağ",
+        menu: "1.3kg Tavuk + 100g Pirinç + 15g Yağ (~2000 Kalori)",
         projectedFat: dailyFatPct,
         done: false,
         isEligible: false
@@ -713,9 +709,9 @@
       if (currentDayIndex < 0) currentDayIndex = 0;
       if (currentDayIndex >= totalDays) currentDayIndex = totalDays - 1;
 
-      // Her günün tiklenebilirlik durumu güncellenir
+      // Kilit sistemi kalktı: Bugün ve geçmiş tüm günler anında tiklenebilir
       days.forEach(d => {
-        d.isEligible = now.getTime() >= d.unlockDate.getTime();
+        d.isEligible = d.index <= currentDayIndex;
       });
 
       return currentDayIndex;
@@ -795,14 +791,7 @@
 
     // Değerlendirilmesi Gereken Günü Bulur
     function getEvaluationDay() {
-      // Eğer "dün" (currentDayIdx - 1) henüz tiklenmemişse ve 12:00'yi geçmişsek, odağımız o gündür.
-      if (currentDayIdx > 0) {
-        let yesterday = days[currentDayIdx - 1];
-        if (yesterday.isEligible && !yesterday.done) {
-          return yesterday;
-        }
-      }
-      // Dün tiklenmişse (veya 1. gündeysek), odak bugündür (buton kilitli kalacak).
+      // Kilit sistemi iptal edildi, değerlendirme her zaman doğrudan bugündür.
       return days[currentDayIdx];
     }
 
@@ -833,18 +822,10 @@
           btn.innerText = 'Güne Uyuldu Olarak İşaretle';
         }
       } else {
-        // Hedef gün henüz kilitliyse (12:00 olmamışsa)
+        // Gelecek günler engelli kalır
         btn.disabled = true;
         btn.className = 'btn-tick';
-        
-        let now = new Date();
-        let isToday = (now.getDate() === evaluationTargetDay.unlockDate.getDate() && now.getMonth() === evaluationTargetDay.unlockDate.getMonth());
-        
-        if (isToday) {
-          btn.innerText = "Değerlendirme Bugün 12:00'de Açılacak";
-        } else {
-          btn.innerText = "Değerlendirme Yarın 12:00'de Açılacak";
-        }
+        btn.innerText = "Gelecek Günler İşaretlenemez";
       }
     }
 
