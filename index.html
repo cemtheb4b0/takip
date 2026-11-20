@@ -122,14 +122,22 @@
     .hero-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     
     /* Aşama Seçici (Phase Navigator) Stilleri */
-    .phase-nav { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
-    .nav-btn { 
-      background: rgba(0,0,0,0.06); border: none; border-radius: 12px; width: 28px; height: 28px; 
-      display: flex; align-items: center; justify-content: center; cursor: pointer; 
-      color: var(--text-primary); font-size: 0.85rem; font-weight: bold; transition: all 0.2s; 
+    .phase-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 14px; margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
     }
-    .nav-btn:active { background: rgba(0,0,0,0.15); transform: scale(0.9); }
-    .hero-label { font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 0; min-width: 130px; text-align: center; }
+    .phase-nav-title { display: flex; flex-direction: column; align-items: center; text-align: center; }
+    .phase-nav-name { font-size: 0.9rem; font-weight: 800; letter-spacing: 0.6px; color: var(--text-primary); }
+    .phase-nav-dates { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-top: 2px; }
+    .nav-btn { 
+      background: rgba(0,0,0,0.06); border: none; border-radius: 12px; width: 32px; height: 32px; 
+      display: flex; align-items: center; justify-content: center; cursor: pointer; 
+      color: var(--text-primary); font-size: 1.1rem; font-weight: 800; transition: all 0.2s; 
+    }
+    .nav-btn:active { background: rgba(0,0,0,0.15); transform: scale(0.92); }
+    .nav-btn:disabled { opacity: 0.28; cursor: not-allowed; transform: none; }
+    .hero-label { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 0; text-align: left; }
     
     .hero-fat-val { font-size: 1.8rem; font-weight: 900; letter-spacing: -0.5px; color: var(--text-primary); line-height: 1.2; margin-top: 4px; }
     
@@ -280,15 +288,24 @@
 
   <div class="app-header">
     <div class="app-title">Agresif Minicut</div>
-    <div class="app-meta">18 Kas 2026 – 28 Şub 2027</div>
+    <div class="app-meta">20 Kas 2026 – 2 Mar 2027</div>
   </div>
 
   <div class="hero-card">
+    <div class="phase-nav">
+      <button class="nav-btn" id="part-prev-btn" onclick="changePart(-1)">‹</button>
+      <div class="phase-nav-title">
+        <span class="phase-nav-name" id="hero-part-name">PART 1</span>
+        <span class="phase-nav-dates" id="hero-part-dates">20 Kas – 30 Kas</span>
+      </div>
+      <button class="nav-btn" id="part-next-btn" onclick="changePart(1)">›</button>
+    </div>
+
     <div class="hero-top">
       <div>
         <div class="hero-label" id="hero-phase-label">Güncel Yağ Oranı</div>
         <div class="hero-fat-val" id="hero-current-fat">%26.0</div>
-        <span class="hero-fat-remaining" id="hero-fat-remaining">Hedef %14'e kalan verilmesi gereken yağ: -- kg</span>
+        <span class="hero-fat-remaining" id="hero-fat-remaining">Kalan Yağ: -- kg</span>
       </div>
       <div class="hero-pct-badge" id="hero-pct-val">%0.0</div>
     </div>
@@ -298,14 +315,14 @@
     </div>
 
     <div class="progress-info-row">
-      <span id="hero-days-status">Tamamlanan: -- / 104 Gün</span>
+      <span id="hero-days-status">Tamamlanan: -- / -- Gün</span>
       <span id="hero-days-left">-- Gün Kaldı</span>
     </div>
   </div>
 
   <div class="today-card">
     <div class="today-header">
-      <span class="today-day-tag">Aktif Değerlendirme</span>
+      <span class="today-day-tag" id="eval-part-tag">Aktif Değerlendirme</span>
       <span class="today-date-sub" id="eval-date-sub">Yükleniyor...</span>
     </div>
 
@@ -328,6 +345,9 @@
   <div class="days-drawer" id="days-drawer">
     <div class="filter-tabs">
       <button class="filter-tab active" onclick="setTab('all', this)">Tümü</button>
+      <button class="filter-tab" onclick="setTab('part1', this)">Part 1</button>
+      <button class="filter-tab" onclick="setTab('part2', this)">Part 2</button>
+      <button class="filter-tab" onclick="setTab('part3', this)">Part 3</button>
       <button class="filter-tab" onclick="setTab('week', this)">Bu Hafta</button>
       <button class="filter-tab" onclick="setTab('pending', this)">Kalanlar</button>
       <button class="filter-tab" onclick="setTab('done', this)">Uyulanlar</button>
@@ -466,10 +486,18 @@
     let holdTimer = null;
     let isHeld = false;
 
-    // BAŞLANGIÇ: 18 Kasım 2026 (Aylar 0 indexli olduğu için 10 = Kasım)
-    const baseStartDate = new Date(2026, 10, 18, 0, 0, 0); 
+    // BAŞLANGIÇ: 20 Kasım 2026 (Aylar 0 indexli olduğu için 10 = Kasım)
+    const baseStartDate = new Date(2026, 10, 20, 0, 0, 0); 
     const startFatPct = 26.0;
     const endFatPct = 14.0;
+
+    // PART TANIMLARI (Her part kendi içinde bağımsız %0 - %100 hesaplanır)
+    // Aralık ayı 31 gün çektiği için arada boşta gün kalmaması adına 31 Aralık Part 2'ye dahildir (11 + 31 + 61 = 103 gün)
+    const parts = [
+      { id: 1, name: 'Part 1', rangeLabel: '20 Kas – 30 Kas', startIdx: 0, endIdx: 10 },
+      { id: 2, name: 'Part 2', rangeLabel: '1 Ara – 31 Ara', startIdx: 11, endIdx: 41 },
+      { id: 3, name: 'Part 3', rangeLabel: '1 Oca – 2 Mar', startIdx: 42, endIdx: 102 }
+    ];
 
     // GÜNLERİN OLUŞTURULMASI
     for (let i = 0; i < totalDays; i++) {
@@ -481,17 +509,19 @@
 
       // Yağ Oranı Projeksiyonu (103 günde lineer düşüş)
       let dailyFatPct = (startFatPct - (i * (startFatPct - endFatPct) / (totalDays - 1))).toFixed(1);
+      let partObj = parts.find(p => i >= p.startIdx && i <= p.endIdx) || parts[0];
 
       days.push({
         index: i,
         dayNumber: i + 1,
+        partId: partObj.id,
         dateObj: d,
         dateStr: dayOfMonth + ' ' + monthNames[m] + ' ' + y,
         dayName: dayNames[d.getDay()],
         week: Math.floor(i / 7) + 1,
         menu: "1.3kg Tavuk + 100g Pirinç + 15g Yağ (~2000 Kalori)",
         projectedFat: dailyFatPct,
-        status: 'PENDING', // 'PENDING', 'DONE', 'BORC'
+        status: 'PENDING', // 'PENDING', 'DONE', 'FAILED'
         isEligible: false
       });
     }
@@ -501,20 +531,33 @@
       let now = new Date();
       
       let diffTime = now.getTime() - baseStartDate.getTime();
-      let currentDayIndex = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      let rawDayIndex = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      let currentDayIndex = rawDayIndex;
       
       if (currentDayIndex < 0) currentDayIndex = 0;
       if (currentDayIndex >= totalDays) currentDayIndex = totalDays - 1;
 
-      // Kilit sistemi kalktı: Bugün ve geçmiş tüm günler anında tiklenebilir
+      // Kilit sistemi kalktı: Sadece başlangıç tarihi geldiğinde bugün ve geçmiş tüm günler tiklenebilir
       days.forEach(d => {
-        d.isEligible = d.index <= currentDayIndex;
+        d.isEligible = d.index <= rawDayIndex;
       });
 
       return currentDayIndex;
     }
 
     let currentDayIdx = getCurrentState();
+
+    // Uygulama açıldığında içinde bulunulan aktif partı otomatik seç
+    let selectedPartIdx = parts.findIndex(p => currentDayIdx >= p.startIdx && currentDayIdx <= p.endIdx);
+    if (selectedPartIdx === -1) selectedPartIdx = 0;
+
+    function changePart(delta) {
+      const nextIdx = selectedPartIdx + delta;
+      if (nextIdx >= 0 && nextIdx < parts.length) {
+        selectedPartIdx = nextIdx;
+        updateProgress();
+      }
+    }
 
     // SÖZLERİN YÜKLENMESİ
     const currentQuote = quotes[currentDayIdx] || quotes[quotes.length - 1];
@@ -563,12 +606,21 @@
     }
 
     function updateProgress() {
-      let completed = days.filter(d => d.status === 'DONE').length;
-      // İkinci kez tanımlanmaması ve doğru veriyi çekmesi için tek bir yerde birleştirdik.
-      let borcCount = days.filter(d => d.status === 'FAILED').length; 
-      let pct = (completed / totalDays) * 100;
+      const part = parts[selectedPartIdx];
+      const partDays = days.slice(part.startIdx, part.endIdx + 1);
+      const partTotal = partDays.length;
+
+      let completed = partDays.filter(d => d.status === 'DONE').length;
+      let borcCount = partDays.filter(d => d.status === 'FAILED').length;
+      let pct = (completed / partTotal) * 100;
+
+      // Part seçici başlığı ve okların durumu
+      document.getElementById('hero-part-name').innerText = part.name.toUpperCase();
+      document.getElementById('hero-part-dates').innerText = part.rangeLabel;
+      document.getElementById('part-prev-btn').disabled = (selectedPartIdx === 0);
+      document.getElementById('part-next-btn').disabled = (selectedPartIdx === parts.length - 1);
       
-      // Güncel tahmini yağ oranını son değerlendirilmiş güne göre göster
+      // Güncel tahmini yağ oranını tüm süreçteki son değerlendirilmiş güne göre göster
       let currentFatDisplay = parseFloat(startFatPct);
       let evaluatedDays = days.filter(d => d.status !== 'PENDING');
       if (evaluatedDays.length > 0) {
@@ -588,17 +640,24 @@
       document.getElementById('hero-pct-val').innerText = '%' + pct.toFixed(1);
       document.getElementById('hero-progress-fill').style.width = pct + '%';
       
-      let statusText = 'Tamamlanan: ' + completed + ' / ' + totalDays + ' Gün';
+      let statusText = 'Tamamlanan: ' + completed + ' / ' + partTotal + ' Gün';
       
-      if(borcCount > 0) {
+      if (borcCount > 0) {
         statusText += ` <span style="color:#d32f2f;">(+${borcCount * 3} Gün)</span>`;
       }
       document.getElementById('hero-days-status').innerHTML = statusText;
-      document.getElementById('hero-days-left').innerText = (totalDays - (completed + borcCount)) + ' Gün Kaldı';
+      document.getElementById('hero-days-left').innerText = (partTotal - (completed + borcCount)) + ' Gün Kaldı';
+
+      // Açılış (Splash) ekranında içinde bulunulan aktif partın ilerlemesini göster
+      const activePartIdx = parts.findIndex(p => currentDayIdx >= p.startIdx && currentDayIdx <= p.endIdx);
+      const activePart = parts[activePartIdx !== -1 ? activePartIdx : 0];
+      const activePartDays = days.slice(activePart.startIdx, activePart.endIdx + 1);
+      const activePartCompleted = activePartDays.filter(d => d.status === 'DONE').length;
+      const activePartPct = (activePartCompleted / activePartDays.length) * 100;
 
       const prox = document.getElementById('splash-proximity-text');
       if (prox) {
-        prox.innerText = 'Genel İlerleme: %' + pct.toFixed(1);
+        prox.innerText = activePart.name + ' İlerleme: %' + activePartPct.toFixed(1);
       }
     }
 
@@ -613,6 +672,7 @@
     function renderToday() {
       evaluationTargetDay = getEvaluationDay();
       
+      document.getElementById('eval-part-tag').innerText = 'Aktif Değerlendirme • Part ' + evaluationTargetDay.partId;
       document.getElementById('eval-date-sub').innerText = evaluationTargetDay.dateStr + ' ' + evaluationTargetDay.dayName;
       document.getElementById('eval-menu').innerText = evaluationTargetDay.menu;
 
@@ -651,6 +711,9 @@
       const currentWeek = days[currentDayIdx].week;
 
       days.forEach(function(d) {
+        if (currentFilter === 'part1' && d.partId !== 1) return;
+        if (currentFilter === 'part2' && d.partId !== 2) return;
+        if (currentFilter === 'part3' && d.partId !== 3) return;
         if (currentFilter === 'pending' && d.status !== 'PENDING') return;
         if (currentFilter === 'done' && d.status !== 'DONE') return;
         if (currentFilter === 'week' && d.week !== currentWeek) return;
@@ -684,7 +747,7 @@
           </div>
           <div class="row-main" onclick="toggleDay(${d.index})">
             <div class="row-title">Gün ${d.dayNumber} — ${d.dayName}</div>
-            <div class="row-sub">${d.dateStr} • Hedef Yağ: %${d.projectedFat}</div>
+            <div class="row-sub">${d.dateStr} • Part ${d.partId} • Hedef Yağ: %${d.projectedFat}</div>
           </div>
           <div class="row-right">
             <div class="row-status">${statusHtml}</div>
